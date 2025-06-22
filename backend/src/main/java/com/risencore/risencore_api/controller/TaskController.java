@@ -4,6 +4,7 @@ import com.risencore.risencore_api.dto.CreateTaskRequestDTO;
 import com.risencore.risencore_api.dto.TaskResponseDTO;
 import com.risencore.risencore_api.dto.UpdateTaskRequestDTO;
 import com.risencore.risencore_api.service.TaskService;
+import jakarta.validation.Valid; // Import @Valid
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,12 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    @GetMapping
-    public ResponseEntity<List<TaskResponseDTO>> getAllTasks() {
-        List<TaskResponseDTO> tasks = taskService.getAllTasks();
-        return ResponseEntity.ok(tasks);
+    @PostMapping
+    public ResponseEntity<TaskResponseDTO> createTask(@Valid @RequestBody CreateTaskRequestDTO taskRequestDTO) {
+        // If taskRequestDTO fails validation, Spring automatically throws a MethodArgumentNotValidException,
+        // resulting in an HTTP 400 Bad Request response by default.
+        TaskResponseDTO createdTask = taskService.createTask(taskRequestDTO);
+        return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -31,14 +34,14 @@ public class TaskController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<TaskResponseDTO> createTask(@RequestBody CreateTaskRequestDTO taskRequestDTO) {
-        TaskResponseDTO createdTask = taskService.createTask(taskRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
+    @GetMapping
+    public ResponseEntity<List<TaskResponseDTO>> getAllTasks() {
+        List<TaskResponseDTO> tasks = taskService.getAllTasks();
+        return ResponseEntity.ok(tasks);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TaskResponseDTO> updateTask(@PathVariable Long id, @RequestBody UpdateTaskRequestDTO taskRequestDTO) {
+    public ResponseEntity<TaskResponseDTO> updateTask(@PathVariable Long id, @Valid @RequestBody UpdateTaskRequestDTO taskRequestDTO) {
         return taskService.updateTask(id, taskRequestDTO)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
