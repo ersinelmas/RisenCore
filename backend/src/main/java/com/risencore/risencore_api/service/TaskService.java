@@ -1,14 +1,16 @@
 package com.risencore.risencore_api.service;
 
-import com.risencore.risencore_api.domain.Task;
+import com.risencore.risencore_api.dto.CreateTaskRequestDTO;
+import com.risencore.risencore_api.dto.TaskResponseDTO;
+import com.risencore.risencore_api.dto.UpdateTaskRequestDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface TaskService {
-    List<Task> getAllTasks();
-    Optional<Task> getTaskById(Long id);
-    Task createTask(Task task);
-    Optional<Task> updateTask(Long id, Task taskDetails);
+    List<TaskResponseDTO> getAllTasks();
+    Optional<TaskResponseDTO> getTaskById(Long id);
+    TaskResponseDTO createTask(CreateTaskRequestDTO taskRequestDTO);
+    Optional<TaskResponseDTO> updateTask(Long id, UpdateTaskRequestDTO taskRequestDTO);
     boolean deleteTask(Long id);
 }

@@ -1,56 +1,56 @@
 package com.risencore.risencore_api.service;
 
 import com.risencore.risencore_api.domain.Task;
+import com.risencore.risencore_api.dto.CreateTaskRequestDTO;
+import com.risencore.risencore_api.dto.TaskResponseDTO;
+import com.risencore.risencore_api.dto.UpdateTaskRequestDTO;
+import com.risencore.risencore_api.mapper.TaskMapper;
 import com.risencore.risencore_api.repository.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Service // Marks this class as a Spring service component
+@Service
+@RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
-
-    // Constructor-based dependency injection
-    @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
-    }
+    private final TaskMapper taskMapper; // TaskMapper'ı inject et
 
     @Override
-    @Transactional(readOnly = true) // Indicates that this method is a read-only transaction
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<TaskResponseDTO> getAllTasks() {
+        return taskRepository.findAll().stream()
+                .map(taskMapper::taskToTaskResponseDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Task> getTaskById(Long id) {
-        return taskRepository.findById(id);
-    }
-
-    @Override
-    @Transactional // Default transaction (read-write)
-    public Task createTask(Task task) {
-        // In a real app, you might add validation or other business logic here
-        // For now, task comes pre-populated with createdAt/updatedAt by @PrePersist
-        return taskRepository.save(task);
+    public Optional<TaskResponseDTO> getTaskById(Long id) {
+        return taskRepository.findById(id)
+                .map(taskMapper::taskToTaskResponseDTO);
     }
 
     @Override
     @Transactional
-    public Optional<Task> updateTask(Long id, Task taskDetails) {
+    public TaskResponseDTO createTask(CreateTaskRequestDTO taskRequestDTO) {
+        Task task = taskMapper.createTaskRequestDTOToTask(taskRequestDTO);
+        Task savedTask = taskRepository.save(task);
+        return taskMapper.taskToTaskResponseDTO(savedTask);
+    }
+
+    @Override
+    @Transactional
+    public Optional<TaskResponseDTO> updateTask(Long id, UpdateTaskRequestDTO taskRequestDTO) {
         return taskRepository.findById(id).map(existingTask -> {
-            existingTask.setDescription(taskDetails.getDescription());
-            existingTask.setCompleted(taskDetails.isCompleted());
-            if (taskDetails.getDueDate() != null) {
-                existingTask.setDueDate(taskDetails.getDueDate());
-            }
-            // 'updatedAt' will be handled by @PreUpdate in Task entity
-            return taskRepository.save(existingTask);
+            taskMapper.updateTaskFromUpdateTaskRequestDTO(taskRequestDTO, existingTask);
+            Task updatedTask = taskRepository.save(existingTask);
+            return taskMapper.taskToTaskResponseDTO(updatedTask);
         });
     }
 
@@ -61,6 +61,6 @@ public class TaskServiceImpl implements TaskService {
             taskRepository.deleteById(id);
             return true;
         }
-        return false; // Task not found
+        return false;
     }
 }
