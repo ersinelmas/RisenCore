@@ -1,14 +1,21 @@
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
-import RegisterPage from './pages/RegisterPage'; // Import et
+import RegisterPage from './pages/RegisterPage';
+import ProtectedRoute from './components/ProtectedRoute'; // Import et
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      {/* These routes are public */}
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} /> {/* Yeni rotayı ekle */}
+      <Route path="/register" element={<RegisterPage />} />
+
+      {/* These routes are protected */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/" element={<HomePage />} />
+        {/* Add other protected routes here in the future, e.g., /profile, /settings */}
+      </Route>
     </Routes>
   );
 }
