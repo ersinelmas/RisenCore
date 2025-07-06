@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import authService from '../services/authService';
+import styles from './LoginPage.module.css'; // LoginPage'in stillerini yeniden kullanıyoruz
 
 function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -14,13 +15,10 @@ function RegisterPage() {
     event.preventDefault();
     setError('');
     setLoading(true);
-
     try {
       await authService.register(username, email, password);
-      // After successful registration, navigate to the login page
       navigate('/login');
     } catch (err) {
-      // Assuming the backend sends a meaningful error message
       const errorMessage = err.response?.data?.message || 'Registration failed. Please try again.';
       setError(errorMessage);
       console.error('Registration failed:', err);
@@ -30,38 +28,31 @@ function RegisterPage() {
   };
 
   return (
-    <div>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleRegister}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text" id="username" value={username}
-            onChange={(e) => setUsername(e.target.value)} required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email" id="email" value={email}
-            onChange={(e) => setEmail(e.target.value)} required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password" id="password" value={password}
-            onChange={(e) => setPassword(e.target.value)} required minLength={6}
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Registering...' : 'Register'}
-        </button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <p>
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
-      </form>
+    <div className={styles.loginContainer}>
+      <div className={styles.formCard}>
+        <h1 className={styles.title}>Create Account</h1>
+        <form onSubmit={handleRegister}>
+          {error && <p className={styles.error}>{error}</p>}
+          <div className={styles.inputGroup}>
+            <label htmlFor="username" className={styles.label}>Username</label>
+            <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} required className={styles.input} />
+          </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="email" className={styles.label}>Email</label>
+            <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required className={styles.input} />
+          </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="password" className={styles.label}>Password</label>
+            <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} className={styles.input} />
+          </div>
+          <button type="submit" disabled={loading} className={styles.button}>
+            {loading ? 'Registering...' : 'Sign Up'}
+          </button>
+          <p className={styles.linkText}>
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }

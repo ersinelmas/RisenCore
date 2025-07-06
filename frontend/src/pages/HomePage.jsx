@@ -1,18 +1,12 @@
-import { useState, useEffect, useCallback } from 'react'; // Import useCallback
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import taskService from '../services/taskService';
-
-const taskItemStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '8px',
-  borderBottom: '1px solid #ccc',
-};
+import styles from './HomePage.module.css';
+import Card from '../components/Card';
 
 function HomePage() {
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, user, logout, loading: authLoading } = useAuth();
   const [tasks, setTasks] = useState([]);
   const [loadingTasks, setLoadingTasks] = useState(false);
   const [error, setError] = useState('');
@@ -31,35 +25,33 @@ function HomePage() {
     } finally {
       setLoadingTasks(false);
     }
-  }, []); // This function has no external dependencies, so the array is empty.
+  }, []);
 
   useEffect(() => {
     if (isAuthenticated) {
       fetchTasks();
     }
-  }, [isAuthenticated, fetchTasks]); // Add fetchTasks as a dependency.
+  }, [isAuthenticated, fetchTasks]);
 
   const handleCreateTask = useCallback(async (event) => {
     event.preventDefault();
     if (!newTaskDescription.trim()) return;
-
     setIsCreating(true);
     setError('');
     try {
       await taskService.createTask(newTaskDescription);
       setNewTaskDescription('');
-      await fetchTasks(); // Re-fetch tasks to show the new one.
+      await fetchTasks();
     } catch (err) {
       setError('Failed to create task.');
       console.error('Failed to create task:', err);
     } finally {
       setIsCreating(false);
     }
-  }, [newTaskDescription, fetchTasks]); // Depends on these values.
+  }, [newTaskDescription, fetchTasks]);
 
   const handleToggleComplete = useCallback(async (taskToToggle) => {
     try {
-      // Optimistic UI update for a better user experience.
       setTasks(currentTasks =>
         currentTasks.map(task =>
           task.id === taskToToggle.id ? { ...task, completed: !task.completed } : task
@@ -69,16 +61,13 @@ function HomePage() {
     } catch (err) {
       setError('Failed to update task. Reverting changes.');
       console.error('Failed to update task:', err);
-      // Revert UI on error by fetching the source of truth from the server.
       await fetchTasks();
     }
-  }, [fetchTasks]); // Depends on fetchTasks to revert on error.
+  }, [fetchTasks]);
 
   const handleDeleteTask = useCallback(async (taskId) => {
-    // A simple confirmation before a destructive action.
     if (window.confirm('Are you sure you want to delete this task?')) {
       try {
-        // Optimistic UI update.
         setTasks(currentTasks => currentTasks.filter(t => t.id !== taskId));
         await taskService.deleteTask(taskId);
       } catch (err) {
@@ -87,64 +76,90 @@ function HomePage() {
         await fetchTasks();
       }
     }
-  }, [fetchTasks]); // Depends on fetchTasks to revert on error.
+  }, [fetchTasks]);
+
+  if (authLoading) {
+    return <div>Loading application...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className={styles.pageContainer}>
+        <h1>Welcome to RisenCore!</h1>
+        <p>Please log in to manage your tasks.</p>
+        <Link to="/login">
+          <button style={{ padding: '8px 16px', cursor: 'pointer' }}>Login</button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <h1>Welcome to RisenCore!</h1>
-      {isAuthenticated ? (
+    <div className={styles.pageContainer}>
+      <header className={styles.header}>
+        <p className={styles.welcomeMessage}>
+          Hello, <strong>{user?.username || 'User'}</strong>!
+        </p>
+        <button onClick={logout} className={styles.logoutButton}>
+          Logout
+        </button>
+      </header>
+
+      {/* 'mb-8' sınıfı için index.css'e .mb-8 { margin-bottom: 2rem; } eklediğini varsayıyorum */}
+      <Card className={styles.mb8}>
         <div>
-          <p>Hello, {user?.username}!</p>
-          <button onClick={logout}>Logout</button>
-          <hr />
-          
-          <form onSubmit={handleCreateTask}>
-            <h3>Create a New Task</h3>
+          <h3 className={styles.sectionTitle}>Create a New Task</h3>
+          <form onSubmit={handleCreateTask} className={styles.createTaskForm}>
             <input
               type="text"
+              className={styles.textInput}
               value={newTaskDescription}
               onChange={(e) => setNewTaskDescription(e.target.value)}
               placeholder="What do you need to do?"
             />
-            <button type="submit" disabled={isCreating}>
+            <button type="submit" disabled={isCreating} className={styles.primaryButton}>
               {isCreating ? 'Adding...' : 'Add Task'}
             </button>
           </form>
+        </div>
+      </Card>
 
-          <h2>Your Tasks</h2>
+      <Card>
+        <main>
+          <h2 className={styles.sectionTitle}>Your Tasks</h2>
           {loadingTasks && <p>Loading tasks...</p>}
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          
-          <ul style={{ listStyle: 'none', padding: 0 }}>
+          {error && <p className={styles.error}>{error}</p>}
+          <ul className={styles.tasksList}>
             {tasks.length > 0 ? (
-              tasks.map(task => (
-                <li key={task.id} style={taskItemStyle}>
+              tasks.map((task) => (
+                <li key={task.id} className={styles.taskItem}>
                   <input
                     type="checkbox"
+                    className={styles.checkbox}
                     checked={task.completed}
                     onChange={() => handleToggleComplete(task)}
                   />
-                  <span style={{ textDecoration: task.completed ? 'line-through' : 'none', flexGrow: 1, margin: '0 10px' }}>
+                  <span
+                    className={`${styles.taskDescription} ${
+                      task.completed ? styles.completed : ''
+                    }`}
+                  >
                     {task.description}
                   </span>
-                  <button onClick={() => handleDeleteTask(task.id)} style={{color: 'red'}}>
+                  <button
+                    onClick={() => handleDeleteTask(task.id)}
+                    className={styles.deleteButton}
+                  >
                     Delete
                   </button>
                 </li>
               ))
             ) : (
-              !loadingTasks && <p>You have no tasks yet.</p>
+              !loadingTasks && <p className={styles.noTasks}>You have no tasks yet.</p>
             )}
           </ul>
-        </div>
-      ) : (
-        <div>
-          <p>Please log in to manage your tasks.</p>
-          <Link to="/login">
-            <button>Login</button>
-          </Link>
-        </div>
-      )}
+        </main>
+      </Card>
     </div>
   );
 }

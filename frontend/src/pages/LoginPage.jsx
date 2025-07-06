@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
+import styles from './LoginPage.module.css';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -15,7 +15,6 @@ function LoginPage() {
     event.preventDefault();
     setError('');
     setLoading(true);
-
     try {
       await login(username, password);
       navigate('/');
@@ -28,31 +27,48 @@ function LoginPage() {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text" id="username" value={username}
-            onChange={(e) => setUsername(e.target.value)} required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password" id="password" value={password}
-            onChange={(e) => setPassword(e.target.value)} required
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <p>
+    <div className={styles.loginContainer}>
+      <div className={styles.formCard}>
+        <h1 className={styles.title}>Login</h1>
+        <form onSubmit={handleLogin}>
+          <div className={styles.inputGroup}>
+            <label htmlFor="username" className={styles.label}>
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className={styles.input}
+            />
+          </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="password" className={styles.label}>
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className={styles.input}
+            />
+          </div>
+
+          <button type="submit" disabled={loading} className={styles.button}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
+          
+          {error && <p className={styles.error}>{error}</p>}
+
+          <p className={styles.linkText}>
             Don't have an account? <Link to="/register">Sign Up</Link>
-        </p>
-      </form>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }
