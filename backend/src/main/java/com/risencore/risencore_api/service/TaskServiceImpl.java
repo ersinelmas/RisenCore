@@ -10,8 +10,8 @@ import com.risencore.risencore_api.mapper.TaskMapper;
 import com.risencore.risencore_api.repository.TaskRepository;
 import com.risencore.risencore_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +26,15 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepository userRepository;
 
     private User getCurrentUser() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            throw new IllegalStateException("User is not authenticated");
+        }
+
+        String username = authentication.getName();
+
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found in database with username: " + username));
     }
 
     @Override

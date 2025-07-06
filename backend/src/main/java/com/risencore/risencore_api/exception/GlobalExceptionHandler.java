@@ -74,6 +74,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    // You can add more specific exception handlers here as needed
-    // For example, for DataIntegrityViolationException, HttpMessageNotReadableException etc.
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ErrorResponseDTO> handleIllegalStateException(
+            IllegalStateException ex, HttpServletRequest request) {
+
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                HttpStatus.UNAUTHORIZED.value(),
+                "Unauthorized",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
 }

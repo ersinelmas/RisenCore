@@ -1,27 +1,29 @@
 import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
+import authService from '../services/authService';
 
-function LoginPage() {
+function RegisterPage() {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = async (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      await login(username, password);
-      navigate('/');
+      await authService.register(username, email, password);
+      // After successful registration, navigate to the login page
+      navigate('/login');
     } catch (err) {
-      setError('Login failed. Please check your credentials.');
-      console.error('Login failed:', err);
+      // Assuming the backend sends a meaningful error message
+      const errorMessage = err.response?.data?.message || 'Registration failed. Please try again.';
+      setError(errorMessage);
+      console.error('Registration failed:', err);
     } finally {
       setLoading(false);
     }
@@ -29,8 +31,8 @@ function LoginPage() {
 
   return (
     <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
+      <h1>Sign Up</h1>
+      <form onSubmit={handleRegister}>
         <div>
           <label htmlFor="username">Username:</label>
           <input
@@ -39,22 +41,29 @@ function LoginPage() {
           />
         </div>
         <div>
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email" id="email" value={email}
+            onChange={(e) => setEmail(e.target.value)} required
+          />
+        </div>
+        <div>
           <label htmlFor="password">Password:</label>
           <input
             type="password" id="password" value={password}
-            onChange={(e) => setPassword(e.target.value)} required
+            onChange={(e) => setPassword(e.target.value)} required minLength={6}
           />
         </div>
         <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
+          {loading ? 'Registering...' : 'Register'}
         </button>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <p>
-            Don't have an account? <Link to="/register">Sign Up</Link>
+          Already have an account? <Link to="/login">Login</Link>
         </p>
       </form>
     </div>
   );
 }
 
-export default LoginPage;
+export default RegisterPage;
