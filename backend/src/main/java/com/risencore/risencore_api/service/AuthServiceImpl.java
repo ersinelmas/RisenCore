@@ -1,5 +1,6 @@
 package com.risencore.risencore_api.service;
 
+import com.risencore.risencore_api.domain.Role;
 import com.risencore.risencore_api.domain.User;
 import com.risencore.risencore_api.dto.JwtAuthenticationResponseDTO;
 import com.risencore.risencore_api.dto.LoginRequestDTO;
@@ -34,6 +35,8 @@ public class AuthServiceImpl implements AuthService {
         user.setUsername(signUpRequest.getUsername());
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+
+        user.setRole(Role.USER);
 
         userRepository.save(user);
     }

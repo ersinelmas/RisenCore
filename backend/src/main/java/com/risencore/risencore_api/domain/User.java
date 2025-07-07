@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "app_users") // 'user' is often a reserved keyword in SQL, so 'app_users' is safer.
@@ -30,14 +32,18 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     // --- UserDetails Methods ---
     // Spring Security requires these methods to handle authentication and authorization.
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // For now, we are not implementing roles. Return an empty list.
-        // Later, we can add a 'Role' entity and return user's roles here.
-        return Collections.emptyList();
+        if (role == null) {
+            return Collections.emptyList();
+        }
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
