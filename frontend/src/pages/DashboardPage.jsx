@@ -1,9 +1,12 @@
 import { useAuth } from '../hooks/useAuth';
 import styles from './DashboardPage.module.css';
 import TaskWidget from '../features/tasks/TaskWidget';
+import { Link } from 'react-router-dom';
 
 function DashboardPage() {
   const { user, logout } = useAuth();
+  
+  const isAdmin = user?.roles?.includes('ROLE_ADMIN');
 
   return (
     <div className={styles.pageContainer}>
@@ -11,18 +14,20 @@ function DashboardPage() {
         <h1 className={styles.welcomeMessage}>
           Welcome, <strong>{user?.username || 'User'}</strong>!
         </h1>
-        <button onClick={logout} className={styles.logoutButton}>
-          Logout
-        </button>
+        <div className={styles.headerActions}>
+          {isAdmin && (
+            <Link to="/admin" className={styles.adminLink}>
+              Admin Panel
+            </Link>
+          )}
+          <button onClick={logout} className={styles.logoutButton}>
+            Logout
+          </button>
+        </div>
       </header>
 
       <main>
-        {/* The TaskWidget is the first feature on our dashboard. */}
         <TaskWidget />
-
-        {/* In the future, new widgets can be added here easily. */}
-        {/* <FinancialWidget /> */}
-        {/* <HealthWidget /> */}
       </main>
     </div>
   );

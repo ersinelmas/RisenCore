@@ -33,3 +33,22 @@
 .logoutButton:hover {
   background-color: #f3f4f6;
 }
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.adminLink {
+  font-weight: 600;
+  color: #4f46e5; /* Indigo */
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.adminLink:hover {
+  background-color: #eef2ff;
+}

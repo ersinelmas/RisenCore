@@ -7,14 +7,17 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
@@ -25,16 +28,13 @@ public class JwtService {
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
 
-    // A pre-configured parser to reuse. It's thread-safe.
     private final JwtParser jwtParser;
 
-    // Constructor to initialize the JwtParser
     public JwtService(@Value("${application.security.jwt.secret-key}") String secretKey) {
         this.secretKey = secretKey;
-        this.jwtParser = Jwts.parser()                 // 1. Get the builder
-                .setSigningKey(getSignInKey()) // 2. Configure it
-                .build();                      // 3. Build the actual parser
+        this.jwtParser = Jwts.parser().setSigningKey(getSignInKey()).build();
     }
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -45,10 +45,16 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
-    }
+        // Create a map for extra claims.
+        Map<String, Object> extraClaims = new HashMap<>();
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        // Get authorities and add them to the 'roles' claim.
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+        extraClaims.put("roles", roles);
+
+        // Call the buildToken method with the extra claims.
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
@@ -81,7 +87,6 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        // Use the pre-configured jwtParser
         return jwtParser.parseClaimsJws(token).getBody();
     }
 
