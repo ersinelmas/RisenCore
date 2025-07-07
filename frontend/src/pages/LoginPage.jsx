@@ -1,25 +1,26 @@
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import styles from './LoginPage.module.css';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    setError('');
     setLoading(true);
+
     try {
       await login(username, password);
+      toast.success('Login successful!');
       navigate('/');
     } catch (err) {
-      setError('Login failed. Please check your credentials.');
+      toast.error('Login failed. Please check your credentials.');
       console.error('Login failed:', err);
     } finally {
       setLoading(false);
@@ -57,13 +58,9 @@ function LoginPage() {
               className={styles.input}
             />
           </div>
-
           <button type="submit" disabled={loading} className={styles.button}>
             {loading ? 'Logging in...' : 'Login'}
           </button>
-          
-          {error && <p className={styles.error}>{error}</p>}
-
           <p className={styles.linkText}>
             Don't have an account? <Link to="/register">Sign Up</Link>
           </p>

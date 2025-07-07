@@ -1,23 +1,22 @@
 import { useState, useEffect, useCallback } from 'react';
+import toast from 'react-hot-toast';
 import taskService from '../../services/taskService';
 import styles from './TaskWidget.module.css';
 import Card from '../../components/Card';
 
 function TaskWidget() {
   const [tasks, setTasks] = useState([]);
-  const [loadingTasks, setLoadingTasks] = useState(false);
-  const [error, setError] = useState('');
+  const [loadingTasks, setLoadingTasks] = useState(true);
   const [newTaskDescription, setNewTaskDescription] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
   const fetchTasks = useCallback(async () => {
     setLoadingTasks(true);
-    setError('');
     try {
       const response = await taskService.getAllTasks();
       setTasks(response.data);
     } catch (error) {
-      setError('Failed to load tasks.');
+      toast.error('Failed to load tasks.');
       console.error('Failed to fetch tasks:', error);
     } finally {
       setLoadingTasks(false);
@@ -25,22 +24,26 @@ function TaskWidget() {
   }, []);
 
   useEffect(() => {
-    // This widget is only ever rendered when the user is authenticated,
-    // so we can fetch tasks immediately on mount.
     fetchTasks();
   }, [fetchTasks]);
 
   const handleCreateTask = useCallback(async (event) => {
     event.preventDefault();
-    if (!newTaskDescription.trim()) return;
+    if (!newTaskDescription.trim()) {
+      toast.error('Task description cannot be empty.');
+      return;
+    }
+
+    const toastId = toast.loading('Creating task...');
     setIsCreating(true);
-    setError('');
+
     try {
       await taskService.createTask(newTaskDescription);
       setNewTaskDescription('');
       await fetchTasks();
+      toast.success('Task created successfully!', { id: toastId });
     } catch (err) {
-      setError('Failed to create task.');
+      toast.error('Failed to create task.', { id: toastId });
       console.error('Failed to create task:', err);
     } finally {
       setIsCreating(false);
@@ -48,37 +51,42 @@ function TaskWidget() {
   }, [newTaskDescription, fetchTasks]);
 
   const handleToggleComplete = useCallback(async (taskToToggle) => {
+    const originalTasks = tasks;
+    const updatedTasks = tasks.map(t =>
+      t.id === taskToToggle.id ? { ...t, completed: !t.completed } : t
+    );
+    setTasks(updatedTasks);
+
     try {
-      setTasks(currentTasks =>
-        currentTasks.map(task =>
-          task.id === taskToToggle.id ? { ...task, completed: !task.completed } : task
-        )
-      );
       await taskService.updateTask(taskToToggle.id, { completed: !taskToToggle.completed });
+      toast.success('Task status updated!');
     } catch (err) {
-      setError('Failed to update task. Reverting changes.');
+      toast.error('Failed to update task.');
+      setTasks(originalTasks); // Revert UI on error
       console.error('Failed to update task:', err);
-      await fetchTasks();
     }
-  }, [fetchTasks]);
+  }, [tasks]);
 
   const handleDeleteTask = useCallback(async (taskId) => {
     if (window.confirm('Are you sure you want to delete this task?')) {
+      const originalTasks = tasks;
+      const updatedTasks = tasks.filter(t => t.id !== taskId);
+      setTasks(updatedTasks);
+      
+      const toastId = toast.loading('Deleting task...');
       try {
-        setTasks(currentTasks => currentTasks.filter(t => t.id !== taskId));
         await taskService.deleteTask(taskId);
+        toast.success('Task deleted.', { id: toastId });
       } catch (err) {
-        setError('Failed to delete task. Reverting changes.');
+        toast.error('Failed to delete task.', { id: toastId });
+        setTasks(originalTasks); // Revert UI on error
         console.error('Failed to delete task:', err);
-        await fetchTasks();
       }
     }
-  }, [fetchTasks]);
+  }, [tasks]);
 
   return (
-    // The main container div for the entire widget.
     <div>
-      {/* 'mb8' sınıfını Card'a dışarıdan vereceğiz */}
       <Card className={styles.mb8}>
         <div>
           <h3 className={styles.sectionTitle}>Create a New Task</h3>
@@ -101,35 +109,29 @@ function TaskWidget() {
         <main>
           <h2 className={styles.sectionTitle}>Your Tasks</h2>
           {loadingTasks && <p>Loading tasks...</p>}
-          {error && <p className={styles.error}>{error}</p>}
           <ul className={styles.tasksList}>
-            {tasks.length > 0 ? (
-              tasks.map((task) => (
-                <li key={task.id} className={styles.taskItem}>
-                  <input
-                    type="checkbox"
-                    className={styles.checkbox}
-                    checked={task.completed}
-                    onChange={() => handleToggleComplete(task)}
-                  />
-                  <span
-                    className={`${styles.taskDescription} ${
-                      task.completed ? styles.completed : ''
-                    }`}
-                  >
-                    {task.description}
-                  </span>
-                  <button
-                    onClick={() => handleDeleteTask(task.id)}
-                    className={styles.deleteButton}
-                  >
-                    Delete
-                  </button>
-                </li>
-              ))
-            ) : (
-              !loadingTasks && <p className={styles.noTasks}>You have no tasks yet.</p>
+            {!loadingTasks && tasks.length === 0 && (
+              <p className={styles.noTasks}>You have no tasks yet.</p>
             )}
+            {tasks.map((task) => (
+              <li key={task.id} className={styles.taskItem}>
+                <input
+                  type="checkbox"
+                  className={styles.checkbox}
+                  checked={task.completed}
+                  onChange={() => handleToggleComplete(task)}
+                />
+                <span className={`${styles.taskDescription} ${task.completed ? styles.completed : ''}`}>
+                  {task.description}
+                </span>
+                <button
+                  onClick={() => handleDeleteTask(task.id)}
+                  className={styles.deleteButton}
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
           </ul>
         </main>
       </Card>
