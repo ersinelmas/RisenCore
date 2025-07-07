@@ -1,12 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { Link } from 'react-router-dom';
-import taskService from '../services/taskService';
-import styles from './HomePage.module.css';
-import Card from '../components/Card';
+import taskService from '../../services/taskService';
+import styles from './TaskWidget.module.css';
+import Card from '../../components/Card';
 
-function HomePage() {
-  const { isAuthenticated, user, logout, loading: authLoading } = useAuth();
+function TaskWidget() {
   const [tasks, setTasks] = useState([]);
   const [loadingTasks, setLoadingTasks] = useState(false);
   const [error, setError] = useState('');
@@ -28,10 +25,10 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchTasks();
-    }
-  }, [isAuthenticated, fetchTasks]);
+    // This widget is only ever rendered when the user is authenticated,
+    // so we can fetch tasks immediately on mount.
+    fetchTasks();
+  }, [fetchTasks]);
 
   const handleCreateTask = useCallback(async (event) => {
     event.preventDefault();
@@ -78,34 +75,10 @@ function HomePage() {
     }
   }, [fetchTasks]);
 
-  if (authLoading) {
-    return <div>Loading application...</div>;
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <div className={styles.pageContainer}>
-        <h1>Welcome to RisenCore!</h1>
-        <p>Please log in to manage your tasks.</p>
-        <Link to="/login">
-          <button style={{ padding: '8px 16px', cursor: 'pointer' }}>Login</button>
-        </Link>
-      </div>
-    );
-  }
-
   return (
-    <div className={styles.pageContainer}>
-      <header className={styles.header}>
-        <p className={styles.welcomeMessage}>
-          Hello, <strong>{user?.username || 'User'}</strong>!
-        </p>
-        <button onClick={logout} className={styles.logoutButton}>
-          Logout
-        </button>
-      </header>
-
-      {/* 'mb-8' sınıfı için index.css'e .mb-8 { margin-bottom: 2rem; } eklediğini varsayıyorum */}
+    // The main container div for the entire widget.
+    <div>
+      {/* 'mb8' sınıfını Card'a dışarıdan vereceğiz */}
       <Card className={styles.mb8}>
         <div>
           <h3 className={styles.sectionTitle}>Create a New Task</h3>
@@ -164,4 +137,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default TaskWidget;
