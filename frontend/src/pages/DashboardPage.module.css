@@ -41,14 +41,13 @@
 }
 
 .adminLink {
-  font-weight: 600;
-  color: #4f46e5; /* Indigo */
+  font-weight: 500;
+  color: #4f46e5;
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  transition: background-color 0.2s;
+  transition: color 0.2s;
 }
 
 .adminLink:hover {
-  background-color: #eef2ff;
+  text-decoration: underline;
+  color: #4338ca;
 }

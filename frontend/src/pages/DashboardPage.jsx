@@ -1,12 +1,10 @@
 import { useAuth } from '../hooks/useAuth';
+import { Link } from 'react-router-dom';
 import styles from './DashboardPage.module.css';
 import TaskWidget from '../features/tasks/TaskWidget';
-import { Link } from 'react-router-dom';
 
 function DashboardPage() {
-  const { user, logout } = useAuth();
-  
-  const isAdmin = user?.roles?.includes('ROLE_ADMIN');
+  const { user, logout, isAdmin } = useAuth();
 
   return (
     <div className={styles.pageContainer}>
@@ -14,6 +12,7 @@ function DashboardPage() {
         <h1 className={styles.welcomeMessage}>
           Welcome, <strong>{user?.username || 'User'}</strong>!
         </h1>
+        
         <div className={styles.headerActions}>
           {isAdmin && (
             <Link to="/admin" className={styles.adminLink}>
