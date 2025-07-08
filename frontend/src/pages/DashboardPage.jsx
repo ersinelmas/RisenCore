@@ -19,6 +19,7 @@ function DashboardPage() {
               Admin Panel
             </Link>
           )}
+          <Link to="/profile" className={styles.adminLink}>Profile</Link>
           <button onClick={logout} className={styles.logoutButton}>
             Logout
           </button>

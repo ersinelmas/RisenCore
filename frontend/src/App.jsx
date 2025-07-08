@@ -6,6 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import DashboardPage from './pages/DashboardPage';
 import AdminRoute from './components/AdminRoute';
 import AdminPage from './pages/AdminPage';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   return (
@@ -35,12 +36,12 @@ function App() {
         {/* User Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<DashboardPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
         
         {/* Admin Routes */}
         <Route element={<AdminRoute />}>
           <Route path="/admin" element={<AdminPage />} />
-          {/* Gelecekteki diğer admin sayfaları buraya eklenebilir */}
         </Route>
       </Routes>
     </>
