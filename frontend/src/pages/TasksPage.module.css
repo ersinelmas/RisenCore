@@ -1,0 +1,16 @@
+.pageContainer {
+}
+
+.title {
+  font-size: 1.875rem; /* 30px */
+  font-weight: bold;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}

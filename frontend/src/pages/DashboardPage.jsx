@@ -1,34 +1,31 @@
 import { useAuth } from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
 import styles from './DashboardPage.module.css';
-import TaskWidget from '../features/tasks/TaskWidget';
+import Card from '../components/Card';
 
 function DashboardPage() {
-  const { user, logout, isAdmin } = useAuth();
+  const { user } = useAuth();
 
   return (
-    <div className={styles.pageContainer}>
-      <header className={styles.header}>
-        <h1 className={styles.welcomeMessage}>
-          Welcome, <strong>{user?.username || 'User'}</strong>!
-        </h1>
-        
-        <div className={styles.headerActions}>
-          {isAdmin && (
-            <Link to="/admin" className={styles.adminLink}>
-              Admin Panel
-            </Link>
-          )}
-          <Link to="/profile" className={styles.adminLink}>Profile</Link>
-          <button onClick={logout} className={styles.logoutButton}>
-            Logout
-          </button>
-        </div>
-      </header>
+    <div>
+      <h1 className={styles.welcomeMessage}>
+        Dashboard
+      </h1>
+      <p style={{ marginTop: 0, color: '#6b7280' }}>
+        Welcome back, <strong>{user?.username || 'User'}</strong>!
+      </p>
 
-      <main>
-        <TaskWidget />
-      </main>
+      <div style={{ marginTop: '2rem' }}>
+        <Card>
+            <h2 style={{marginTop: 0}}>Quick Access</h2>
+            <p>Select a module from the sidebar to get started, or jump directly to your tasks.</p>
+            <Link to="/tasks">
+                <button className={styles.primaryButton}>
+                  Go to My Tasks
+                </button>
+            </Link>
+        </Card>
+      </div>
     </div>
   );
 }

@@ -51,3 +51,21 @@
   text-decoration: underline;
   color: #4338ca;
 }
+
+.primaryButton {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.65rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #4f46e5; /* Indigo */
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.primaryButton:hover {
+    background-color: #4338ca;
+}
