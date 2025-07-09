@@ -1,0 +1,75 @@
+.mainLayout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f9fafb; /* Very light gray background */
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #111827; /* Dark gray/black */
+  color: #d1d5db; /* Light gray text */
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarHeader {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-grow: 1; /* Pushes the logout button to the bottom */
+}
+
+.navLink {
+  color: #d1d5db;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  transition: background-color 0.2s, color 0.2s;
+  display: block;
+}
+
+.navLink:hover {
+  background-color: #374151; /* Medium gray */
+  color: white;
+}
+
+/* NavLink's 'active' class is added by React Router */
+.navLink.active {
+  background-color: #4f46e5; /* Indigo */
+  color: white;
+  font-weight: 500;
+}
+
+.logoutButton {
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #374151;
+  color: #d1d5db;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  font-size: 1rem;
+  margin-top: auto; /* Pushes to the bottom */
+}
+
+.logoutButton:hover {
+  background-color: #4b5563;
+  color: white;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 2rem;
+  /* If content overflows, it will be scrollable */
+  overflow-y: auto; 
+}

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import userService from '../services/userService';
 import styles from './ProfilePage.module.css';
+import Card from '../components/Card';
 
 function ProfilePage() {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -24,7 +25,6 @@ function ProfilePage() {
       const passwordData = { currentPassword, newPassword, confirmationPassword };
       await userService.changePassword(passwordData);
       toast.success('Password changed successfully!', { id: toastId });
-      // Clear fields after success
       setCurrentPassword('');
       setNewPassword('');
       setConfirmationPassword('');
@@ -38,10 +38,10 @@ function ProfilePage() {
   };
 
   return (
-    <div className={styles.pageContainer}>
+    <div>
       <h1 className={styles.title}>Profile Settings</h1>
-      <div className={styles.formCard}>
-        <h2>Change Password</h2>
+      <Card>
+        <h2 style={{ marginTop: 0, marginBottom: '1.5rem' }}>Change Password</h2>
         <form onSubmit={handleSubmit}>
           <div className={styles.inputGroup}>
             <label htmlFor="currentPassword" className={styles.label}>Current Password</label>
@@ -71,7 +71,7 @@ function ProfilePage() {
             {loading ? 'Saving...' : 'Save Changes'}
           </button>
         </form>
-      </div>
+      </Card>
     </div>
   );
 }
