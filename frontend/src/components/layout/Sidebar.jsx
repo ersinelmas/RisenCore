@@ -17,6 +17,9 @@ function Sidebar() {
         <NavLink to="/tasks" className={({ isActive }) => isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>
           Tasks
         </NavLink>
+        <NavLink to="/finance" className={({ isActive }) => isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>
+          Finance
+        </NavLink>
         <NavLink to="/profile" className={({ isActive }) => isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>
           Profile
         </NavLink>

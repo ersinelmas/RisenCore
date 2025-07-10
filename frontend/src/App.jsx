@@ -10,6 +10,7 @@ import RegisterPage from './pages/RegisterPage';
 import AdminPage from './pages/AdminPage';
 import TasksPage from './pages/TasksPage';
 import ProfilePage from './pages/ProfilePage';
+import FinancePage from './pages/FinancePage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<DashboardPage />} />
           <Route path="/tasks" element={<TasksPage />} />
+          <Route path="/finance" element={<FinancePage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
         
