@@ -11,15 +11,36 @@
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  flex-shrink: 0; /* Sidebar'ın daralmasını engeller */
+  flex-shrink: 0;
 }
 
-.sidebarHeader {
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  text-decoration: none;
+}
+
+.logoContainer:hover {
+  text-decoration: none;
+}
+
+.logoImage {
+  height: 40px;
+  width: 40px;
+  border-radius: 6px;
+}
+
+.logoText {
   font-size: 1.5rem;
   font-weight: bold;
   color: white;
-  margin-bottom: 2rem;
-  text-align: center;
+  transition: opacity 0.2s;
+}
+
+.logoContainer:hover .logoText {
+    opacity: 0.85;
 }
 
 .nav {

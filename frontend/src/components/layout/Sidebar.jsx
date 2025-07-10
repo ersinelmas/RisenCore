@@ -1,14 +1,18 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import styles from './MainLayout.module.css';
 import { FiGrid, FiCheckSquare, FiCreditCard, FiUser, FiShield, FiLogOut } from 'react-icons/fi';
+import logo from '../../assets/logo.png';
 
 function Sidebar() {
   const { logout, isAdmin } = useAuth();
 
   return (
     <aside className={styles.sidebar}>
-      <h1 className={styles.sidebarHeader}>RisenCore</h1>
+      <Link to="/" className={styles.logoContainer}>
+        <img src={logo} alt="RisenCore Logo" className={styles.logoImage} />
+        <span className={styles.logoText}>RisenCore</span>
+      </Link>
       
       <nav className={styles.nav}>
         {/* NavLink is used instead of Link to get an automatic 'active' class */}
