@@ -21,13 +21,21 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    // Whitelisted public endpoints
+    private static final String[] WHITE_LIST_URLS = {
+            "/api/auth/**",
+            "/v3/api-docs/**", // OpenAPI v3 docs
+            "/swagger-ui/**",   // Swagger UI
+            "/swagger-ui.html"  // Swagger UI main page
+    };
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(WHITE_LIST_URLS).permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/tasks/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
