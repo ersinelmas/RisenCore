@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import authService from '../services/authService';
-import styles from './LoginPage.module.css'; // LoginPage'in stillerini yeniden kullanıyoruz
+import styles from './LoginPage.module.css';
 
 function RegisterPage() {
   const [username, setUsername] = useState('');

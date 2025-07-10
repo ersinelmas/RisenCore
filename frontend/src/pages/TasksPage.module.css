@@ -14,3 +14,13 @@
   margin-top: 0;
   margin-bottom: 2rem;
 }
+
+/* --- RESPONSIVE STYLES --- */
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 1rem;
+  }
+  .title {
+    font-size: 1.5rem;
+  }
+}

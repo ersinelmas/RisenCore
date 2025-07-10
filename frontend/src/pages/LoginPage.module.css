@@ -85,3 +85,28 @@
 .linkText a:hover {
   text-decoration: underline;
 }
+
+/* --- RESPONSIVE STYLES --- */
+/* Apply these styles when the screen width is 768px or less */
+@media (max-width: 768px) {
+  .formCard {
+    /* On smaller screens, remove the shadow and padding to make it feel more native */
+    padding: 1.5rem;
+    box-shadow: none;
+    border-radius: 0;
+    max-width: 100%;
+    /* Let the login container handle the background and full height */
+  }
+
+  .loginContainer {
+    /* Remove padding on the sides for a full-width feel on mobile */
+    padding: 0;
+    /* Center the card, but allow it to grow */
+    align-items: flex-start; /* Align to the top */
+    padding-top: 4rem; /* Add some space from the top */
+  }
+
+  .title {
+    font-size: 1.5rem; /* 24px - Make the title smaller */
+  }
+}

@@ -58,7 +58,7 @@
   padding: 0.65rem 1.5rem;
   border: none;
   border-radius: 6px;
-  background-color: #4f46e5; /* Indigo */
+  background-color: #4f46e5;
   color: white;
   font-weight: 600;
   text-decoration: none;
@@ -68,4 +68,26 @@
 
 .primaryButton:hover {
     background-color: #4338ca;
+}
+
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .welcomeMessage {
+    font-size: 1.25rem;
+  }
+
+  .headerActions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
 }

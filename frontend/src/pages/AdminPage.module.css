@@ -12,6 +12,19 @@
   padding-bottom: 1rem;
 }
 
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.userTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; 
+}
+
 .userTable {
   width: 100%;
   border-collapse: collapse;
@@ -50,4 +63,15 @@
 .roleAdmin {
   background-color: #fecaca; /* red-200 */
   color: #991b1b; /* red-800 */
+}
+
+/* --- RESPONSIVE STYLES --- */
+@media (max-width: 768px) {
+    .pageContainer {
+        padding: 1rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
 }
