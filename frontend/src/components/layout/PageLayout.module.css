@@ -1,0 +1,10 @@
+.pageLayout {
+  width: 100%;
+}
+
+.title {
+  font-size: 1.875rem; /* 30px */
+  font-weight: 700;
+  color: #111827; /* Dark Gray */
+  margin-bottom: 2rem;
+}

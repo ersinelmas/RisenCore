@@ -1,15 +1,11 @@
 import TaskWidget from '../features/tasks/TaskWidget';
-import styles from './TasksPage.module.css';
+import PageLayout from '../components/layout/PageLayout'; // Import et
 
 function TasksPage() {
   return (
-    <div className={styles.pageContainer}>
-      <h1 className={styles.title}>My Tasks</h1>
-      <p className={styles.subtitle}>
-        Here you can manage all of your personal tasks.
-      </p>
+    <PageLayout title="My Tasks">
       <TaskWidget />
-    </div>
+    </PageLayout>
   );
 }
 

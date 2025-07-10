@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import transactionService from '../services/transactionService';
 import styles from './FinancePage.module.css';
 import Card from '../components/Card';
+import PageLayout from '../components/layout/PageLayout';
 
 // These could be fetched from the backend in the future
 const TRANSACTION_TYPES = ['INCOME', 'EXPENSE'];
@@ -73,9 +74,7 @@ function FinancePage() {
   }, [transactions]);
 
   return (
-    <div className={styles.pageContainer}>
-      <h1 className={styles.title}>Financial Overview</h1>
-
+    <PageLayout title="Financial Overview">
       <div className={styles.summaryCards}>
         <Card>
             <h4>Total Income</h4>
@@ -165,7 +164,7 @@ function FinancePage() {
             </div>
         )}
       </Card>
-    </div>
+    </PageLayout>
   );
 }
 

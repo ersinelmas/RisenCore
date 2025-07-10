@@ -20,7 +20,7 @@ function App() {
         {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-
+        
         {/* Protected User Routes (wrapped by MainLayout via ProtectedRoute) */}
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<DashboardPage />} />

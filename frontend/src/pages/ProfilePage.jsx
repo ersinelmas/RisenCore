@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import userService from '../services/userService';
 import styles from './ProfilePage.module.css';
 import Card from '../components/Card';
+import PageLayout from '../components/layout/PageLayout';
 
 function ProfilePage() {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -38,8 +39,7 @@ function ProfilePage() {
   };
 
   return (
-    <div>
-      <h1 className={styles.title}>Profile Settings</h1>
+    <PageLayout title="Profile Settings">
       <Card>
         <h2 style={{ marginTop: 0, marginBottom: '1.5rem' }}>Change Password</h2>
         <form onSubmit={handleSubmit}>
@@ -72,7 +72,7 @@ function ProfilePage() {
           </button>
         </form>
       </Card>
-    </div>
+    </PageLayout>
   );
 }
 

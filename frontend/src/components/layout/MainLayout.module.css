@@ -11,6 +11,7 @@
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0; /* Sidebar'ın daralmasını engeller */
 }
 
 .sidebarHeader {
@@ -25,7 +26,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  flex-grow: 1; /* Pushes the logout button to the bottom */
+  flex-grow: 1; 
 }
 
 .navLink {
@@ -42,7 +43,6 @@
   color: white;
 }
 
-/* NavLink's 'active' class is added by React Router */
 .navLink.active {
   background-color: #4f46e5; /* Indigo */
   color: white;
@@ -59,7 +59,7 @@
   text-align: left;
   width: 100%;
   font-size: 1rem;
-  margin-top: auto; /* Pushes to the bottom */
+  margin-top: auto;
 }
 
 .logoutButton:hover {
@@ -70,6 +70,5 @@
 .content {
   flex-grow: 1;
   padding: 2rem;
-  /* If content overflows, it will be scrollable */
   overflow-y: auto; 
 }
