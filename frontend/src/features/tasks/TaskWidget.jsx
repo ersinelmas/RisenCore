@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import taskService from '../../services/taskService';
 import styles from './TaskWidget.module.css';
 import Card from '../../components/Card';
+import { FiPlus, FiTrash2 } from 'react-icons/fi';
 
 function TaskWidget() {
   const [tasks, setTasks] = useState([]);
@@ -99,7 +100,7 @@ function TaskWidget() {
               placeholder="What do you need to do?"
             />
             <button type="submit" disabled={isCreating} className={styles.primaryButton}>
-              {isCreating ? 'Adding...' : 'Add Task'}
+              {isCreating ? 'Adding...' : <><FiPlus /> <span>Add Task</span></>}
             </button>
           </form>
         </div>
@@ -124,11 +125,8 @@ function TaskWidget() {
                 <span className={`${styles.taskDescription} ${task.completed ? styles.completed : ''}`}>
                   {task.description}
                 </span>
-                <button
-                  onClick={() => handleDeleteTask(task.id)}
-                  className={styles.deleteButton}
-                >
-                  Delete
+                <button onClick={() => handleDeleteTask(task.id)} className={styles.deleteButton}>
+                  <FiTrash2 />
                 </button>
               </li>
             ))}

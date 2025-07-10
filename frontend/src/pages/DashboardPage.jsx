@@ -54,16 +54,22 @@ function DashboardPage() {
           <h3 className={styles.cardTitle}>Financial Snapshot</h3>
           <div className={styles.summaryItem}>
             <span>Total Income:</span>
-            <span className={styles.income}>${financialSummary.income.toFixed(2)}</span>
+            <span className={`${styles.amount} ${styles.income}`}>
+              ${financialSummary.income.toFixed(2)}
+            </span>
           </div>
           <div className={styles.summaryItem}>
             <span>Total Expense:</span>
-            <span className={styles.expense}>${financialSummary.expense.toFixed(2)}</span>
+            <span className={`${styles.amount} ${styles.expense}`}>
+              ${financialSummary.expense.toFixed(2)}
+            </span>
           </div>
           <hr className={styles.divider}/>
           <div className={styles.summaryItem}>
             <strong>Balance:</strong>
-            <strong>${financialSummary.balance.toFixed(2)}</strong>
+            <strong className={styles.amount}>
+              ${financialSummary.balance.toFixed(2)}
+            </strong>
           </div>
           <Link to="/finance" className={styles.viewAllLink}>
             Go to Finance

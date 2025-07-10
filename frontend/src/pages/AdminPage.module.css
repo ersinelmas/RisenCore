@@ -1,49 +1,32 @@
-.pageContainer {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.title {
-  font-size: 1.875rem;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 1rem;
-}
-
 .tableContainer {
   width: 100%;
   overflow-x: auto;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
 }
 
 .userTable {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px; 
-}
-
-.userTable {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
+  min-width: 600px;
 }
 
 .userTable th,
 .userTable td {
-  border: 1px solid #e5e7eb;
-  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem;
   text-align: left;
+  font-size: 0.875rem;
 }
 
 .userTable th {
-  background-color: #f9fafb;
+  background-color: var(--color-bg-page);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.userTable tbody tr:nth-child(even) {
-  background-color: #f9fafb;
+.userTable tbody tr:hover {
+  background-color: var(--color-bg-page);
 }
 
 .roleBadge {
@@ -56,22 +39,11 @@
 }
 
 .roleUser {
-  background-color: #dbeafe; /* blue-100 */
-  color: #1e40af; /* blue-800 */
+  background-color: #dbeafe; /* Lighter Blue */
+  color: #1e40af; /* Darker Blue */
 }
 
 .roleAdmin {
-  background-color: #fecaca; /* red-200 */
-  color: #991b1b; /* red-800 */
-}
-
-/* --- RESPONSIVE STYLES --- */
-@media (max-width: 768px) {
-    .pageContainer {
-        padding: 1rem;
-    }
-
-    .title {
-        font-size: 1.5rem;
-    }
+  background-color: #fee2e2; /* Lighter Red */
+  color: #991b1b; /* Darker Red */
 }

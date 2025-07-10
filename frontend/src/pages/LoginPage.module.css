@@ -3,16 +3,17 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f3f4f6;
+
 }
 
 .formCard {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-bg-card);
+  padding: 2.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+  border: 1px solid var(--color-border);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   text-align: center;
 }
 
@@ -20,9 +21,8 @@
   font-size: 1.875rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
-
 
 .inputGroup {
   margin-bottom: 1.25rem;
@@ -32,16 +32,16 @@
 .label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #4b5563;
+  color: var(--color-text-secondary);
   font-weight: 500;
 }
 
 .input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #d1d5db; 
+  border: 1px solid var(--color-border);
   border-radius: 6px;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 .button {
@@ -49,7 +49,7 @@
   padding: 0.75rem;
   border: none;
   border-radius: 6px;
-  background-color: #4f46e5; /* Indigo mavisi */
+  background-color: var(--color-accent);
   color: white;
   font-weight: bold;
   cursor: pointer;
@@ -57,27 +57,27 @@
 }
 
 .button:hover {
-  background-color: #4338ca;
+  background-color: var(--color-accent-hover);
 }
 
 .button:disabled {
-  background-color: #a5b4fc;
+  background-color: var(--color-accent-disabled);
   cursor: not-allowed;
 }
 
 .error {
-  color: #ef4444; /* Kırmızı */
+  color: var(--color-error);
   margin-top: 1rem;
 }
 
 .linkText {
   margin-top: 1.5rem;
-  font-size: 0.875rem; /* 14px */
-  color: #4b5563;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
 }
 
 .linkText a {
-  color: #4f46e5;
+  color: var(--color-link);
   text-decoration: none;
   font-weight: 500;
 }
@@ -87,26 +87,22 @@
 }
 
 /* --- RESPONSIVE STYLES --- */
-/* Apply these styles when the screen width is 768px or less */
 @media (max-width: 768px) {
+  .loginContainer {
+    align-items: flex-start;
+    padding-top: 2rem;
+  }
+  
   .formCard {
-    /* On smaller screens, remove the shadow and padding to make it feel more native */
     padding: 1.5rem;
     box-shadow: none;
+    border: none;
     border-radius: 0;
-    max-width: 100%;
-    /* Let the login container handle the background and full height */
-  }
-
-  .loginContainer {
-    /* Remove padding on the sides for a full-width feel on mobile */
-    padding: 0;
-    /* Center the card, but allow it to grow */
-    align-items: flex-start; /* Align to the top */
-    padding-top: 4rem; /* Add some space from the top */
+    width: 100%;
+    height: 100%;
   }
 
   .title {
-    font-size: 1.5rem; /* 24px - Make the title smaller */
+    font-size: 1.5rem;
   }
 }

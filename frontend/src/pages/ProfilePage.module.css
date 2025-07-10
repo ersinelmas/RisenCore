@@ -1,56 +1,40 @@
-.pageContainer {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.title {
-  font-size: 1.875rem;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
-}
-
-.formCard {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e7eb;
-  max-width: 500px;
-}
-
 .inputGroup {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #4b5563;
+  color: var(--color-text-secondary);
   font-weight: 500;
+  font-size: 0.875rem;
 }
 
 .input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   box-sizing: border-box;
 }
 
 .button {
-  width: auto;
+  display: inline-block;
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 6px;
-  background-color: #4f46e5;
+  background-color: var(--color-accent);
   color: white;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
+.button:hover {
+  background-color: var(--color-accent-hover);
+}
+
 .button:disabled {
-  background-color: #a5b4fc;
+  background-color: var(--color-accent-disabled);
   cursor: not-allowed;
 }

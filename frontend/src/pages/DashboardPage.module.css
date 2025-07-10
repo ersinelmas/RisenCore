@@ -1,6 +1,5 @@
 .gridContainer {
   display: grid;
-  /* On larger screens, use 2 columns. On smaller screens, it will wrap to 1. */
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
 }
@@ -10,7 +9,7 @@
   margin-bottom: 1.5rem;
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
 
 .summaryItem {
@@ -20,20 +19,23 @@
   font-size: 1rem;
 }
 
+.amount {
+  font-family: 'Consolas', 'Menlo', 'Courier New', monospace;
+  font-weight: 600;
+}
+
 .income {
-  color: #16a34a; /* Green */
-  font-weight: 500;
+  color: var(--color-success);
 }
 
 .expense {
-  color: #dc2626; /* Red */
-  font-weight: 500;
+  color: var(--color-error);
 }
 
 .divider {
   margin: 1rem 0;
   border: none;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--color-border);
 }
 
 .quickTaskList {
@@ -44,13 +46,14 @@
 
 .quickTaskList li {
   margin-bottom: 0.5rem;
+  color: var(--color-text-secondary);
 }
 
 .viewAllLink {
   display: inline-block;
   margin-top: 1rem;
-  font-weight: 500;
-  color: #4f46e5;
+  font-weight: 600;
+  color: var(--color-link);
   text-decoration: none;
   font-size: 0.875rem;
 }
