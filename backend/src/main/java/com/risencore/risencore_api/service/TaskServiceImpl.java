@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,40 +26,28 @@ public class TaskServiceImpl implements TaskService {
     private final TaskMapper taskMapper;
     private final UserRepository userRepository;
 
-    private User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
-            throw new IllegalStateException("User is not authenticated");
-        }
-
-        String username = authentication.getName();
-
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found in database with username: " + username));
-    }
-
     @Override
+    @Transactional
     public TaskResponseDTO createTask(CreateTaskRequestDTO taskRequestDTO) {
         User currentUser = getCurrentUser();
-
         Task task = taskMapper.createTaskRequestDTOToTask(taskRequestDTO);
         task.setUser(currentUser);
-
         Task savedTask = taskRepository.save(task);
         return taskMapper.taskToTaskResponseDTO(savedTask);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TaskResponseDTO> getAllTasks() {
         User currentUser = getCurrentUser();
-
-        List<Task> tasks = taskRepository.findByUserId(currentUser.getId());
+        List<Task> tasks = taskRepository.findByUserIdOrderByCreatedAtDesc(currentUser.getId());
         return tasks.stream()
                 .map(taskMapper::taskToTaskResponseDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public TaskResponseDTO getTaskById(Long id) {
         User currentUser = getCurrentUser();
         Task task = taskRepository.findById(id)
@@ -67,11 +56,11 @@ public class TaskServiceImpl implements TaskService {
         if (!task.getUser().getId().equals(currentUser.getId())) {
             throw new ResourceNotFoundException("Task", "id", id);
         }
-
         return taskMapper.taskToTaskResponseDTO(task);
     }
 
     @Override
+    @Transactional
     public TaskResponseDTO updateTask(Long id, UpdateTaskRequestDTO taskRequestDTO) {
         User currentUser = getCurrentUser();
         Task existingTask = taskRepository.findById(id)
@@ -87,6 +76,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional
     public void deleteTask(Long id) {
         User currentUser = getCurrentUser();
         Task task = taskRepository.findById(id)
@@ -95,7 +85,16 @@ public class TaskServiceImpl implements TaskService {
         if (!task.getUser().getId().equals(currentUser.getId())) {
             throw new ResourceNotFoundException("Task", "id", id);
         }
-
         taskRepository.deleteById(id);
+    }
+
+    private User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            throw new IllegalStateException("User is not authenticated");
+        }
+        String username = authentication.getName();
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalStateException("Authenticated user not found in database"));
     }
 }
