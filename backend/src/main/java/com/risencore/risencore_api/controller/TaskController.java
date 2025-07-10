@@ -5,6 +5,7 @@ import com.risencore.risencore_api.dto.TaskResponseDTO;
 import com.risencore.risencore_api.dto.UpdateTaskRequestDTO;
 import com.risencore.risencore_api.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
+@Tag(name = "Task Management", description = "Endpoints for managing tasks in the RisenCore application")
 public class TaskController {
 
     private final TaskService taskService;

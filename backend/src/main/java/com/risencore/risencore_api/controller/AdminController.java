@@ -3,6 +3,7 @@ package com.risencore.risencore_api.controller;
 import com.risencore.risencore_api.dto.UserDTO;
 import com.risencore.risencore_api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
+@Tag(name = "Admin Management", description = "Endpoints for administrative tasks, accessible only to users with ADMIN role")
 public class AdminController {
 
     private final UserService userService;
