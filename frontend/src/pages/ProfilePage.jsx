@@ -17,7 +17,7 @@ function ProfilePage() {
       <div className={styles.profileHeader}>
         <div className={styles.avatar}>{userInitial}</div>
         <div className={styles.userInfo}>
-          <h2>{user?.username}</h2>
+          <h2>{user?.firstName} {user?.lastName}</h2>
           <p>{user?.email}</p>
         </div>
       </div>

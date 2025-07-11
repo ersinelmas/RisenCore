@@ -61,9 +61,10 @@ public class JwtService {
                 .collect(Collectors.toList());
         extraClaims.put("roles", roles);
 
-        // Add email to the claims if the UserDetails object is an instance of our User class
         if (userDetails instanceof User) {
             extraClaims.put("email", ((User) userDetails).getEmail());
+            extraClaims.put("firstName", ((User) userDetails).getFirstName());
+            extraClaims.put("lastName", ((User) userDetails).getLastName());
         }
 
         return Jwts

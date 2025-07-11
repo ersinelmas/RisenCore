@@ -7,6 +7,15 @@ import lombok.Data;
 
 @Data
 public class SignUpRequestDTO {
+
+    @NotBlank(message = "First name cannot be blank")
+    @Size(max = 50)
+    private String firstName;
+
+    @NotBlank(message = "Last name cannot be blank")
+    @Size(max = 50)
+    private String lastName;
+
     @NotBlank(message = "Username cannot be blank")
     @Size(min = 3, max = 20)
     private String username;

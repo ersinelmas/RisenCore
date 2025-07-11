@@ -17,6 +17,8 @@ export const AuthProvider = ({ children }) => {
         setUser({
           username: decodedToken.sub,
           email: decodedToken.email,
+          firstName: decodedToken.firstName,
+          lastName: decodedToken.lastName,
           roles: decodedToken.roles || [],
         });
         setToken(tokenToProcess);

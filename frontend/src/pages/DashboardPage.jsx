@@ -47,7 +47,7 @@ function DashboardPage() {
   }
 
   return (
-    <PageLayout title={`Welcome back, ${user?.username || 'User'}!`}>
+    <PageLayout title={`Welcome back, ${user?.firstName || user?.username || 'User'}!`}>
       <div className={styles.gridContainer}>
         {/* Financial Summary Widget */}
         <Card>

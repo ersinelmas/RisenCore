@@ -9,8 +9,10 @@ const login = (username, password) => {
   });
 };
 
-const register = (username, email, password) => {
+const register = (firstName, lastName, username, email, password) => {
     return apiClient.post(API_URL + 'register', {
+        firstName,
+        lastName,
         username,
         email,
         password
