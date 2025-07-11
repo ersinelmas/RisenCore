@@ -1,5 +1,6 @@
 package com.risencore.risencore_api.service;
 
+import com.risencore.risencore_api.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -45,17 +46,7 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        // Create a map for extra claims.
-        Map<String, Object> extraClaims = new HashMap<>();
-
-        // Get authorities and add them to the 'roles' claim.
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-        extraClaims.put("roles", roles);
-
-        // Call the buildToken method with the extra claims.
-        return buildToken(extraClaims, userDetails, jwtExpiration);
+        return buildToken(new HashMap<>(), userDetails, jwtExpiration);
     }
 
     private String buildToken(
@@ -63,6 +54,18 @@ public class JwtService {
             UserDetails userDetails,
             long expiration
     ) {
+        // Add roles to the claims, removing the "ROLE_" prefix.
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .map(role -> role.replace("ROLE_", "")) // Removes the prefix
+                .collect(Collectors.toList());
+        extraClaims.put("roles", roles);
+
+        // Add email to the claims if the UserDetails object is an instance of our User class
+        if (userDetails instanceof User) {
+            extraClaims.put("email", ((User) userDetails).getEmail());
+        }
+
         return Jwts
                 .builder()
                 .setClaims(extraClaims)

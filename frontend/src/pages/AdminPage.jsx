@@ -47,12 +47,12 @@ function AdminPage() {
                     <td>{user.email}</td>
                     <td>
                       {user.roles.map(role => (
-                        <span
-                          key={role}
-                          className={`${styles.roleBadge} ${role === 'ADMIN' ? styles.roleAdmin : styles.roleUser}`}
-                        >
-                          {role.replace('ROLE_', '')}
-                        </span>
+                      <span
+                        key={role}
+                        className={`${styles.roleBadge} ${role === 'ADMIN' ? styles.roleAdmin : styles.roleUser}`}
+                      >
+                        {role}
+                      </span>
                       ))}
                     </td>
                   </tr>
