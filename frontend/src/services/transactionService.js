@@ -10,9 +10,14 @@ const createTransaction = (transactionData) => {
     return apiClient.post(API_URL, transactionData);
 };
 
+const getExpenseSummary = () => {
+    return apiClient.get(`${API_URL}/summary/by-category`);
+};
+
 const transactionService = {
     getAllTransactions,
     createTransaction,
+    getExpenseSummary,
 };
 
 export default transactionService;

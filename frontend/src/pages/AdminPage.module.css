@@ -39,11 +39,11 @@
 }
 
 .roleUser {
-  background-color: #dbeafe; /* Lighter Blue */
-  color: #1e40af; /* Darker Blue */
+  background-color: #e0e7ff; /* Indigo 100 */
+  color: #4338ca; /* Indigo 700 */
 }
 
 .roleAdmin {
-  background-color: #fee2e2; /* Lighter Red */
-  color: #991b1b; /* Darker Red */
+  background-color: #fee2e2; /* Red 100 */
+  color: #b91c1c; /* Red 700 */
 }

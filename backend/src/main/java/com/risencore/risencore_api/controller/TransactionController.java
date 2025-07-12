@@ -1,5 +1,6 @@
 package com.risencore.risencore_api.controller;
 
+import com.risencore.risencore_api.dto.CategoryExpenseDTO;
 import com.risencore.risencore_api.dto.CreateTransactionDTO;
 import com.risencore.risencore_api.dto.TransactionDTO;
 import com.risencore.risencore_api.service.TransactionService;
@@ -42,5 +43,16 @@ public class TransactionController {
     public ResponseEntity<TransactionDTO> createTransactionForCurrentUser(@Valid @RequestBody CreateTransactionDTO createDto) {
         TransactionDTO newTransaction = transactionService.createTransactionForCurrentUser(createDto);
         return new ResponseEntity<>(newTransaction, HttpStatus.CREATED);
+    }
+
+    @Operation(
+            summary = "Get Expense Summary by Category",
+            description = "Retrieves a summary of expenses grouped by category for the currently authenticated user.",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @GetMapping("/summary/by-category")
+    public ResponseEntity<List<CategoryExpenseDTO>> getExpenseSummaryByCategory() {
+        List<CategoryExpenseDTO> summary = transactionService.getExpenseSummaryByCategoryForCurrentUser();
+        return ResponseEntity.ok(summary);
     }
 }

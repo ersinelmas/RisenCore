@@ -1,35 +1,45 @@
-.summaryCards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+.overviewGrid {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* Left column 1 part, right column 2 parts */
+  gap: 2rem;
+  align-items: stretch; /* Make columns equal height */
+  margin-bottom: 2rem;
 }
 
-.transactionTable {
+.summaryColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.chartColumn {
+  display: flex;
+}
+
+.fullHeightCard {
   width: 100%;
-  border-collapse: collapse;
-  min-width: 600px;
+  flex-grow: 1; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.transactionTable th,
-.transactionTable td {
-  border-bottom: 1px solid var(--color-border);
-  padding: 1rem;
-  text-align: left;
-  font-size: 0.875rem;
-}
-
-.transactionTable th {
-  background-color: var(--color-bg-page);
-  font-weight: 600;
-  color: var(--color-text-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.summaryColumn h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .amount {
   font-weight: 600;
+  font-size: 1.50rem;
   font-family: 'Consolas', 'Menlo', 'Courier New', monospace;
+  color: var(--color-text-primary);
 }
 
 .income {
@@ -47,7 +57,7 @@
 .transactionForm {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .formGroup {
@@ -67,11 +77,9 @@
 }
 
 .input, .select {
-  /* Remove default browser appearance */
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-
   padding: 0.75rem;
   border: 1px solid var(--color-border);
   border-radius: 6px;
@@ -83,16 +91,14 @@
   cursor: pointer;
 }
 
-/* Style the dropdown arrow for the select element */
 .select {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
   background-position: right 0.5rem center;
   background-repeat: no-repeat;
   background-size: 1.5em 1.5em;
-  padding-right: 2.5rem; /* Make space for the arrow */
+  padding-right: 2.5rem;
 }
 
-/* Style the calendar icon for the date input */
 input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   opacity: 0.6;
@@ -133,15 +139,44 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     overflow-x: auto;
 }
 
+.transactionTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.transactionTable th,
+.transactionTable td {
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.transactionTable th {
+  background-color: var(--color-bg-page);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.transactionTable tbody tr:hover {
+    background-color: var(--color-bg-page);
+}
+
 /* --- RESPONSIVE STYLES --- */
+@media (max-width: 992px) {
+  .overviewGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
   .transactionForm {
     grid-template-columns: 1fr;
   }
   .descriptionGroup, .formActions {
     grid-column: auto;
-  }
-  .summaryCards {
-    grid-template-columns: 1fr;
   }
 }

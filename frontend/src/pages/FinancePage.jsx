@@ -4,38 +4,41 @@ import transactionService from '../services/transactionService';
 import styles from './FinancePage.module.css';
 import Card from '../components/Card';
 import PageLayout from '../components/layout/PageLayout';
+import ExpenseChart from '../components/charts/ExpenseChart';
 
-// These could be fetched from the backend in the future
 const TRANSACTION_TYPES = ['INCOME', 'EXPENSE'];
 const CATEGORIES = ['SALARY', 'FREELANCE', 'RENT', 'GROCERIES', 'UTILITIES', 'TRANSPORTATION', 'DINING_OUT', 'ENTERTAINMENT', 'HEALTHCARE', 'SHOPPING', 'SAVINGS', 'OTHER'];
 
 function FinancePage() {
   const [transactions, setTransactions] = useState([]);
+  const [expenseSummary, setExpenseSummary] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [form, setForm] = useState({
-    description: '',
-    amount: '',
-    type: 'EXPENSE',
-    category: 'OTHER',
+    description: '', amount: '', type: 'EXPENSE', category: 'OTHER',
     transactionDate: new Date().toISOString().split('T')[0],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const fetchTransactions = useCallback(() => {
+  const fetchFinancialData = useCallback(() => {
     setLoading(true);
-    transactionService.getAllTransactions()
-      .then(response => setTransactions(response.data))
-      .catch(error => {
-        toast.error("Failed to load transactions.");
-        console.error("Error fetching transactions:", error);
-      })
-      .finally(() => setLoading(false));
+    Promise.all([
+      transactionService.getAllTransactions(),
+      transactionService.getExpenseSummary()
+    ]).then(([transactionsResponse, summaryResponse]) => {
+      setTransactions(transactionsResponse.data);
+      setExpenseSummary(summaryResponse.data);
+    }).catch((err) => {
+      toast.error("Failed to load financial data.");
+      console.error("Error fetching financial data:", err);
+    }).finally(() => {
+      setLoading(false);
+    });
   }, []);
 
   useEffect(() => {
-    fetchTransactions();
-  }, [fetchTransactions]);
+    fetchFinancialData();
+  }, [fetchFinancialData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -49,45 +52,55 @@ function FinancePage() {
     try {
       await transactionService.createTransaction(form);
       toast.success('Transaction added!', { id: toastId });
-      fetchTransactions();
+      fetchFinancialData();
       setForm({
         description: '', amount: '', type: 'EXPENSE', category: 'OTHER',
         transactionDate: new Date().toISOString().split('T')[0],
       });
-    } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to add transaction.', { id: toastId });
-      console.error("Transaction creation failed:", error);
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to add transaction.', { id: toastId });
+      console.error("Transaction creation failed:", err);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const summary = useMemo(() => {
-    const income = transactions
-      .filter(t => t.type === 'INCOME')
-      .reduce((sum, t) => sum + t.amount, 0);
-    const expense = transactions
-      .filter(t => t.type === 'EXPENSE')
-      .reduce((sum, t) => sum + t.amount, 0);
+    const income = transactions.filter(t => t.type === 'INCOME').reduce((sum, t) => sum + t.amount, 0);
+    const expense = transactions.filter(t => t.type === 'EXPENSE').reduce((sum, t) => sum + t.amount, 0);
     const balance = income - expense;
     return { income, expense, balance };
   }, [transactions]);
 
   return (
     <PageLayout title="Financial Overview">
-      <div className={styles.summaryCards}>
-        <Card>
+      <div className={styles.overviewGrid}>
+        <div className={styles.summaryColumn}>
+          <Card>
             <h4>Total Income</h4>
             <p className={`${styles.amount} ${styles.income}`}>${summary.income.toFixed(2)}</p>
-        </Card>
-        <Card>
+          </Card>
+          <Card>
             <h4>Total Expense</h4>
             <p className={`${styles.amount} ${styles.expense}`}>${summary.expense.toFixed(2)}</p>
-        </Card>
-        <Card>
+          </Card>
+          <Card>
             <h4>Current Balance</h4>
             <p className={styles.amount}>${summary.balance.toFixed(2)}</p>
-        </Card>
+          </Card>
+        </div>
+
+        <div className={styles.chartColumn}>
+          {expenseSummary.length > 0 ? (
+            <Card className={styles.fullHeightCard}>
+              <ExpenseChart data={expenseSummary} />
+            </Card>
+          ) : (
+            <Card className={styles.fullHeightCard}>
+              <p>No expense data available to display a chart.</p>
+            </Card>
+          )}
+        </div>
       </div>
 
       <Card className={styles.formCard}>
