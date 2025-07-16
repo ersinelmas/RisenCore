@@ -1,12 +1,13 @@
-import { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { useNavigate, Link } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import styles from './LoginPage.module.css';
+import { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate, Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import styles from "./LoginPage.module.css";
+import AuthLayout from "../components/auth/AuthLayout";
 
 function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -17,20 +18,23 @@ function LoginPage() {
 
     try {
       await login(username, password);
-      toast.success('Login successful!');
-      navigate('/');
+      toast.success("Login successful!");
+      navigate("/");
     } catch (err) {
-      toast.error('Login failed. Please check your credentials.');
-      console.error('Login failed:', err);
+      console.error("Login failed:", err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className={styles.loginContainer}>
-      <div className={styles.formCard}>
-        <h1 className={styles.title}>Login</h1>
+    <AuthLayout>
+      <div className={styles.formWrapper}>
+        <h1 className={styles.title}>Welcome Back</h1>
+        <p className={styles.subtitle}>
+          Enter your credentials to access your account.
+        </p>
+
         <form onSubmit={handleLogin}>
           <div className={styles.inputGroup}>
             <label htmlFor="username" className={styles.label}>
@@ -43,6 +47,7 @@ function LoginPage() {
               onChange={(e) => setUsername(e.target.value)}
               required
               className={styles.input}
+              autoComplete="username"
             />
           </div>
           <div className={styles.inputGroup}>
@@ -56,17 +61,21 @@ function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               className={styles.input}
+              autoComplete="current-password"
             />
           </div>
-          <button type="submit" disabled={loading} className={styles.button}>
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
-          <p className={styles.linkText}>
-            Don't have an account? <Link to="/register">Sign Up</Link>
-          </p>
+          <div className={styles.formActions}>
+            <button type="submit" disabled={loading} className={styles.button}>
+              {loading ? "Signing In..." : "Sign In"}
+            </button>
+          </div>
         </form>
+
+        <p className={styles.linkText}>
+          Don't have an account? <Link to="/register">Create one</Link>
+        </p>
       </div>
-    </div>
+    </AuthLayout>
   );
 }
 

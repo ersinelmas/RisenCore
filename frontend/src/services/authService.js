@@ -1,4 +1,4 @@
-import apiClient from '../api/axiosConfig'; 
+import apiClient from '../api/axiosConfig';
 
 const API_URL = '/auth/';
 
@@ -9,14 +9,8 @@ const login = (username, password) => {
   });
 };
 
-const register = (firstName, lastName, username, email, password) => {
-    return apiClient.post(API_URL + 'register', {
-        firstName,
-        lastName,
-        username,
-        email,
-        password
-    });
+const register = (userData) => {
+    return apiClient.post(API_URL + 'register', userData);
 };
 
 const authService = {

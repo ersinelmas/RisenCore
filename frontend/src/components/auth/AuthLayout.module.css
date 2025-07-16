@@ -1,0 +1,60 @@
+.authContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1.5rem;
+  background-color: var(--color-bg-page);
+}
+
+.layoutGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  max-width: 900px;
+  background-color: var(--color-bg-card);
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  overflow: hidden;
+}
+
+.bannerCard {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bannerImage {
+  width: 100%;
+  height: auto;
+  max-width: 400px;
+}
+
+.formCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: #f8fafc; /* A slightly different background for the form side */
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 992px) {
+  .authContainer {
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .layoutGrid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 100vh;
+  }
+  .formCard {
+    padding: 2rem 1.5rem;
+  }
+}

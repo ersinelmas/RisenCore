@@ -1,23 +1,23 @@
 :root {
   /* Color Palette - Light Mode (Default) */
-  --color-bg-page: #f1f5f9;      /* Slate 100 */
-  --color-bg-card: #ffffff;      /* White */
+  --color-bg-page: #f1f5f9; /* Slate 100 */
+  --color-bg-card: #ffffff; /* White */
   --color-text-primary: #1e293b; /* Slate 800 */
-  --color-text-secondary: #475569;/* Slate 600 */
-  --color-border: #e2e8f0;       /* Slate 200 */
+  --color-text-secondary: #475569; /* Slate 600 */
+  --color-border: #e2e8f0; /* Slate 200 */
 
   /* Accent & Semantic Colors */
-  --color-accent: #4f46e5;         /* Indigo 600 */
-  --color-accent-hover: #4338ca;   /* Indigo 700 */
-  --color-accent-disabled: #a5b4fc;/* Indigo 300 */
+  --color-accent: #4f46e5; /* Indigo 600 */
+  --color-accent-hover: #4338ca; /* Indigo 700 */
+  --color-accent-disabled: #a5b4fc; /* Indigo 300 */
 
-  --color-success: #22c55e;        /* Green 500 */
-  --color-error: #ef4444;          /* Red 500 */
+  --color-success: #22c55e; /* Green 500 */
+  --color-error: #ef4444; /* Red 500 */
   --color-link: #4f46e5;
 }
 
 html {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 body {
@@ -26,6 +26,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--color-bg-page);
   color: var(--color-text-secondary);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 button,
@@ -37,7 +43,12 @@ select {
   margin: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--color-text-primary);
 }
 

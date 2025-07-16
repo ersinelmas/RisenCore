@@ -1,32 +1,24 @@
-.loginContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-
-}
-
-.formCard {
-  background-color: var(--color-bg-card);
-  padding: 2.5rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
-  border: 1px solid var(--color-border);
+.formWrapper {
   width: 100%;
-  max-width: 420px;
-  text-align: center;
+  max-width: 400px;
 }
 
 .title {
+  text-align: center;
   font-size: 1.875rem;
   font-weight: bold;
-  margin-bottom: 1.5rem;
   color: var(--color-text-primary);
+}
+
+.subtitle {
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  color: var(--color-text-secondary);
 }
 
 .inputGroup {
   margin-bottom: 1.25rem;
-  text-align: left;
 }
 
 .label {
@@ -34,6 +26,7 @@
   margin-bottom: 0.5rem;
   color: var(--color-text-secondary);
   font-weight: 500;
+  font-size: 0.875rem;
 }
 
 .input {
@@ -42,6 +35,10 @@
   border: 1px solid var(--color-border);
   border-radius: 6px;
   box-sizing: border-box;
+}
+
+.formActions {
+    margin-top: 1.5rem;
 }
 
 .button {
@@ -65,44 +62,18 @@
   cursor: not-allowed;
 }
 
-.error {
-  color: var(--color-error);
-  margin-top: 1rem;
-}
-
 .linkText {
   margin-top: 1.5rem;
+  text-align: center;
   font-size: 0.875rem;
   color: var(--color-text-secondary);
 }
 
 .linkText a {
   color: var(--color-link);
-  text-decoration: none;
   font-weight: 500;
 }
 
 .linkText a:hover {
   text-decoration: underline;
-}
-
-/* --- RESPONSIVE STYLES --- */
-@media (max-width: 768px) {
-  .loginContainer {
-    align-items: flex-start;
-    padding-top: 2rem;
-  }
-  
-  .formCard {
-    padding: 1.5rem;
-    box-shadow: none;
-    border: none;
-    border-radius: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .title {
-    font-size: 1.5rem;
-  }
 }
