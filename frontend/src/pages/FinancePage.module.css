@@ -18,7 +18,7 @@
 
 .fullHeightCard {
   width: 100%;
-  flex-grow: 1; 
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,19 +26,19 @@
 }
 
 .summaryColumn h4 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    color: var(--color-text-secondary);
-    font-size: 0.875rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .amount {
   font-weight: 600;
-  font-size: 1.50rem;
-  font-family: 'Consolas', 'Menlo', 'Courier New', monospace;
+  font-size: 1.5rem;
+  font-family: "Consolas", "Menlo", "Courier New", monospace;
   color: var(--color-text-primary);
 }
 
@@ -76,7 +76,8 @@
   color: var(--color-text-secondary);
 }
 
-.input, .select {
+.input,
+.select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -134,9 +135,27 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   cursor: not-allowed;
 }
 
+.deleteButton {
+  padding: 0.5rem;
+  border: none;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.deleteButton:hover {
+  background-color: #fee2e2; /* Light Red */
+  color: var(--color-error);
+}
+
 .tableContainer {
-    width: 100%;
-    overflow-x: auto;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .transactionTable {
@@ -162,7 +181,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .transactionTable tbody tr:hover {
-    background-color: var(--color-bg-page);
+  background-color: var(--color-bg-page);
 }
 
 /* --- RESPONSIVE STYLES --- */
@@ -176,7 +195,8 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   .transactionForm {
     grid-template-columns: 1fr;
   }
-  .descriptionGroup, .formActions {
+  .descriptionGroup,
+  .formActions {
     grid-column: auto;
   }
 }

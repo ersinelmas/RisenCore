@@ -5,6 +5,7 @@ import styles from './FinancePage.module.css';
 import Card from '../components/Card';
 import PageLayout from '../components/layout/PageLayout';
 import ExpenseChart from '../components/charts/ExpenseChart';
+import { FiTrash2 } from 'react-icons/fi';
 
 const TRANSACTION_TYPES = ['INCOME', 'EXPENSE'];
 const CATEGORIES = ['SALARY', 'FREELANCE', 'RENT', 'GROCERIES', 'UTILITIES', 'TRANSPORTATION', 'DINING_OUT', 'ENTERTAINMENT', 'HEALTHCARE', 'SHOPPING', 'SAVINGS', 'OTHER'];
@@ -64,6 +65,21 @@ function FinancePage() {
       setIsSubmitting(false);
     }
   };
+
+  const handleDeleteTransaction = useCallback(async (transactionId) => {
+    if (window.confirm('Are you sure you want to delete this transaction?')) {
+      const toastId = toast.loading('Deleting transaction...');
+      try {
+        await transactionService.deleteTransaction(transactionId);
+        toast.success('Transaction deleted!', { id: toastId });
+        // After deleting, re-fetch all data to update summary cards, chart, and list
+        fetchFinancialData();
+      } catch (error) {
+        toast.error('Failed to delete transaction.', { id: toastId });
+        console.error('Error deleting transaction:', error);
+      }
+    }
+  }, [fetchFinancialData]);
 
   const summary = useMemo(() => {
     const income = transactions.filter(t => t.type === 'INCOME').reduce((sum, t) => sum + t.amount, 0);
@@ -152,6 +168,7 @@ function FinancePage() {
                       <th>Category</th>
                       <th>Type</th>
                       <th>Amount</th>
+                      <th>Actions</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -165,6 +182,14 @@ function FinancePage() {
                       <td className={`${styles.amount} ${t.type === 'INCOME' ? styles.income : styles.expense}`}>
                           {t.type === 'EXPENSE' ? '-' : ''}${t.amount.toFixed(2)}
                       </td>
+                      <td>
+                          <button 
+                            className={styles.deleteButton} 
+                            onClick={() => handleDeleteTransaction(t.id)}
+                          >
+                            <FiTrash2 />
+                          </button>
+                        </td>
                       </tr>
                     ))
                   ) : (

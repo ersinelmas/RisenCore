@@ -55,4 +55,15 @@ public class TransactionController {
         List<CategoryExpenseDTO> summary = transactionService.getExpenseSummaryByCategoryForCurrentUser();
         return ResponseEntity.ok(summary);
     }
+
+    @Operation(
+            summary = "Delete a Transaction",
+            description = "Deletes a specific transaction by its ID. A user can only delete their own transactions.",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
+        transactionService.deleteTransaction(id);
+        return ResponseEntity.noContent().build();
+    }
 }

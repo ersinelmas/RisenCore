@@ -24,12 +24,15 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void createAdminUser() {
-        // Create an ADMIN user if one doesn't exist
         if (userRepository.findByUsername("adminuser").isEmpty()) {
             User admin = new User();
             admin.setUsername("adminuser");
             admin.setEmail("admin@risencore.com");
             admin.setPassword(passwordEncoder.encode("adminpass"));
+
+            admin.setFirstName("Admin");
+            admin.setLastName("User");
+
             admin.setRoles(Set.of(Role.ADMIN, Role.USER));
             userRepository.save(admin);
             System.out.println(">>> Created ADMIN user");
@@ -37,12 +40,15 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void createTestUser() {
-        // Create a regular USER if one doesn't exist
         if (userRepository.findByUsername("testuser").isEmpty()) {
             User user = new User();
             user.setUsername("testuser");
             user.setEmail("user@risencore.com");
             user.setPassword(passwordEncoder.encode("userpass"));
+
+            user.setFirstName("Test");
+            user.setLastName("User");
+
             user.setRoles(Set.of(Role.USER));
             userRepository.save(user);
             System.out.println(">>> Created TEST user");

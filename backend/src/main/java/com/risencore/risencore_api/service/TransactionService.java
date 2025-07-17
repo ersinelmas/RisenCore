@@ -10,4 +10,5 @@ public interface TransactionService {
     List<TransactionDTO> getTransactionsForCurrentUser();
     TransactionDTO createTransactionForCurrentUser(CreateTransactionDTO createDto);
     List<CategoryExpenseDTO> getExpenseSummaryByCategoryForCurrentUser();
+    void deleteTransaction(Long transactionId);
 }

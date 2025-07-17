@@ -14,10 +14,15 @@ const getExpenseSummary = () => {
     return apiClient.get(`${API_URL}/summary/by-category`);
 };
 
+const deleteTransaction = (id) => {
+    return apiClient.delete(`${API_URL}/${id}`);
+};
+
 const transactionService = {
     getAllTransactions,
     createTransaction,
     getExpenseSummary,
+    deleteTransaction
 };
 
 export default transactionService;
