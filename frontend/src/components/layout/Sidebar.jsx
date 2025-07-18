@@ -1,7 +1,7 @@
 import { NavLink, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import styles from './MainLayout.module.css';
-import { FiGrid, FiCheckSquare, FiCreditCard, FiUser, FiShield, FiLogOut } from 'react-icons/fi';
+import { FiGrid, FiCheckSquare, FiCreditCard, FiUser, FiShield, FiLogOut, FiTrendingUp} from 'react-icons/fi';
 import logo from '../../assets/logo.png';
 
 function Sidebar() {
@@ -24,6 +24,9 @@ function Sidebar() {
         </NavLink>
         <NavLink to="/finance" className={({ isActive }) => isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>
           <FiCreditCard className={styles.icon} /> <span>Finance</span>
+        </NavLink>
+        <NavLink to="/habits" className={({ isActive }) => isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>
+          <FiTrendingUp className={styles.icon} /> <span>Habits</span>
         </NavLink>
         <NavLink to="/profile" className={({ isActive }) => isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}>
           <FiUser className={styles.icon} /> <span>Profile</span>

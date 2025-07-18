@@ -11,6 +11,7 @@ import AdminPage from './pages/AdminPage';
 import TasksPage from './pages/TasksPage';
 import ProfilePage from './pages/ProfilePage';
 import FinancePage from './pages/FinancePage';
+import HabitsPage from './pages/HabitsPage';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/" element={<DashboardPage />} />
           <Route path="/tasks" element={<TasksPage />} />
           <Route path="/finance" element={<FinancePage />} />
+          <Route path="/habits" element={<HabitsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
         

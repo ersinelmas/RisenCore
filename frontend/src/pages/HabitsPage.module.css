@@ -1,0 +1,54 @@
+.habitGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.sectionTitle {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.form {
+  display: grid;
+  gap: 1rem;
+}
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+.label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+.input,
+.select {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--color-bg-page);
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.formActions {
+  text-align: right;
+}
+.button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--color-accent);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.button:disabled {
+  background-color: var(--color-accent-disabled);
+}

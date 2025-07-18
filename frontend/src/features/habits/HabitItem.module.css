@@ -1,0 +1,60 @@
+.habitItem {
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background-color: var(--color-bg-card);
+}
+.habitHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.habitName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+.habitMeta {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+.weekView {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  text-align: center;
+}
+.day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.dayLabel {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+.dayCheckbox {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.dayCheckbox.completed {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+}
+.deleteButton {
+  background: none;
+  border: none;
+  color: var(--color-error);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.deleteButton:hover {
+  opacity: 1;
+}
