@@ -1,0 +1,79 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: #111827; /* Main brand color */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 900;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.logoImage {
+  height: 32px;
+  width: 32px;
+  border-radius: 4px; /* Slight rounding for the logo */
+}
+
+.logoText {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: white; /* Text color for dark background */
+}
+
+.hamburgerButton {
+  background: none;
+  border: none;
+  font-size: 1.75rem;
+  cursor: pointer;
+  color: white; /* Icon color for dark background */
+  padding: 0.5rem;
+  border-radius: 6px;
+  display: flex; /* To center the icon properly */
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.hamburgerButton:hover {
+  background-color: rgba(255, 255, 255, 0.15); /* Hover effect */
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  background-color: #111827; /* Dark background like the sidebar */
+  z-index: 1000;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(-100%); /* Start position: above the screen */
+  transition: transform 0.3s ease-in-out;
+}
+
+.mobileMenu.open {
+  transform: translateY(0); /* End position: visible */
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  align-self: flex-end; /* Position to the top right */
+  padding: 0.5rem;
+}

@@ -5,7 +5,7 @@
   align-items: center;
   min-height: 100vh;
   padding: 1.5rem;
-  background-color: var(--color-bg-page);
+  background-color: #111827;
 }
 
 .layoutGrid {
@@ -13,7 +13,6 @@
   grid-template-columns: 1fr 1fr;
   width: 100%;
   max-width: 900px;
-  background-color: var(--color-bg-card);
   border-radius: 0.75rem;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   overflow: hidden;
@@ -24,6 +23,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: var(--color-bg-card);
 }
 
 .bannerImage {
@@ -37,7 +37,7 @@
   justify-content: center;
   align-items: center;
   padding: 2rem;
-  background-color: #f8fafc; /* A slightly different background for the form side */
+  background-color: var(--color-bg-card);
 }
 
 /* Responsive styles for mobile */

@@ -40,14 +40,14 @@
 }
 
 .logoContainer:hover .logoText {
-    opacity: 0.85;
+  opacity: 0.85;
 }
 
 .nav {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  flex-grow: 1; 
+  flex-grow: 1;
 }
 
 .navLink {
@@ -96,10 +96,25 @@
 .content {
   flex-grow: 1;
   padding: 2rem;
-  overflow-y: auto; 
+  overflow-y: auto;
 }
 
 .icon {
-    font-size: 1.25rem;
-    flex-shrink: 0;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+  .content {
+    margin-left: 0;
+    padding-top: 60px;
+  }
+}
+@media (min-width: 769px) {
+  .hideOnDesktop {
+    display: none;
+  }
 }
