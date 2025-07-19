@@ -12,7 +12,7 @@ function HabitsPage() {
   const [loading, setLoading] = useState(true);
 
   const fetchHabits = useCallback(async () => {
-    // setLoading(true) is not needed here as we want to avoid a full page loader on re-fetch.
+    setLoading(true);
     try {
       const response = await habitService.getAllHabits();
       setHabits(response.data);
@@ -20,14 +20,31 @@ function HabitsPage() {
       toast.error("Failed to load habits.");
       console.error("Failed to fetch habits:", error);
     } finally {
-      // Only set initial loading to false.
-      if (loading) setLoading(false);
+      setLoading(false);
     }
-  }, [loading]); // Depends on loading state to only run setLoading(false) once.
+  }, []);
 
   useEffect(() => {
     fetchHabits();
   }, [fetchHabits]);
+
+  const handleHabitUpdate = (habitId, newCompletionDates) => {
+    setHabits(currentHabits =>
+      currentHabits.map(h =>
+        h.id === habitId ? { ...h, completionDates: newCompletionDates } : h
+      )
+    );
+  };
+
+  const handleHabitDelete = (habitIdToDelete) => {
+    setHabits(currentHabits =>
+      currentHabits.filter(h => h.id !== habitIdToDelete)
+    );
+  };
+
+  const handleHabitCreated = () => {
+    fetchHabits();
+  };
 
   if (loading) {
     return <PageLayout title="Habit Tracker"><div>Loading habits...</div></PageLayout>;
@@ -35,22 +52,31 @@ function HabitsPage() {
 
   return (
     <PageLayout title="Habit Tracker">
-      <div className={styles.habitGrid}>
+      <div className={styles.pageContent}>
         <Card>
           <h2 className={styles.sectionTitle}>Add a New Habit</h2>
-          <CreateHabitForm onHabitCreated={fetchHabits} />
+          <CreateHabitForm onHabitCreated={handleHabitCreated} />
         </Card>
 
-        <div style={{gridColumn: 'span 2'}}>
+        <div>
             <h2 className={styles.sectionTitle}>My Habits</h2>
             {habits.length > 0 ? (
-              <div className={styles.habitList}>
+              <div className={styles.habitListContainer}>
                 {habits.map(habit => (
-                  <HabitItem key={habit.id} habit={habit} onUpdate={fetchHabits} onDelete={fetchHabits}/>
+                  <HabitItem
+                    key={habit.id}
+                    habit={habit}
+                    onUpdate={handleHabitUpdate}
+                    onDelete={handleHabitDelete}
+                  />
                 ))}
               </div>
             ) : (
-              <Card><p style={{textAlign: 'center'}}>You haven't added any habits yet. Add one to get started!</p></Card>
+              <Card>
+                <p style={{textAlign: 'center', padding: '2rem'}}>
+                  You haven't added any habits yet. Add one to get started!
+                </p>
+              </Card>
             )}
         </div>
       </div>

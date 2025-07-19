@@ -2,7 +2,6 @@
   padding: 1.5rem;
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  margin-bottom: 1rem;
   background-color: var(--color-bg-card);
 }
 .habitHeader {
@@ -19,6 +18,7 @@
 .habitMeta {
   font-size: 0.875rem;
   color: var(--color-text-secondary);
+  margin-top: 0.25rem;
 }
 .weekView {
   display: grid;
@@ -35,6 +35,12 @@
   font-size: 0.75rem;
   color: var(--color-text-secondary);
 }
+.dayNumber {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 0.25rem;
+}
 .dayCheckbox {
   width: 36px;
   height: 36px;
@@ -50,11 +56,43 @@
 .deleteButton {
   background: none;
   border: none;
-  color: var(--color-error);
+  color: var(--color-text-secondary); /* Less aggressive color */
   cursor: pointer;
-  opacity: 0.7;
-  transition: opacity 0.2s;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, background-color 0.2s;
 }
 .deleteButton:hover {
-  opacity: 1;
+  color: var(--color-error);
+  background-color: #fee2e2; /* Light Red */
+}
+
+/* Styles for the DAILY habit view */
+.dailyView {
+  margin-top: 1rem;
+}
+.dailyButton {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-bg-card);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.dailyButton:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.dailyButton.completed {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  color: white;
+  font-weight: bold;
 }
