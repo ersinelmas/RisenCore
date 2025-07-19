@@ -1,67 +1,114 @@
-import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import React from "react";
+import ReactECharts from "echarts-for-react";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+const formatCategory = (str) => {
+  if (!str) return '';
+  return str.toLowerCase()
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
 
 function ExpenseChart({ data }) {
-  const chartData = {
-    labels: data.map(item => item.category),
-    datasets: [
-      {
-        label: 'Expenses',
-        data: data.map(item => item.totalAmount),
-        backgroundColor: [
-          '#818cf8', // Indigo 400
-          '#f87171', // Red 400
-          '#fbbf24', // Amber 400
-          '#4ade80', // Green 400
-          '#60a5fa', // Blue 400
-          '#fb923c', // Orange 400
-          '#a78bfa', // Violet 400
-          '#2dd4bf', // Teal 400
-        ],
-        borderColor: 'var(--color-bg-card)',
-        borderWidth: 2,
-      },
-    ],
-  };
+  const option = {
+    tooltip: {
+      show: false
+    },
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false, // Konteynerin boyutlarına daha iyi uymasını sağlar
-    plugins: {
-      legend: {
-        position: 'top',
-        labels: {
-          color: 'var(--color-text-secondary)',
-          font: {
-            weight: '500',
+    series: [
+      {
+        name: 'Expenses',
+        type: 'pie',
+        roseType: 'radius',
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 2
+        },
+        label: {
+          show: false,
+          position: 'center'
+        },
+        emphasis: {
+          label: {
+            show: true,
+            formatter: (params) => {
+              const name = params.name;
+              const value = params.value.toFixed(2);
+              const percent = params.percent;
+              return `{a|${name}}\n{b|$${value}}\n{c|${percent}% of total}`;
+            },
+            rich: {
+              a: { color: '#1e293b', fontSize: 22, fontWeight: 'bold', lineHeight: 30 },
+              b: { color: '#1e293b', fontSize: 28, fontWeight: 'bold', lineHeight: 40, fontFamily: "'Consolas', 'Menlo', 'Courier New', monospace" },
+              c: { color: '#64748b', fontSize: 16, lineHeight: 24 }
+            }
+          }
+        },
+        labelLine: {
+          show: false
+        },
+        color: [
+          '#4f46e5', // Indigo
+          '#0ea5e9', // Sky
+          '#10b981', // Emerald
+          '#eab308', // Amber
+          '#f97316', // Orange
+          '#ef4444', // Red
+          '#8b5cf6', // Violet
+          '#ec4899', // Pink
+        ],
+        data: data.map(item => ({
+          name: formatCategory(item.category),
+          value: item.totalAmount
+        }))
+      }
+    ],
+
+    media: [
+      {
+        query: {
+          minWidth: 769
+        },
+        option: {
+          legend: {
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            textStyle: {
+              color: 'var(--color-text-secondary)'
+            }
           },
-          boxWidth: 12,
-          padding: 20,
-        },
-      },
-      title: {
-        display: true,
-        text: 'Expense Distribution by Category',
-        color: 'var(--color-text-primary)',
-        font: {
-            size: 16,
-            weight: '600'
-        },
-        padding: {
-            bottom: 20
+          series: [
+            {
+              radius: ['50%', '90%']
+            }
+          ]
         }
       },
-    },
+      {
+        query: {
+          maxWidth: 768
+        },
+        option: {
+          legend: {
+            orient: 'horizontal',
+            left: 'center',
+            top: 'bottom',
+            textStyle: {
+              color: 'var(--color-text-secondary)'
+            }
+          },
+          series: [
+            {
+              radius: ['40%', '70%']
+            }
+          ]
+        }
+      }
+    ]
   };
 
-  // Chart.js'in boyut sorunlarını çözmek için sarmalayıcı div.
-  return (
-    <div style={{ position: 'relative', height: '400px', width: '100%', maxWidth: '400px', margin: 'auto' }}>
-      <Pie data={chartData} options={options} />
-    </div>
-  );
+  return <ReactECharts option={option} style={{ height: "400px", width: "100%" }} />;
 }
 
 export default ExpenseChart;
