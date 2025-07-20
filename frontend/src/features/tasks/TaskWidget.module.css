@@ -34,7 +34,7 @@
 }
 
 .primaryButton:hover {
-    background-color: var(--color-accent-hover);
+  background-color: var(--color-accent-hover);
 }
 
 .primaryButton:disabled {
@@ -78,21 +78,21 @@
 }
 
 .deleteButton {
-  padding: 0.25rem 0.75rem;
-  border: 1px solid var(--color-error);
-  color: var(--color-error);
-  background-color: var(--color-bg-card);
-  border-radius: 6px;
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
   cursor: pointer;
-  font-size: 0.875rem;
-  transition: background-color 0.2s, color 0.2s;
+  padding: 0.5rem;
+  border-radius: 50%;
   display: flex;
   align-items: center;
+  justify-content: center;
+  transition: color 0.2s, background-color 0.2s;
 }
 
 .deleteButton:hover {
-  background-color: var(--color-error);
-  color: white;
+  color: var(--color-error);
+  background-color: #fee2e2;
 }
 
 .error {
@@ -113,20 +113,20 @@
 
 /* --- RESPONSIVE STYLES --- */
 @media (max-width: 768px) {
-    .createTaskForm {
-        flex-direction: column;
-        align-items: stretch;
-    }
+  .createTaskForm {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-    .taskItem {
-        padding: 0.75rem 0.25rem;
-    }
+  .taskItem {
+    padding: 0.75rem 0.25rem;
+  }
 
-    .taskDescription {
-        font-size: 0.875rem;
-    }
+  .taskDescription {
+    font-size: 0.875rem;
+  }
 
-    .deleteButton {
-        padding: 0.25rem 0.5rem;
-    }
+  .deleteButton {
+    padding: 0.25rem 0.5rem;
+  }
 }
