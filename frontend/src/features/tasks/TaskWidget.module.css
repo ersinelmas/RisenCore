@@ -1,6 +1,6 @@
 .sectionTitle {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-size: 1.25rem;
   font-weight: 600;
 }
@@ -53,6 +53,7 @@
   align-items: center;
   padding: 1rem 0.25rem;
   border-bottom: 1px solid var(--color-border);
+  gap: 1rem; /* Consistent spacing between checkbox, text, and actions */
 }
 
 .taskItem:last-child {
@@ -60,9 +61,9 @@
 }
 
 .checkbox {
+  flex-shrink: 0; /* Prevent checkbox from shrinking */
   width: 1.25rem;
   height: 1.25rem;
-  margin-right: 1rem;
   cursor: pointer;
   accent-color: var(--color-accent);
 }
@@ -77,28 +78,66 @@
   color: var(--color-text-secondary);
 }
 
+.editInput {
+  flex-grow: 1;
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  padding: 0.35rem 0.6rem;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.taskActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.editButton,
+.saveButton,
+.cancelButton,
 .deleteButton {
   background: none;
   border: none;
-  color: var(--color-text-secondary);
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s, background-color 0.2s;
+  transition: all 0.2s;
+}
+
+.editButton {
+  color: var(--color-text-secondary);
+}
+
+.editButton:hover {
+  color: var(--color-accent);
+  background-color: #eef2ff; /* Light Indigo */
+}
+
+.saveButton {
+  color: var(--color-success);
+}
+.saveButton:hover {
+  background-color: #dcfce7; /* Light Green */
+}
+
+.cancelButton {
+  color: #9ca3af; /* Gray 400 */
+}
+.cancelButton:hover {
+  background-color: #f3f4f6; /* Gray 100 */
+}
+
+.deleteButton {
+  color: var(--color-text-secondary);
 }
 
 .deleteButton:hover {
   color: var(--color-error);
-  background-color: #fee2e2;
-}
-
-.error {
-  color: var(--color-error);
-  text-align: center;
-  margin-bottom: 1rem;
+  background-color: #fee2e2; /* Light Red */
 }
 
 .noTasks {
@@ -111,22 +150,15 @@
   margin-bottom: 2rem;
 }
 
-/* --- RESPONSIVE STYLES --- */
 @media (max-width: 768px) {
   .createTaskForm {
     flex-direction: column;
     align-items: stretch;
   }
-
   .taskItem {
     padding: 0.75rem 0.25rem;
   }
-
   .taskDescription {
     font-size: 0.875rem;
-  }
-
-  .deleteButton {
-    padding: 0.25rem 0.5rem;
   }
 }

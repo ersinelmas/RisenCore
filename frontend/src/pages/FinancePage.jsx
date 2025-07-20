@@ -9,6 +9,7 @@ import { FiTrash2 } from "react-icons/fi";
 import Modal from "../components/common/Modal";
 import { useModal } from "../hooks/useModal";
 import modalStyles from "../components/common/Modal.module.css";
+import { toTitleCase } from "../utils/stringUtils";
 
 const TRANSACTION_TYPES = ["INCOME", "EXPENSE"];
 const CATEGORIES = [
@@ -226,7 +227,7 @@ function FinancePage() {
               >
                 {TRANSACTION_TYPES.map((type) => (
                   <option key={type} value={type}>
-                    {type}
+                    {toTitleCase(type)}
                   </option>
                 ))}
               </select>
@@ -244,7 +245,7 @@ function FinancePage() {
               >
                 {CATEGORIES.map((cat) => (
                   <option key={cat} value={cat}>
-                    {cat}
+                    {toTitleCase(cat)}
                   </option>
                 ))}
               </select>
@@ -286,8 +287,8 @@ function FinancePage() {
                       <tr key={t.id}>
                         <td>{t.transactionDate}</td>
                         <td>{t.description}</td>
-                        <td>{t.category}</td>
-                        <td>{t.type}</td>
+                        <td>{toTitleCase(t.category)}</td>
+                        <td>{toTitleCase(t.type)}</td>
                         <td
                           className={`${styles.amount} ${
                             t.type === "INCOME" ? styles.income : styles.expense
