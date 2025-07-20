@@ -21,6 +21,8 @@ function LoginPage() {
       toast.success("Login successful!");
       navigate("/");
     } catch (err) {
+      const errorMessage = err.response?.data?.message || "Login failed. Please check your credentials.";
+      toast.error(errorMessage);
       console.error("Login failed:", err);
     } finally {
       setLoading(false);
