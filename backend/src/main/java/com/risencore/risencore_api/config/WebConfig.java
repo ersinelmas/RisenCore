@@ -16,7 +16,7 @@ public class WebConfig {
                 registry.addMapping("/**")
                         .allowedOrigins(
                                 "http://localhost:5173",
-                                "https://risencore-frontend.vercel.app"
+                                "https://risencore.vercel.app"
                         )
                         .allowedMethods("*")
                         .allowedHeaders("*")
