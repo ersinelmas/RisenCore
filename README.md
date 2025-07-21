@@ -97,7 +97,7 @@ cd RisenCore
   ```sh
   npm run dev
   ```
-- Open [http://localhost:5173](http://localhost:5173) in your browser.
+- Open [http://localhost:5173](http://localhost:5173) in your browser to see your app. The live version is available at [risencore.vercel.app](https://risencore.vercel.app).
 
 ---
 
