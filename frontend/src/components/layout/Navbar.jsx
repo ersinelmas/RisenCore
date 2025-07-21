@@ -31,7 +31,6 @@ function Navbar() {
   } = useModal();
 
   const handleLogoutClick = () => {
-    // First close the mobile menu, then open the confirmation modal
     setIsMenuOpen(false);
     openLogoutModal();
   };
@@ -57,83 +56,101 @@ function Navbar() {
         </button>
       </header>
 
-      {/* Off-canvas Mobile Menu */}
       <div className={`${styles.mobileMenu} ${isMenuOpen ? styles.open : ""}`}>
-        <button
-          onClick={() => setIsMenuOpen(false)}
-          className={styles.closeButton}
-        >
-          <FiX />
-        </button>
-        {/* Close menu when a link is clicked */}
-        <nav className={mainStyles.nav} onClick={() => setIsMenuOpen(false)}>
-          <NavLink
+        <div className={styles.menuHeader}>
+          <Link
             to="/"
-            className={({ isActive }) =>
-              isActive
-                ? `${mainStyles.navLink} ${mainStyles.active}`
-                : mainStyles.navLink
-            }
-            end
+            className={styles.logoLink}
+            onClick={() => setIsMenuOpen(false)}
           >
-            <FiGrid className={mainStyles.icon} /> <span>Dashboard</span>
-          </NavLink>
-          <NavLink
-            to="/tasks"
-            className={({ isActive }) =>
-              isActive
-                ? `${mainStyles.navLink} ${mainStyles.active}`
-                : mainStyles.navLink
-            }
+            <img src={logo} alt="RisenCore Logo" className={styles.logoImage} />
+            <span className={styles.logoText}>RisenCore</span>
+          </Link>
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className={styles.closeButton}
           >
-            <FiCheckSquare className={mainStyles.icon} /> <span>Tasks</span>
-          </NavLink>
-          <NavLink
-            to="/finance"
-            className={({ isActive }) =>
-              isActive
-                ? `${mainStyles.navLink} ${mainStyles.active}`
-                : mainStyles.navLink
-            }
-          >
-            <FiCreditCard className={mainStyles.icon} /> <span>Finance</span>
-          </NavLink>
-          <NavLink
-            to="/habits"
-            className={({ isActive }) =>
-              isActive
-                ? `${mainStyles.navLink} ${mainStyles.active}`
-                : mainStyles.navLink
-            }
-          >
-            <FiTrendingUp className={mainStyles.icon} /> <span>Habits</span>
-          </NavLink>
-          <NavLink
-            to="/profile"
-            className={({ isActive }) =>
-              isActive
-                ? `${mainStyles.navLink} ${mainStyles.active}`
-                : mainStyles.navLink
-            }
-          >
-            <FiUser className={mainStyles.icon} /> <span>Profile</span>
-          </NavLink>
-          {isAdmin && (
+            <FiX />
+          </button>
+        </div>
+
+        <div className={styles.scrollableNav}>
+          <nav className={mainStyles.nav} onClick={() => setIsMenuOpen(false)}>
             <NavLink
-              to="/admin"
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? `${mainStyles.navLink} ${mainStyles.active}`
+                  : mainStyles.navLink
+              }
+              end
+            >
+              <FiGrid className={mainStyles.icon} /> <span>Dashboard</span>
+            </NavLink>
+            <NavLink
+              to="/tasks"
               className={({ isActive }) =>
                 isActive
                   ? `${mainStyles.navLink} ${mainStyles.active}`
                   : mainStyles.navLink
               }
             >
-              <FiShield className={mainStyles.icon} /> <span>Admin Panel</span>
+              <FiCheckSquare className={mainStyles.icon} /> <span>Tasks</span>
             </NavLink>
-          )}
-        </nav>
-        <button onClick={handleLogoutClick} className={mainStyles.logoutButton}>
-          <FiLogOut className={mainStyles.icon} /> <span>Logout</span>
-        </button>
+            <NavLink
+              to="/finance"
+              className={({ isActive }) =>
+                isActive
+                  ? `${mainStyles.navLink} ${mainStyles.active}`
+                  : mainStyles.navLink
+              }
+            >
+              <FiCreditCard className={mainStyles.icon} /> <span>Finance</span>
+            </NavLink>
+            <NavLink
+              to="/habits"
+              className={({ isActive }) =>
+                isActive
+                  ? `${mainStyles.navLink} ${mainStyles.active}`
+                  : mainStyles.navLink
+              }
+            >
+              <FiTrendingUp className={mainStyles.icon} /> <span>Habits</span>
+            </NavLink>
+            <NavLink
+              to="/profile"
+              className={({ isActive }) =>
+                isActive
+                  ? `${mainStyles.navLink} ${mainStyles.active}`
+                  : mainStyles.navLink
+              }
+            >
+              <FiUser className={mainStyles.icon} /> <span>Profile</span>
+            </NavLink>
+            {isAdmin && (
+              <NavLink
+                to="/admin"
+                className={({ isActive }) =>
+                  isActive
+                    ? `${mainStyles.navLink} ${mainStyles.active}`
+                    : mainStyles.navLink
+                }
+              >
+                <FiShield className={mainStyles.icon} />{" "}
+                <span>Admin Panel</span>
+              </NavLink>
+            )}
+          </nav>
+        </div>
+
+        <div className={styles.menuFooter}>
+          <button
+            onClick={handleLogoutClick}
+            className={mainStyles.logoutButton}
+          >
+            <FiLogOut className={mainStyles.icon} /> <span>Logout</span>
+          </button>
+        </div>
       </div>
 
       <Modal

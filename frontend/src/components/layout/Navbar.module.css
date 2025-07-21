@@ -3,13 +3,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem;
-  background-color: #111827; /* Main brand color */
+  background-color: #111827;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 900;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .logoLink {
@@ -22,13 +22,13 @@
 .logoImage {
   height: 32px;
   width: 32px;
-  border-radius: 4px; /* Slight rounding for the logo */
+  border-radius: 4px;
 }
 
 .logoText {
   font-weight: bold;
   font-size: 1.25rem;
-  color: white; /* Text color for dark background */
+  color: white;
 }
 
 .hamburgerButton {
@@ -36,10 +36,10 @@
   border: none;
   font-size: 1.75rem;
   cursor: pointer;
-  color: white; /* Icon color for dark background */
+  color: white;
   padding: 0.5rem;
   border-radius: 6px;
-  display: flex; /* To center the icon properly */
+  display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
@@ -54,23 +54,29 @@
   top: 0;
   left: 0;
   right: 0;
-
   height: 100dvh;
-
   background-color: #111827;
   z-index: 1000;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-
   visibility: hidden;
   opacity: 0;
   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  box-sizing: border-box;
 }
 
 .mobileMenu.open {
   visibility: visible;
   opacity: 1;
+}
+
+.menuHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  margin-bottom: 2rem;
 }
 
 .closeButton {
@@ -79,6 +85,16 @@
   color: white;
   font-size: 2rem;
   cursor: pointer;
-  align-self: flex-end; /* Position to the top right */
-  padding: 0.5rem;
+  padding: 0;
+}
+
+.scrollableNav {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.menuFooter {
+  flex-shrink: 0;
+  padding-top: 1rem;
+  border-top: 1px solid #374151;
 }
