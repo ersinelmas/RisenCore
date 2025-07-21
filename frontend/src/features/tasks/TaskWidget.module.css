@@ -53,7 +53,8 @@
   align-items: center;
   padding: 1rem 0.25rem;
   border-bottom: 1px solid var(--color-border);
-  gap: 1rem; /* Consistent spacing between checkbox, text, and actions */
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .taskItem:last-child {
@@ -61,7 +62,7 @@
 }
 
 .checkbox {
-  flex-shrink: 0; /* Prevent checkbox from shrinking */
+  flex-shrink: 0;
   width: 1.25rem;
   height: 1.25rem;
   cursor: pointer;
@@ -91,6 +92,8 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .editButton,
@@ -156,9 +159,22 @@
     align-items: stretch;
   }
   .taskItem {
-    padding: 0.75rem 0.25rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
-  .taskDescription {
-    font-size: 0.875rem;
+
+  .taskDescription,
+  .editInput {
+    width: 100%;
+    order: 1;
+    flex-basis: 100%;
+    margin-left: calc(1.25rem + 1rem);
+    margin-top: -1.75rem;
+  }
+
+  .taskActions {
+    order: 2;
+    flex-basis: 100%;
+    justify-content: flex-end;
   }
 }
