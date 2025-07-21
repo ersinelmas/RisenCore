@@ -1,10 +1,11 @@
 .pageLayout {
   width: 100%;
+  max-width: 1200px;
 }
 
 .title {
-  font-size: 1.875rem; /* 30px */
+  font-size: 1.875rem;
   font-weight: 700;
-  color: #111827; /* Dark Gray */
+  color: #111827;
   margin-bottom: 2rem;
 }
