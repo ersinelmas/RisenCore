@@ -21,9 +21,9 @@
   margin-top: 0.25rem;
 }
 .weekView {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   text-align: center;
 }
 .day {
