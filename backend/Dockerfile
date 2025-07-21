@@ -10,6 +10,9 @@ WORKDIR /app
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 
+# Grant execute permission to the mvnw script
+RUN chmod +x mvnw
+
 # Download dependencies
 # RUN ./mvnw dependency:go-offline
 # This step is optional but can speed up subsequent builds if dependencies don't change
