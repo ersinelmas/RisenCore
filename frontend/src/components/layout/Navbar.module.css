@@ -46,7 +46,7 @@
 }
 
 .hamburgerButton:hover {
-  background-color: rgba(255, 255, 255, 0.15); /* Hover effect */
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .mobileMenu {
@@ -54,18 +54,23 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 100vh;
-  background-color: #111827; /* Dark background like the sidebar */
+
+  height: 100dvh;
+
+  background-color: #111827;
   z-index: 1000;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  transform: translateY(-100%); /* Start position: above the screen */
-  transition: transform 0.3s ease-in-out;
+
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 .mobileMenu.open {
-  transform: translateY(0); /* End position: visible */
+  visibility: visible;
+  opacity: 1;
 }
 
 .closeButton {
