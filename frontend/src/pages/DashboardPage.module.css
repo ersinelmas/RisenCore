@@ -61,3 +61,24 @@
 .viewAllLink:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryItem {
+    /* Stack the label and value vertically on small screens */
+    flex-direction: column;
+    align-items: flex-start; /* Align to the left */
+    gap: 0.25rem; /* Add a small gap between label and value */
+  }
+
+  .cardTitle {
+    font-size: 1.125rem; /* Make card titles a bit smaller on mobile */
+  }
+
+  .amount {
+    font-size: 1.5rem; /* Make amount text a bit smaller */
+  }
+}
