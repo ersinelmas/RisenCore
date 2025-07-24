@@ -158,23 +158,9 @@
     flex-direction: column;
     align-items: stretch;
   }
+
   .taskItem {
     flex-wrap: wrap;
     gap: 0.5rem;
-  }
-
-  .taskDescription,
-  .editInput {
-    width: 100%;
-    order: 1;
-    flex-basis: 100%;
-    margin-left: calc(1.25rem + 1rem);
-    margin-top: -1.75rem;
-  }
-
-  .taskActions {
-    order: 2;
-    flex-basis: 100%;
-    justify-content: flex-end;
   }
 }
