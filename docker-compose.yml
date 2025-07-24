@@ -1,18 +1,16 @@
-version: '3.8'
-
 services:
   postgres-db:
     image: postgres:15
     container_name: risencore-postgres
     restart: always
-    environment:
-      POSTGRES_DB: risencore_db
-      POSTGRES_USER: risencore_user
-      POSTGRES_PASSWORD: ${DB_PASSWORD} # Reads from .env file
     ports:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
 
   risencore-backend:
     build:
@@ -24,15 +22,10 @@ services:
     ports:
       - "8080:8080"
     env_file:
-      - ./.env # Tells docker-compose to load variables from the .env file
+      - ./.env
     environment:
-      # These values are now redundant as they are in .env, but can be kept for clarity
-      # Spring Boot will automatically map the env vars from the file.
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/risencore_db
-      SPRING_DATASOURCE_USERNAME: risencore_user
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
-      APPLICATION_SECURITY_JWT_SECRET-KEY: ${JWT_SECRET}
-      SPRING_PROFILES_ACTIVE: dev
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/${DB_NAME}
+      - SPRING_PROFILES_ACTIVE=dev
 
   risencore-frontend:
     build:

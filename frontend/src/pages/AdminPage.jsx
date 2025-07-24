@@ -168,7 +168,7 @@ function AdminPage() {
                           <>
                             {!user.roles.includes("ADMIN") ? (
                               <button
-                                className={styles.actionButton}
+                                className={`${styles.actionButton} ${styles.promoteButton}`}
                                 onClick={() => handlePromoteClick(user)}
                               >
                                 Promote
