@@ -4,7 +4,7 @@ import com.risencore.risencore_api.domain.Habit;
 import com.risencore.risencore_api.domain.HabitCompletion;
 import com.risencore.risencore_api.domain.User;
 import com.risencore.risencore_api.dto.CreateHabitDTO;
-import com.risencore.risencore_api.dto.HabitDTO;
+import com.risencore.risencore_api.dto.HabitResponseDTO;
 import com.risencore.risencore_api.exception.ResourceNotFoundException;
 import com.risencore.risencore_api.mapper.HabitMapper;
 import com.risencore.risencore_api.repository.HabitCompletionRepository;
@@ -30,14 +30,15 @@ public class HabitServiceImpl implements HabitService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<HabitDTO> getHabitsForCurrentUser() {
+    public List<HabitResponseDTO> getHabitsForCurrentUser() {
         User currentUser = getCurrentUser();
-        return habitMapper.toDtoList(habitRepository.findByUserId(currentUser.getId()));
+        List<Habit> habits = habitRepository.findByUser(currentUser);
+        return habitMapper.toDtoList(habits);
     }
 
     @Override
     @Transactional
-    public HabitDTO createHabitForCurrentUser(CreateHabitDTO createDto) {
+    public HabitResponseDTO createHabitForCurrentUser(CreateHabitDTO createDto) {
         User currentUser = getCurrentUser();
         Habit habit = habitMapper.toEntity(createDto);
         habit.setUser(currentUser);

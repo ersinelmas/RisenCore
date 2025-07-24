@@ -62,23 +62,49 @@
   text-decoration: underline;
 }
 
+.noItemsText {
+  color: var(--color-text-secondary);
+  font-style: italic;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+.balanceDisplay {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.balanceSubtitle {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  padding-bottom: 1rem;
+}
+
 @media (max-width: 768px) {
   .gridContainer {
     grid-template-columns: 1fr;
   }
 
   .summaryItem {
-    /* Stack the label and value vertically on small screens */
     flex-direction: column;
-    align-items: flex-start; /* Align to the left */
-    gap: 0.25rem; /* Add a small gap between label and value */
+    align-items: flex-start;
+    gap: 0.25rem;
   }
 
   .cardTitle {
-    font-size: 1.125rem; /* Make card titles a bit smaller on mobile */
+    font-size: 1.125rem;
   }
 
   .amount {
-    font-size: 1.5rem; /* Make amount text a bit smaller */
+    font-size: 1.5rem;
+  }
+
+  .balanceDisplay {
+    font-size: 2rem;
   }
 }

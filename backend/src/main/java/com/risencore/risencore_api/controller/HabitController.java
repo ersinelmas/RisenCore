@@ -1,7 +1,7 @@
 package com.risencore.risencore_api.controller;
 
 import com.risencore.risencore_api.dto.CreateHabitDTO;
-import com.risencore.risencore_api.dto.HabitDTO;
+import com.risencore.risencore_api.dto.HabitResponseDTO;
 import com.risencore.risencore_api.service.HabitService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -27,14 +27,14 @@ public class HabitController {
 
     @Operation(summary = "Get all habits for the current user")
     @GetMapping
-    public ResponseEntity<List<HabitDTO>> getHabits() {
+    public ResponseEntity<List<HabitResponseDTO>> getHabits() {
         return ResponseEntity.ok(habitService.getHabitsForCurrentUser());
     }
 
     @Operation(summary = "Create a new habit for the current user")
     @PostMapping
-    public ResponseEntity<HabitDTO> createHabit(@Valid @RequestBody CreateHabitDTO createDto) {
-        HabitDTO newHabit = habitService.createHabitForCurrentUser(createDto);
+    public ResponseEntity<HabitResponseDTO> createHabit(@Valid @RequestBody CreateHabitDTO createDto) {
+        HabitResponseDTO newHabit = habitService.createHabitForCurrentUser(createDto);
         return new ResponseEntity<>(newHabit, HttpStatus.CREATED);
     }
 
