@@ -1,5 +1,6 @@
 package com.risencore.risencore_api.service;
 
+import com.risencore.risencore_api.domain.User;
 import com.risencore.risencore_api.dto.ChangePasswordRequestDTO;
 import com.risencore.risencore_api.dto.UserDTO;
 
@@ -11,4 +12,5 @@ public interface UserService {
     void promoteUserToAdmin(String username);
     void demoteUserFromAdmin(String username);
     void deleteUser(Long userId);
+    User getCurrentUser();
 }

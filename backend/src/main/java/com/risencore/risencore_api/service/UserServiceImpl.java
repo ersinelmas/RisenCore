@@ -93,4 +93,11 @@ public class UserServiceImpl implements UserService {
 
         userRepository.delete(userToDelete);
     }
+
+    @Override
+    public User getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalStateException("Current user not found in database"));
+    }
 }
