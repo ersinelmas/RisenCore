@@ -81,6 +81,17 @@ function DashboardPage() {
   return (
     <PageLayout title={`${getGreeting()}, ${user?.firstName || "User"}!`}>
       <div className={styles.gridContainer}>
+        <Card className={styles.highlightCard}>
+          <h3 className={styles.cardTitle}>Your Weekly AI Review is Ready!</h3>
+          <p className={styles.cardDescription}>
+            Let's see your progress, discover patterns, and get insights to make
+            next week even better.
+          </p>
+          <Link to="/weekly-review" className={styles.highlightLink}>
+            View My Review
+          </Link>
+        </Card>
+
         {/* Card 1: Today's Tasks */}
         <Card>
           <h3 className={styles.cardTitle}>Today's Focus Tasks</h3>

@@ -1,0 +1,85 @@
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  gap: 1rem;
+  min-height: 250px;
+  text-align: center;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+
+  border: 5px solid var(--color-accent-disabled);
+  border-bottom-color: var(--color-accent);
+
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingText {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.subtleText {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  opacity: 0.7;
+  margin: 0;
+}
+
+.errorText {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.125rem;
+  color: var(--color-error);
+}
+
+.reviewContent {
+  padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+  line-height: 1.7;
+  color: var(--color-text-primary);
+}
+
+.reviewContent > :first-child {
+  margin-top: 0;
+}
+
+.reviewContent h1,
+.reviewContent h2,
+.reviewContent h3 {
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+  margin-top: 2rem;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.5rem;
+}
+
+.reviewContent ul {
+  padding-left: 1.5rem;
+  margin-top: 1rem;
+}
+
+.reviewContent li {
+  margin-bottom: 0.75rem;
+}
+
+.reviewContent strong {
+  color: var(--color-accent);
+}

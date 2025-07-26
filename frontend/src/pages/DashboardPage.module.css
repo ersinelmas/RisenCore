@@ -85,6 +85,44 @@
   padding-bottom: 1rem;
 }
 
+/* ================ HIGHLIGHT CARD STYLES ================ */
+
+.highlightCard {
+  background: linear-gradient(135deg, var(--color-accent), #6366f1);
+  color: #ffffff;
+  grid-column: 1 / -1;
+}
+
+.highlightCard .cardTitle {
+  color: #ffffff;
+}
+
+.cardDescription {
+  margin: -1rem 0 1.5rem 0;
+  font-size: 1rem;
+  color: #e0e7ff;
+  opacity: 0.9;
+}
+
+.highlightLink {
+  display: inline-block;
+  background-color: #ffffff;
+  color: var(--color-accent-hover);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: transform 0.2s ease-in-out, background-color 0.2s;
+}
+
+.highlightLink:hover {
+  transform: scale(1.05);
+  text-decoration: none;
+  background-color: #f1f5f9;
+}
+
+/* ================== RESPONSIVE STYLES ================== */
+
 @media (max-width: 768px) {
   .gridContainer {
     grid-template-columns: 1fr;

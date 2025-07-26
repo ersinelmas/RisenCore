@@ -13,18 +13,12 @@ import TasksPage from "./pages/TasksPage";
 import ProfilePage from "./pages/ProfilePage";
 import FinancePage from "./pages/FinancePage";
 import HabitsPage from "./pages/HabitsPage";
+import WeeklyReviewPage from "./pages/WeeklyReviewPage";
 
 function App() {
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={
-          {
-            /* ... */
-          }
-        }
-      />
+      <Toaster position="top-right" toastOptions={{}} />
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />
@@ -37,6 +31,9 @@ function App() {
           <Route path="/finance" element={<FinancePage />} />
           <Route path="/habits" element={<HabitsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+
+          {/* 2. Yeni route'u korumalı alanın içine ekle */}
+          <Route path="/weekly-review" element={<WeeklyReviewPage />} />
         </Route>
 
         {/* Protected Admin Routes (also wrapped by MainLayout) */}

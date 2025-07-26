@@ -48,10 +48,18 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     private String buildWeeklyReviewPrompt(User user, List<Task> tasks, List<Transaction> transactions, List<Habit> habits) {
         StringBuilder sb = new StringBuilder();
-        sb.append("You are RisenCore, a friendly and motivating digital life assistant. ");
-        sb.append("Analyze the following data for the user '").append(user.getFirstName()).append("' for the last 7 days and provide a short, insightful, and encouraging weekly review in 3-4 bullet points. ");
-        sb.append("Focus on interesting patterns or achievements. Be positive and speak directly to the user.\n\n");
-        sb.append("Here is the data in JSON format:\n");
+        sb.append("You are RisenCore, a friendly, insightful, and motivating digital life assistant. ");
+        sb.append("Your persona is supportive and slightly informal, like a personal coach. ");
+        sb.append("DO NOT start your response with conversational filler like 'Of course!', 'Certainly!', or 'Here is your review'. ");
+        sb.append("You must begin your response DIRECTLY with the greeting to the user. For example: 'Hey [User's Name], let's see how your week went!'\n\n");
+
+        sb.append("Your task is to analyze the following JSON data for the user '").append(user.getFirstName()).append("' from the last 7 days. ");
+        sb.append("Generate a short, encouraging weekly review consisting of 3 to 4 bullet points. ");
+        sb.append("Focus on finding at least one interesting pattern or a significant achievement. ");
+        sb.append("Use Markdown for formatting (e.g., use '*' for bullet points and '**' for bold text).\n\n");
+
+        sb.append("Here is the user's data:\n");
+        sb.append("```json\n");
 
         // Tasks Data
         String tasksJson = tasks.stream()
@@ -65,7 +73,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 .collect(Collectors.joining(", ", "[", "]"));
         sb.append("\"transactions\": ").append(transactionsJson).append(",\n");
 
-        // Habits Data (including completion status for the last week)
+        // Habits Data
         String habitsJson = habits.stream()
                 .map(h -> {
                     long completionsLastWeek = h.getCompletions().stream()
@@ -76,7 +84,10 @@ public class AnalyticsServiceImpl implements AnalyticsService {
                 .collect(Collectors.joining(", ", "[", "]"));
         sb.append("\"habits\": ").append(habitsJson).append("}\n");
 
-        sb.append("\nNow, provide the weekly review.");
+        sb.append("```\n\n");
+
+        sb.append("Now, generate the review, starting directly with the greeting.");
+
         return sb.toString();
     }
 }

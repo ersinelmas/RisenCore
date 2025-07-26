@@ -9,7 +9,7 @@ public interface AIService {
 
     /**
      * Generates a text-based response from a given prompt.
-     *
+     * q
      * @param prompt The input text/prompt to send to the AI model.
      * @return The generated text content as a String.
      * @throws RuntimeException if the AI service fails to generate a response.
