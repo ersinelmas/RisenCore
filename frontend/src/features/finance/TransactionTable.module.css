@@ -1,0 +1,63 @@
+.tableContainer {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.transactionTable {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.transactionTable th,
+.transactionTable td {
+    border-bottom: 1px solid var(--color-border);
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.875rem;
+}
+
+.transactionTable th {
+    background-color: var(--color-bg-page);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.transactionTable tbody tr:hover {
+    background-color: var(--color-bg-page);
+}
+
+.amount {
+    font-weight: 600;
+    font-family: "Consolas", "Menlo", "Courier New", monospace;
+    color: var(--color-text-primary);
+}
+
+.income {
+    color: var(--color-success);
+}
+
+.expense {
+    color: var(--color-error);
+}
+
+.deleteButton {
+    padding: 0.5rem;
+    border: none;
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.deleteButton:hover {
+    background-color: #fee2e2;
+    /* Light Red */
+    color: var(--color-error);
+}

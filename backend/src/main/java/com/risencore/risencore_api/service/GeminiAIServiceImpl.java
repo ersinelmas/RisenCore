@@ -3,6 +3,7 @@ package com.risencore.risencore_api.service;
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,8 +12,8 @@ public class GeminiAIServiceImpl implements AIService {
 
     private final Client client;
 
-    public GeminiAIServiceImpl() {
-        this.client = new Client();
+    public GeminiAIServiceImpl(@Value("${gemini.api.key}") String apiKey) {
+        this.client = Client.builder().apiKey(apiKey).build();
     }
 
     @Override
@@ -22,8 +23,7 @@ public class GeminiAIServiceImpl implements AIService {
             GenerateContentResponse response = client.models.generateContent(
                     "gemini-2.5-flash",
                     prompt,
-                    null
-            );
+                    null);
 
             String textResponse = response.text();
             log.info("Received response from Gemini API.");

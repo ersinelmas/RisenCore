@@ -1,0 +1,90 @@
+.transactionForm {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.descriptionGroup {
+  grid-column: 1 / -1;
+}
+
+.label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.input,
+.select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--color-bg-page);
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.select {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+.formActions {
+  grid-column: 1 / -1;
+  text-align: right;
+}
+
+.button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--color-accent);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.button:disabled {
+  background-color: var(--color-accent-disabled);
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .transactionForm {
+    grid-template-columns: 1fr;
+  }
+  .descriptionGroup,
+  .formActions {
+    grid-column: auto;
+  }
+}

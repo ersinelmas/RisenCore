@@ -1,15 +1,11 @@
 .overviewGrid {
   display: grid;
-  grid-template-columns: 1fr 2fr; /* Left column 1 part, right column 2 parts */
+  grid-template-columns: 1fr 2fr;
+  /* Left column 1 part, right column 2 parts */
   gap: 2rem;
-  align-items: stretch; /* Make columns equal height */
+  align-items: stretch;
+  /* Make columns equal height */
   margin-bottom: 2rem;
-}
-
-.summaryColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
 }
 
 .chartColumn {
@@ -25,178 +21,9 @@
   align-items: center;
 }
 
-.summaryColumn h4 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  color: var(--color-text-secondary);
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.amount {
-  font-weight: 600;
-  font-size: 1.5rem;
-  font-family: "Consolas", "Menlo", "Courier New", monospace;
-  color: var(--color-text-primary);
-}
-
-.income {
-  color: var(--color-success);
-}
-
-.expense {
-  color: var(--color-error);
-}
-
-.formCard {
-  margin-bottom: 2rem;
-}
-
-.transactionForm {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-}
-
-.formGroup {
-  display: flex;
-  flex-direction: column;
-}
-
-.descriptionGroup {
-  grid-column: 1 / -1;
-}
-
-.label {
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-}
-
-.input,
-.select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  padding: 0.75rem;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  width: 100%;
-  box-sizing: border-box;
-  background-color: var(--color-bg-page);
-  font-family: inherit;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.select {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-  background-position: right 0.5rem center;
-  background-repeat: no-repeat;
-  background-size: 1.5em 1.5em;
-  padding-right: 2.5rem;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-  cursor: pointer;
-  opacity: 0.6;
-  transition: opacity 0.2s;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
-}
-
-.formActions {
-  grid-column: 1 / -1;
-  text-align: right;
-}
-
-.button {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 6px;
-  background-color: var(--color-accent);
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.button:hover {
-  background-color: var(--color-accent-hover);
-}
-
-.button:disabled {
-  background-color: var(--color-accent-disabled);
-  cursor: not-allowed;
-}
-
-.deleteButton {
-  padding: 0.5rem;
-  border: none;
-  background-color: transparent;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.deleteButton:hover {
-  background-color: #fee2e2; /* Light Red */
-  color: var(--color-error);
-}
-
-.tableContainer {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.transactionTable {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 600px;
-}
-
-.transactionTable th,
-.transactionTable td {
-  border-bottom: 1px solid var(--color-border);
-  padding: 1rem;
-  text-align: left;
-  font-size: 0.875rem;
-}
-
-.transactionTable th {
-  background-color: var(--color-bg-page);
-  font-weight: 600;
-  color: var(--color-text-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.transactionTable tbody tr:hover {
-  background-color: var(--color-bg-page);
-}
-
 /* --- RESPONSIVE STYLES --- */
 @media (max-width: 992px) {
   .overviewGrid {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 768px) {
-  .transactionForm {
-    grid-template-columns: 1fr;
-  }
-  .descriptionGroup,
-  .formActions {
-    grid-column: auto;
   }
 }

@@ -1,0 +1,30 @@
+.summaryContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.summaryContainer h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.amount {
+    font-weight: 600;
+    font-size: 1.5rem;
+    font-family: "Consolas", "Menlo", "Courier New", monospace;
+    color: var(--color-text-primary);
+}
+
+.income {
+    color: var(--color-success);
+}
+
+.expense {
+    color: var(--color-error);
+}
