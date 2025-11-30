@@ -1,0 +1,96 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.formCard {
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.label {
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+.input,
+.select,
+.textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background-color: var(--color-bg-page);
+    color: var(--color-text-primary);
+    font-family: inherit;
+}
+
+.button {
+    padding: 0.75rem;
+    background-color: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.button:hover {
+    background-color: var(--color-accent-hover);
+}
+
+.metricCard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.metricHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.metricType {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+}
+
+.metricValue {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.metricUnit {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin-left: 0.25rem;
+}
+
+.metricDate {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}

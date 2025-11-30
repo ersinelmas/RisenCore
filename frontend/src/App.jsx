@@ -14,6 +14,7 @@ import ProfilePage from "./pages/ProfilePage";
 import FinancePage from "./pages/FinancePage";
 import HabitsPage from "./pages/HabitsPage";
 import WeeklyReviewPage from "./pages/WeeklyReviewPage";
+import HealthPage from "./pages/HealthPage";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
 
           {/* 2. Yeni route'u korumalı alanın içine ekle */}
           <Route path="/weekly-review" element={<WeeklyReviewPage />} />
+          <Route path="/health" element={<HealthPage />} />
         </Route>
 
         {/* Protected Admin Routes (also wrapped by MainLayout) */}
