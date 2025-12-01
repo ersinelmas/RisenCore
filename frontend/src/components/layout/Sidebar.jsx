@@ -10,6 +10,7 @@ import {
   FiShield,
   FiLogOut,
   FiTrendingUp,
+  FiActivity,
 } from "react-icons/fi";
 import logo from "../../assets/logo.png";
 import Modal from "../common/Modal";
@@ -79,6 +80,14 @@ function Sidebar() {
             }
           >
             <FiUser className={styles.icon} /> <span>Profile</span>
+          </NavLink>
+          <NavLink
+            to="/health"
+            className={({ isActive }) =>
+              isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
+            }
+          >
+            <FiActivity className={styles.icon} /> <span>Health</span>
           </NavLink>
           {isAdmin && (
             <NavLink

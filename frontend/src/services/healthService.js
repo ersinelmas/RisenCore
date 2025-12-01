@@ -1,6 +1,6 @@
 import apiClient from "../api/axiosConfig";
 
-const API_URL = "/health";
+const API_URL = "/v1/health";
 
 const healthService = {
     createMetric: (metricData) => {

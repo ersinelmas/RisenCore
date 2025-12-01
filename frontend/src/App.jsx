@@ -32,10 +32,8 @@ function App() {
           <Route path="/finance" element={<FinancePage />} />
           <Route path="/habits" element={<HabitsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
-
-          {/* 2. Yeni route'u korumalı alanın içine ekle */}
-          <Route path="/weekly-review" element={<WeeklyReviewPage />} />
           <Route path="/health" element={<HealthPage />} />
+          <Route path="/weekly-review" element={<WeeklyReviewPage />} />
         </Route>
 
         {/* Protected Admin Routes (also wrapped by MainLayout) */}
