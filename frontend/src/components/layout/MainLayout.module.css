@@ -121,3 +121,29 @@
     display: none;
   }
 }
+
+.aiLink {
+  background: linear-gradient(90deg, rgba(79, 70, 229, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  margin-top: 0.5rem;
+}
+
+.aiLink:hover {
+  background: linear-gradient(90deg, rgba(79, 70, 229, 0.2) 0%, rgba(124, 58, 237, 0.2) 100%);
+  border-color: rgba(124, 58, 237, 0.4);
+}
+
+.aiLink.active {
+  background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+  border-color: transparent;
+  box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.3);
+}
+
+.aiLink .icon {
+  color: #a78bfa;
+}
+
+.aiLink:hover .icon,
+.aiLink.active .icon {
+  color: white;
+}

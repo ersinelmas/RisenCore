@@ -11,6 +11,7 @@ import {
   FiLogOut,
   FiTrendingUp,
   FiActivity,
+  FiCpu,
 } from "react-icons/fi";
 import logo from "../../assets/logo.png";
 import Modal from "../common/Modal";
@@ -99,6 +100,14 @@ function Sidebar() {
               <FiShield className={styles.icon} /> <span>Admin Panel</span>
             </NavLink>
           )}
+          <NavLink
+            to="/weekly-review"
+            className={({ isActive }) =>
+              isActive ? `${styles.navLink} ${styles.active} ${styles.aiLink}` : `${styles.navLink} ${styles.aiLink}`
+            }
+          >
+            <FiCpu className={styles.icon} /> <span>AI Weekly Review</span>
+          </NavLink>
         </nav>
 
         <button onClick={openLogoutModal} className={styles.logoutButton}>
