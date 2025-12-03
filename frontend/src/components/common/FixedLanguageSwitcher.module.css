@@ -2,7 +2,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    background: #4f46e5;
+    background: var(--color-accent);
     border: 1px solid rgba(79, 70, 229, 0.2);
     color: white;
     padding: 0.5rem 1rem;
@@ -19,7 +19,7 @@
 }
 
 .languageSwitcher:hover {
-    background: #4338ca;
+    background: var(--color-accent-hover);
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
     transform: translateY(-1px);
 }

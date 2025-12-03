@@ -71,7 +71,7 @@
 }
 
 .navLink.active {
-  background-color: #4f46e5;
+  background-color: var(--color-accent);
   /* Indigo */
   color: white;
   font-weight: 500;
@@ -140,7 +140,7 @@
 }
 
 .aiLink.active {
-  background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+  background: linear-gradient(90deg, var(--color-accent) 0%, #7c3aed 100%);
   border-color: transparent;
   box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.3);
 }

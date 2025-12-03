@@ -1,26 +1,26 @@
 .title {
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    font-size: 1.25rem;
-    font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .infoGrid {
-    display: grid;
-    grid-template-columns: 150px 1fr;
-    gap: 1rem 1.5rem;
-    align-items: center;
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 1rem 1.5rem;
+  align-items: center;
 }
 
 .infoLabel {
-    font-weight: 500;
-    color: var(--color-text-secondary);
+  font-weight: 500;
+  color: var(--color-text-secondary);
 }
 
 .infoValue {
-    font-weight: 500;
-    color: var(--color-text-primary);
-    word-break: break-all;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  word-break: break-all;
 }
 
 .roleBadge {
@@ -34,11 +34,15 @@
 }
 
 .roleUser {
-  background-color: #e0e7ff; /* Indigo 100 */
-  color: #4338ca; /* Indigo 700 */
+  background-color: #e0e7ff;
+  /* Indigo 100 */
+  color: var(--color-accent-hover);
+  /* Indigo 700 */
 }
 
 .roleAdmin {
-  background-color: #fee2e2; /* Red 100 */
-  color: #b91c1c; /* Red 700 */
+  background-color: #fee2e2;
+  /* Red 100 */
+  color: #b91c1c;
+  /* Red 700 */
 }
