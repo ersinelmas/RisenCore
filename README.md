@@ -27,15 +27,14 @@ This project is being developed to showcase modern, professional, and enterprise
 
 Here's a sneak peek of RisenCore in action:
 
+**Login Page:**
+![Login Page View](screenshots/login.png)
+
 **Dashboard:**
 ![Dashboard View](screenshots/dashboard.png)
 
 **Admin Panel:**
 ![Admin Panel View](screenshots/admin_panel.png)
-
-**Login Page:**
-![Login Page View](screenshots/login.png)
-
 
 ---
 
