@@ -3,11 +3,12 @@ import { useAuth } from "../hooks/useAuth";
 import PageLayout from "../components/layout/PageLayout";
 import ChangePasswordForm from "../components/profile/ChangePasswordForm";
 import styles from "./ProfilePage.module.css";
-
 import ProfileDetails from "../components/profile/ProfileDetails";
+import { useTranslation } from "react-i18next";
 
 function ProfilePage() {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("details");
 
   const userInitial = user?.username
@@ -15,7 +16,7 @@ function ProfilePage() {
     : "?";
 
   return (
-    <PageLayout title="Profile & Settings">
+    <PageLayout title={t("profile.title")}>
       <div className={styles.profileHeader}>
         <div className={styles.avatar}>{userInitial}</div>
         <div className={styles.userInfo}>
@@ -28,20 +29,18 @@ function ProfilePage() {
 
       <div className={styles.tabs}>
         <button
-          className={`${styles.tabButton} ${
-            activeTab === "details" ? styles.active : ""
-          }`}
+          className={`${styles.tabButton} ${activeTab === "details" ? styles.active : ""
+            }`}
           onClick={() => setActiveTab("details")}
         >
-          Profile Details
+          {t("profile.profileDetails")}
         </button>
         <button
-          className={`${styles.tabButton} ${
-            activeTab === "password" ? styles.active : ""
-          }`}
+          className={`${styles.tabButton} ${activeTab === "password" ? styles.active : ""
+            }`}
           onClick={() => setActiveTab("password")}
         >
-          Change Password
+          {t("profile.changePassword")}
         </button>
       </div>
 

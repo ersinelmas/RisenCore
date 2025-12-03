@@ -5,10 +5,12 @@ import PageLayout from "../components/layout/PageLayout";
 import Card from "../components/Card";
 import styles from "./HealthPage.module.css";
 import { toTitleCase } from "../utils/stringUtils";
+import { useTranslation } from "react-i18next";
 
 const METRIC_TYPES = ["WEIGHT", "WATER", "SLEEP", "EXERCISE"];
 
 function HealthPage() {
+  const { t } = useTranslation();
   const [metrics, setMetrics] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(true);
@@ -26,7 +28,7 @@ function HealthPage() {
       setMetrics(response.data);
     } catch (error) {
       console.error("Error fetching health metrics:", error);
-      toast.error("Failed to load health data.");
+      toast.error(t("health.loadError"));
     } finally {
       setLoading(false);
     }
@@ -43,10 +45,10 @@ function HealthPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const toastId = toast.loading("Adding metric...");
+    const toastId = toast.loading(t("health.adding"));
     try {
       await healthService.createMetric(form);
-      toast.success("Metric added!", { id: toastId });
+      toast.success(t("health.added"), { id: toastId });
       fetchMetrics();
       setForm((prev) => ({
         ...prev,
@@ -55,18 +57,18 @@ function HealthPage() {
       }));
       // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      toast.error("Failed to add metric.", { id: toastId });
+      toast.error(t("health.addError"), { id: toastId });
     }
   };
 
   return (
-    <PageLayout title="Health Tracker">
+    <PageLayout title={t("health.title")}>
       <div className={styles.container}>
         <Card className={styles.formCard}>
-          <h2>Log Health Metric</h2>
+          <h2>{t("health.logMetric")}</h2>
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.formGroup}>
-              <label className={styles.label}>Type</label>
+              <label className={styles.label}>{t("health.metricType")}</label>
               <select
                 name="type"
                 value={form.type}
@@ -82,7 +84,7 @@ function HealthPage() {
             </div>
 
             <div className={styles.formGroup}>
-              <label className={styles.label}>Value</label>
+              <label className={styles.label}>{t("health.value")}</label>
               <input
                 type="number"
                 name="value"
@@ -95,7 +97,7 @@ function HealthPage() {
             </div>
 
             <div className={styles.formGroup}>
-              <label className={styles.label}>Unit</label>
+              <label className={styles.label}>{t("health.unit")}</label>
               <input
                 type="text"
                 name="unit"
@@ -107,7 +109,7 @@ function HealthPage() {
             </div>
 
             <div className={styles.formGroup}>
-              <label className={styles.label}>Date</label>
+              <label className={styles.label}>{t("health.date")}</label>
               <input
                 type="date"
                 name="date"
@@ -119,7 +121,7 @@ function HealthPage() {
             </div>
 
             <div className={styles.formGroup}>
-              <label className={styles.label}>Notes</label>
+              <label className={styles.label}>{t("health.notes")}</label>
               <textarea
                 name="notes"
                 value={form.notes}
@@ -130,12 +132,12 @@ function HealthPage() {
             </div>
 
             <button type="submit" className={styles.button}>
-              Add Entry
+              {t("health.submit")}
             </button>
           </form>
         </Card>
 
-        <h2>Recent Entries</h2>
+        <h2>{t("health.recentEntries")}</h2>
         <div className={styles.grid}>
           {metrics.map((metric) => (
             <Card key={metric.id} className={styles.metricCard}>

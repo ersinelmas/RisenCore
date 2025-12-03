@@ -8,8 +8,10 @@ import Card from "../../components/Card";
 import Modal from "../../components/common/Modal";
 import { useModal } from "../../hooks/useModal";
 import modalStyles from "../../components/common/Modal.module.css";
+import { useTranslation } from "react-i18next";
 
 function TransactionTable({ transactions, loading, onTransactionDeleted }) {
+    const { t } = useTranslation();
     const [transactionToDelete, setTransactionToDelete] = useState(null);
     const {
         isOpen: isDeleteModalOpen,
@@ -26,38 +28,38 @@ function TransactionTable({ transactions, loading, onTransactionDeleted }) {
         if (!transactionToDelete) return;
 
         closeDeleteModal();
-        const toastId = toast.loading("Deleting transaction...");
+        const toastId = toast.loading(t("admin.deleting") + "...");
         try {
             await transactionService.deleteTransaction(transactionToDelete.id);
-            toast.success("Transaction deleted!", { id: toastId });
+            toast.success(t("finance.transactionDeleted"), { id: toastId });
             onTransactionDeleted();
         } catch (error) {
-            toast.error("Failed to delete transaction.", { id: toastId });
+            toast.error(t("finance.deleteTransactionError"), { id: toastId });
             console.error("Error deleting transaction:", error);
         } finally {
             setTransactionToDelete(null);
         }
-    }, [transactionToDelete, closeDeleteModal, onTransactionDeleted]);
+    }, [transactionToDelete, closeDeleteModal, onTransactionDeleted, t]);
 
     return (
         <>
             <Card>
-                <h2>Recent Transactions</h2>
+                <h2>{t("finance.recentTransactions")}</h2>
                 {loading ? (
                     <p style={{ textAlign: "center", padding: "2rem" }}>
-                        Loading transactions...
+                        {t("common.loading")}
                     </p>
                 ) : (
                     <div className={styles.tableContainer}>
                         <table className={styles.transactionTable}>
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Description</th>
-                                    <th>Category</th>
-                                    <th>Type</th>
-                                    <th>Amount</th>
-                                    <th>Actions</th>
+                                    <th>{t("finance.date")}</th>
+                                    <th>{t("finance.description")}</th>
+                                    <th>{t("finance.category")}</th>
+                                    <th>{t("finance.type")}</th>
+                                    <th>{t("finance.amount")}</th>
+                                    <th>{t("admin.actions")}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -90,7 +92,7 @@ function TransactionTable({ transactions, loading, onTransactionDeleted }) {
                                             colSpan="6"
                                             style={{ textAlign: "center", padding: "2rem" }}
                                         >
-                                            No transactions found.
+                                            {t("finance.noTransactions")}
                                         </td>
                                     </tr>
                                 )}
@@ -103,26 +105,26 @@ function TransactionTable({ transactions, loading, onTransactionDeleted }) {
             <Modal
                 isOpen={isDeleteModalOpen}
                 onClose={closeDeleteModal}
-                title="Delete Transaction"
+                title={t("finance.deleteTransaction")}
                 actions={
                     <>
                         <button
                             className={modalStyles.actionButton}
                             onClick={closeDeleteModal}
                         >
-                            Cancel
+                            {t("common.cancel")}
                         </button>
                         <button
                             className={`${modalStyles.actionButton} ${modalStyles.confirmButton}`}
                             onClick={confirmDeleteTransaction}
                         >
-                            Delete
+                            {t("common.delete")}
                         </button>
                     </>
                 }
             >
                 <p>
-                    Are you sure you want to delete this transaction: "
+                    {t("finance.deleteTransactionConfirm")} "
                     <strong>{transactionToDelete?.description}</strong>"?
                 </p>
             </Modal>

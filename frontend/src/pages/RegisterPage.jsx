@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import authService from "../services/authService";
 import styles from "./LoginPage.module.css";
 import AuthLayout from "../components/auth/AuthLayout";
+import { useTranslation } from "react-i18next";
 
 function RegisterPage() {
   const [firstName, setFirstName] = useState("");
@@ -13,6 +14,7 @@ function RegisterPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleRegister = async (event) => {
     event.preventDefault();
@@ -25,11 +27,11 @@ function RegisterPage() {
         email,
         password,
       });
-      toast.success("Registration successful! Please log in.");
+      toast.success(t("auth.registerSuccess"));
       navigate("/login");
     } catch (err) {
       const errorMessage =
-        err.response?.data?.message || "Registration failed. Please try again.";
+        err.response?.data?.message || t("auth.registerFailed");
       toast.error(errorMessage);
       console.error("Registration failed:", err);
     } finally {
@@ -40,13 +42,13 @@ function RegisterPage() {
   return (
     <AuthLayout>
       <div className={styles.formWrapper}>
-        <h1 className={styles.title}>Create an Account</h1>
-        <p className={styles.subtitle}>Start structuring your flow today.</p>
+        <h1 className={styles.title}>{t("auth.createAccount")}</h1>
+        <p className={styles.subtitle}>{t("auth.startStructuring")}</p>
 
         <form onSubmit={handleRegister}>
           <div className={styles.inputGroup}>
             <label htmlFor="firstName" className={styles.label}>
-              First Name
+              {t("auth.firstName")}
             </label>
             <input
               type="text"
@@ -59,7 +61,7 @@ function RegisterPage() {
           </div>
           <div className={styles.inputGroup}>
             <label htmlFor="lastName" className={styles.label}>
-              Last Name
+              {t("auth.lastName")}
             </label>
             <input
               type="text"
@@ -72,7 +74,7 @@ function RegisterPage() {
           </div>
           <div className={styles.inputGroup}>
             <label htmlFor="username" className={styles.label}>
-              Username
+              {t("auth.username")}
             </label>
             <input
               type="text"
@@ -85,7 +87,7 @@ function RegisterPage() {
           </div>
           <div className={styles.inputGroup}>
             <label htmlFor="email" className={styles.label}>
-              Email Address
+              {t("auth.email")}
             </label>
             <input
               type="email"
@@ -98,7 +100,7 @@ function RegisterPage() {
           </div>
           <div className={styles.inputGroup}>
             <label htmlFor="password" className={styles.label}>
-              Password
+              {t("auth.password")}
             </label>
             <input
               type="password"
@@ -113,13 +115,13 @@ function RegisterPage() {
 
           <div className={styles.formActions}>
             <button type="submit" disabled={loading} className={styles.button}>
-              {loading ? "Creating Account..." : "Create Account"}
+              {loading ? t("auth.creatingAccount") : t("auth.createAccount")}
             </button>
           </div>
         </form>
 
         <p className={styles.linkText}>
-          Already have an account? <Link to="/login">Sign In</Link>
+          {t("auth.alreadyHaveAccount")} <Link to="/login">{t("auth.signIn")}</Link>
         </p>
       </div>
     </AuthLayout>

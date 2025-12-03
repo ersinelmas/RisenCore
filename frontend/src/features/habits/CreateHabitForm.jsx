@@ -3,10 +3,12 @@ import toast from "react-hot-toast";
 import habitService from "../../services/habitService";
 import styles from "../../pages/HabitsPage.module.css";
 import { toTitleCase } from "../../utils/stringUtils";
+import { useTranslation } from "react-i18next";
 
 const FREQUENCY_TYPES = ["DAILY", "WEEKLY"];
 
 function CreateHabitForm({ onHabitCreated }) {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   const [frequency, setFrequency] = useState("DAILY");
   const [targetCount, setTargetCount] = useState(1);
@@ -15,7 +17,7 @@ function CreateHabitForm({ onHabitCreated }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const toastId = toast.loading("Creating habit...");
+    const toastId = toast.loading(t("habits.adding"));
     try {
       // For DAILY habits, targetCount should always be 1
       const habitData = {
@@ -24,14 +26,14 @@ function CreateHabitForm({ onHabitCreated }) {
         targetCount: frequency === "DAILY" ? 1 : targetCount,
       };
       await habitService.createHabit(habitData);
-      toast.success("Habit created!", { id: toastId });
+      toast.success(t("habits.habitCreated"), { id: toastId });
       onHabitCreated(); // Notify parent component
 
       setName("");
       setFrequency("DAILY");
       setTargetCount(1);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to create habit.", {
+      toast.error(error.response?.data?.message || t("habits.createHabitError"), {
         id: toastId,
       });
       console.error("Habit creation failed:", error);
@@ -44,7 +46,7 @@ function CreateHabitForm({ onHabitCreated }) {
     <form onSubmit={handleSubmit} className={styles.form}>
       <div className={styles.formGroup}>
         <label className={styles.label} htmlFor="habit-name">
-          Habit Name
+          {t("habits.habitName")}
         </label>
         <input
           id="habit-name"
@@ -57,7 +59,7 @@ function CreateHabitForm({ onHabitCreated }) {
       </div>
       <div className={styles.formGroup}>
         <label className={styles.label} htmlFor="habit-frequency">
-          Frequency
+          {t("habits.frequency")}
         </label>
         <select
           id="habit-frequency"
@@ -76,7 +78,7 @@ function CreateHabitForm({ onHabitCreated }) {
       {frequency === "WEEKLY" && (
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="habit-target">
-            Weekly Target (e.g., 3 times a week)
+            {t("habits.weeklyTarget")}
           </label>
           <input
             id="habit-target"
@@ -92,7 +94,7 @@ function CreateHabitForm({ onHabitCreated }) {
       )}
       <div className={styles.formActions}>
         <button type="submit" disabled={isSubmitting} className={styles.button}>
-          {isSubmitting ? "Adding..." : "Add Habit"}
+          {isSubmitting ? t("habits.adding") : t("habits.addHabit")}
         </button>
       </div>
     </form>

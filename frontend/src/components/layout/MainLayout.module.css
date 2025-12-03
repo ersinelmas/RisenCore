@@ -1,13 +1,16 @@
 .mainLayout {
   display: flex;
   min-height: 100vh;
-  background-color: #f9fafb; /* Very light gray background */
+  background-color: #f9fafb;
+  /* Very light gray background */
 }
 
 .sidebar {
   width: 250px;
-  background-color: #111827; /* Dark gray/black */
-  color: #d1d5db; /* Light gray text */
+  background-color: #111827;
+  /* Dark gray/black */
+  color: #d1d5db;
+  /* Light gray text */
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -62,12 +65,14 @@
 }
 
 .navLink:hover {
-  background-color: #374151; /* Medium gray */
+  background-color: #374151;
+  /* Medium gray */
   color: white;
 }
 
 .navLink.active {
-  background-color: #4f46e5; /* Indigo */
+  background-color: #4f46e5;
+  /* Indigo */
   color: white;
   font-weight: 500;
 }
@@ -111,11 +116,13 @@
   .sidebar {
     display: none;
   }
+
   .content {
     margin-left: 0;
     padding-top: 60px;
   }
 }
+
 @media (min-width: 769px) {
   .hideOnDesktop {
     display: none;
@@ -125,7 +132,6 @@
 .aiLink {
   background: linear-gradient(90deg, rgba(79, 70, 229, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
   border: 1px solid rgba(124, 58, 237, 0.2);
-  margin-top: 0.5rem;
 }
 
 .aiLink:hover {

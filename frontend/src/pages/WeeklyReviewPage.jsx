@@ -4,11 +4,13 @@ import Card from "../components/Card";
 import analyticsService from "../services/analyticsService";
 import styles from "./WeeklyReviewPage.module.css";
 import ReactMarkdown from "react-markdown";
+import { useTranslation } from "react-i18next";
 
 function WeeklyReviewPage() {
   const [review, setReview] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchReview = async () => {
@@ -16,9 +18,7 @@ function WeeklyReviewPage() {
         const response = await analyticsService.getWeeklyReview();
         setReview(response.data);
       } catch (err) {
-        setError(
-          "We couldn't generate your weekly review. Please try again later."
-        );
+        setError(t("weeklyReview.error"));
         console.error("Failed to fetch weekly review:", err);
       } finally {
         setIsLoading(false);
@@ -26,7 +26,7 @@ function WeeklyReviewPage() {
     };
 
     fetchReview();
-  }, []);
+  }, [t]);
 
   const renderContent = () => {
     if (isLoading) {
@@ -34,9 +34,9 @@ function WeeklyReviewPage() {
         <div className={styles.loadingContainer}>
           <div className={styles.spinner}></div>
           <p className={styles.loadingText}>
-            Generating your AI-powered review...
+            {t("weeklyReview.generating")}
           </p>
-          <p className={styles.subtleText}>(This may take a moment)</p>
+          <p className={styles.subtleText}>{t("weeklyReview.mayTakeMoment")}</p>
         </div>
       );
     }
@@ -53,7 +53,7 @@ function WeeklyReviewPage() {
   };
 
   return (
-    <PageLayout title="Your Weekly Review">
+    <PageLayout title={t("weeklyReview.title")}>
       <Card>{renderContent()}</Card>
     </PageLayout>
   );

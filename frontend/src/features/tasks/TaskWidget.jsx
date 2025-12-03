@@ -8,7 +8,10 @@ import modalStyles from "../../components/common/Modal.module.css";
 import TaskItem from "./TaskItem";
 import CreateTaskForm from "./CreateTaskForm";
 
+import { useTranslation } from "react-i18next";
+
 function TaskWidget() {
+  const { t } = useTranslation();
   const {
     tasks,
     loadingTasks,
@@ -70,17 +73,17 @@ function TaskWidget() {
 
         <Card>
           <main>
-            <h2 className={styles.sectionTitle}>Your Tasks</h2>
+            <h2 className={styles.sectionTitle}>{t("tasks.yourTasks")}</h2>
 
             {loadingTasks && (
               <p style={{ textAlign: "center", padding: "1rem" }}>
-                Loading tasks...
+                {t("tasks.loading")}
               </p>
             )}
 
             <ul className={styles.tasksList}>
               {!loadingTasks && tasks.length === 0 && (
-                <p className={styles.noTasks}>You have no tasks yet.</p>
+                <p className={styles.noTasks}>{t("tasks.noTasks")}</p>
               )}
 
               {tasks.map((task) => (
@@ -107,28 +110,27 @@ function TaskWidget() {
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={closeDeleteModal}
-        title="Delete Task"
+        title={t("tasks.deleteTask")}
         actions={
           <>
             <button
               className={modalStyles.actionButton}
               onClick={closeDeleteModal}
             >
-              Cancel
+              {t("tasks.cancel")}
             </button>
             <button
               className={`${modalStyles.actionButton} ${modalStyles.confirmButton}`}
               onClick={confirmDelete}
             >
-              Delete
+              {t("tasks.delete")}
             </button>
           </>
         }
       >
         <p>
-          Are you sure you want to delete this task: "
-          <strong>{taskToDelete?.description}</strong>"? This action cannot be
-          undone.
+          {t("tasks.deleteConfirm")} "
+          <strong>{taskToDelete?.description}</strong>"? {t("tasks.cannotUndo")}
         </p>
       </Modal>
     </>

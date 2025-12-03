@@ -7,6 +7,7 @@ import { FiTrash2 } from "react-icons/fi";
 import Modal from "../../components/common/Modal";
 import { useModal } from "../../hooks/useModal";
 import { toTitleCase } from "../../utils/stringUtils";
+import { useTranslation } from "react-i18next";
 
 const getWeekDays = () => {
   const today = new Date();
@@ -25,6 +26,7 @@ const getWeekDays = () => {
 const formatDate = (date) => date.toISOString().split("T")[0];
 
 function HabitItem({ habit, onUpdate, onDelete }) {
+  const { t } = useTranslation();
   const weekDays = useMemo(() => getWeekDays(), []);
   const completionSet = useMemo(
     () => new Set(habit.completionDates),
@@ -69,7 +71,7 @@ function HabitItem({ habit, onUpdate, onDelete }) {
       if (isTogglingOn) {
         if (isDaily) {
           setTimeout(
-            () => toast.success(`🎉 Great job on "${habit.name}" today!`),
+            () => toast.success(t("habits.greatJob", { name: habit.name })),
             300
           );
         } else {
@@ -80,7 +82,7 @@ function HabitItem({ habit, onUpdate, onDelete }) {
             setTimeout(
               () =>
                 toast.success(
-                  `🎉 Awesome! You've hit your weekly goal for "${habit.name}"!`
+                  t("habits.weeklyGoalHit", { name: habit.name })
                 ),
               300
             );
@@ -93,26 +95,26 @@ function HabitItem({ habit, onUpdate, onDelete }) {
       try {
         await habitService.toggleHabitCompletion(habit.id, dateString);
       } catch (error) {
-        toast.error("Failed to update habit.");
+        toast.error(t("habits.toggleError"));
         onUpdate(habit.id, Array.from(originalCompletions));
         console.error("Habit toggle failed:", error);
       }
     },
-    [habit, onUpdate, completionSet, weekDays, isDaily]
+    [habit, onUpdate, completionSet, weekDays, isDaily, t]
   );
 
   const handleDelete = useCallback(async () => {
     closeDeleteModal();
-    const toastId = toast.loading("Deleting habit...");
+    const toastId = toast.loading(t("admin.deleting") + "...");
     try {
       await habitService.deleteHabit(habit.id);
-      toast.success("Habit deleted!", { id: toastId });
+      toast.success(t("habits.habitDeleted"), { id: toastId });
       onDelete(habit.id);
     } catch (error) {
-      toast.error("Failed to delete habit.", { id: toastId });
+      toast.error(t("habits.deleteHabitError"), { id: toastId });
       console.error("Habit deletion failed:", error);
     }
-  }, [habit.id, onDelete, closeDeleteModal]);
+  }, [habit.id, onDelete, closeDeleteModal, t]);
 
   return (
     <>
@@ -123,11 +125,10 @@ function HabitItem({ habit, onUpdate, onDelete }) {
             <p className={styles.habitMeta}>
               {isDaily
                 ? completedCount > 0
-                  ? "Completed for today!"
-                  : "Pending for today"
-                : `Target: ${completedCount} / ${
-                    habit.targetCount
-                  } ${toTitleCase(habit.frequency)}`}
+                  ? t("habits.completedToday")
+                  : t("habits.pendingToday")
+                : `${t("habits.target")}: ${completedCount} / ${habit.targetCount
+                } ${toTitleCase(habit.frequency)}`}
             </p>
           </div>
           <button className={styles.deleteButton} onClick={openDeleteModal}>
@@ -146,9 +147,8 @@ function HabitItem({ habit, onUpdate, onDelete }) {
                   </span>
                   <span className={styles.dayNumber}>{day.getDate()}</span>
                   <div
-                    className={`${styles.dayCheckbox} ${
-                      isCompleted ? styles.completed : ""
-                    }`}
+                    className={`${styles.dayCheckbox} ${isCompleted ? styles.completed : ""
+                      }`}
                     onClick={() => handleToggle(day)}
                   />
                 </div>
@@ -160,12 +160,11 @@ function HabitItem({ habit, onUpdate, onDelete }) {
         {isDaily && (
           <div className={styles.dailyView}>
             <button
-              className={`${styles.dailyButton} ${
-                completedCount > 0 ? styles.completed : ""
-              }`}
+              className={`${styles.dailyButton} ${completedCount > 0 ? styles.completed : ""
+                }`}
               onClick={() => handleToggle(new Date())}
             >
-              {completedCount > 0 ? "Completed!" : "Mark as Done for Today"}
+              {completedCount > 0 ? t("habits.completed") : t("habits.markAsDone")}
             </button>
           </div>
         )}
@@ -174,27 +173,27 @@ function HabitItem({ habit, onUpdate, onDelete }) {
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={closeDeleteModal}
-        title="Delete Habit"
+        title={t("habits.deleteHabit")}
         actions={
           <>
             <button
               className={modalStyles.actionButton}
               onClick={closeDeleteModal}
             >
-              Cancel
+              {t("common.cancel")}
             </button>
             <button
               className={`${modalStyles.actionButton} ${modalStyles.confirmButton}`}
               onClick={handleDelete}
             >
-              Delete
+              {t("common.delete")}
             </button>
           </>
         }
       >
         <p>
-          Are you sure you want to delete the habit "
-          <strong>{habit.name}</strong>"? This action cannot be undone.
+          {t("habits.deleteHabitConfirm")} "
+          <strong>{habit.name}</strong>"? {t("admin.permanentAction")}
         </p>
       </Modal>
     </>

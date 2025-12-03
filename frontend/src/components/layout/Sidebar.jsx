@@ -17,9 +17,11 @@ import logo from "../../assets/logo.png";
 import Modal from "../common/Modal";
 import { useModal } from "../../hooks/useModal";
 import modalStyles from "../common/Modal.module.css";
+import { useTranslation } from "react-i18next";
 
 function Sidebar() {
   const { logout, isAdmin } = useAuth();
+  const { t } = useTranslation();
   const {
     isOpen: isLogoutModalOpen,
     openModal: openLogoutModal,
@@ -29,7 +31,7 @@ function Sidebar() {
   const handleLogoutConfirm = () => {
     closeLogoutModal();
     logout();
-    toast.success("You have been logged out.");
+    toast.success(t("sidebar.logoutMessage"));
   };
 
   return (
@@ -48,7 +50,7 @@ function Sidebar() {
             }
             end
           >
-            <FiGrid className={styles.icon} /> <span>Dashboard</span>
+            <FiGrid className={styles.icon} /> <span>{t("sidebar.dashboard")}</span>
           </NavLink>
           <NavLink
             to="/tasks"
@@ -56,15 +58,7 @@ function Sidebar() {
               isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
             }
           >
-            <FiCheckSquare className={styles.icon} /> <span>Tasks</span>
-          </NavLink>
-          <NavLink
-            to="/finance"
-            className={({ isActive }) =>
-              isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
-            }
-          >
-            <FiCreditCard className={styles.icon} /> <span>Finance</span>
+            <FiCheckSquare className={styles.icon} /> <span>{t("sidebar.tasks")}</span>
           </NavLink>
           <NavLink
             to="/habits"
@@ -72,15 +66,15 @@ function Sidebar() {
               isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
             }
           >
-            <FiTrendingUp className={styles.icon} /> <span>Habits</span>
+            <FiTrendingUp className={styles.icon} /> <span>{t("sidebar.habits")}</span>
           </NavLink>
           <NavLink
-            to="/profile"
+            to="/finance"
             className={({ isActive }) =>
               isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
             }
           >
-            <FiUser className={styles.icon} /> <span>Profile</span>
+            <FiCreditCard className={styles.icon} /> <span>{t("sidebar.finance")}</span>
           </NavLink>
           <NavLink
             to="/health"
@@ -88,7 +82,23 @@ function Sidebar() {
               isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
             }
           >
-            <FiActivity className={styles.icon} /> <span>Health</span>
+            <FiActivity className={styles.icon} /> <span>{t("sidebar.health")}</span>
+          </NavLink>
+          <NavLink
+            to="/weekly-review"
+            className={({ isActive }) =>
+              isActive ? `${styles.navLink} ${styles.active} ${styles.aiLink}` : `${styles.navLink} ${styles.aiLink}`
+            }
+          >
+            <FiCpu className={styles.icon} /> <span>{t("sidebar.weeklyReview")}</span>
+          </NavLink>
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
+            }
+          >
+            <FiUser className={styles.icon} /> <span>{t("sidebar.profile")}</span>
           </NavLink>
           {isAdmin && (
             <NavLink
@@ -97,46 +107,38 @@ function Sidebar() {
                 isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
               }
             >
-              <FiShield className={styles.icon} /> <span>Admin Panel</span>
+              <FiShield className={styles.icon} /> <span>{t("sidebar.adminPanel")}</span>
             </NavLink>
           )}
-          <NavLink
-            to="/weekly-review"
-            className={({ isActive }) =>
-              isActive ? `${styles.navLink} ${styles.active} ${styles.aiLink}` : `${styles.navLink} ${styles.aiLink}`
-            }
-          >
-            <FiCpu className={styles.icon} /> <span>AI Weekly Review</span>
-          </NavLink>
         </nav>
 
         <button onClick={openLogoutModal} className={styles.logoutButton}>
-          <FiLogOut className={styles.icon} /> <span>Logout</span>
+          <FiLogOut className={styles.icon} /> <span>{t("sidebar.logout")}</span>
         </button>
       </aside>
 
       <Modal
         isOpen={isLogoutModalOpen}
         onClose={closeLogoutModal}
-        title="Confirm Logout"
+        title={t("sidebar.confirmLogout")}
         actions={
           <>
             <button
               className={modalStyles.actionButton}
               onClick={closeLogoutModal}
             >
-              Cancel
+              {t("sidebar.cancel")}
             </button>
             <button
               className={`${modalStyles.actionButton} ${modalStyles.confirmButton}`}
               onClick={handleLogoutConfirm}
             >
-              Logout
+              {t("sidebar.logout")}
             </button>
           </>
         }
       >
-        <p>Are you sure you want to log out?</p>
+        <p>{t("sidebar.logoutMessage")}</p>
       </Modal>
     </>
   );

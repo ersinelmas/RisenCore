@@ -6,8 +6,10 @@ import habitService from "../services/habitService";
 import styles from "./HabitsPage.module.css";
 import HabitItem from "../features/habits/HabitItem";
 import CreateHabitForm from "../features/habits/CreateHabitForm";
+import { useTranslation } from "react-i18next";
 
 function HabitsPage() {
+  const { t } = useTranslation();
   const [habits, setHabits] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -17,7 +19,7 @@ function HabitsPage() {
       const response = await habitService.getAllHabits();
       setHabits(response.data);
     } catch (error) {
-      toast.error("Failed to load habits.");
+      toast.error(t("habits.loadError"));
       console.error("Failed to fetch habits:", error);
     } finally {
       setLoading(false);
@@ -48,22 +50,22 @@ function HabitsPage() {
 
   if (loading) {
     return (
-      <PageLayout title="Habit Tracker">
-        <div>Loading habits...</div>
+      <PageLayout title={t("habits.title")}>
+        <div>{t("habits.loading")}</div>
       </PageLayout>
     );
   }
 
   return (
-    <PageLayout title="Habit Tracker">
+    <PageLayout title={t("habits.title")}>
       <div className={styles.pageContent}>
         <Card>
-          <h2 className={styles.sectionTitle}>Add a New Habit</h2>
+          <h2 className={styles.sectionTitle}>{t("habits.addNew")}</h2>
           <CreateHabitForm onHabitCreated={handleHabitCreated} />
         </Card>
 
         <div>
-          <h2 className={styles.sectionTitle}>My Habits</h2>
+          <h2 className={styles.sectionTitle}>{t("habits.myHabits")}</h2>
           {habits.length > 0 ? (
             <div className={styles.habitListContainer}>
               {habits.map((habit) => (
@@ -78,7 +80,7 @@ function HabitsPage() {
           ) : (
             <Card>
               <p style={{ textAlign: "center", padding: "2rem" }}>
-                You haven't added any habits yet. Add one to get started!
+                {t("habits.noHabits")}
               </p>
             </Card>
           )}

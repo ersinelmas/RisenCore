@@ -4,6 +4,7 @@ import transactionService from "../../services/transactionService";
 import styles from "./TransactionForm.module.css";
 import { toTitleCase } from "../../utils/stringUtils";
 import Card from "../../components/Card";
+import { useTranslation } from "react-i18next";
 
 const TRANSACTION_TYPES = ["INCOME", "EXPENSE"];
 const CATEGORIES = [
@@ -22,6 +23,7 @@ const CATEGORIES = [
 ];
 
 function TransactionForm({ onTransactionAdded }) {
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     description: "",
     amount: "",
@@ -39,10 +41,10 @@ function TransactionForm({ onTransactionAdded }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const toastId = toast.loading("Adding transaction...");
+    const toastId = toast.loading(t("finance.adding"));
     try {
       await transactionService.createTransaction(form);
-      toast.success("Transaction added!", { id: toastId });
+      toast.success(t("finance.transactionAdded"), { id: toastId });
       onTransactionAdded();
       setForm({
         description: "",
@@ -52,7 +54,7 @@ function TransactionForm({ onTransactionAdded }) {
         transactionDate: new Date().toISOString().split("T")[0],
       });
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to add transaction.", {
+      toast.error(err.response?.data?.message || t("finance.addTransactionError"), {
         id: toastId,
       });
       console.error("Transaction creation failed:", err);
@@ -63,11 +65,11 @@ function TransactionForm({ onTransactionAdded }) {
 
   return (
     <Card>
-      <h2>Add New Transaction</h2>
+      <h2>{t("finance.addNewTransaction")}</h2>
       <form onSubmit={handleSubmit} className={styles.transactionForm}>
         <div className={`${styles.formGroup} ${styles.descriptionGroup}`}>
           <label htmlFor="description" className={styles.label}>
-            Description
+            {t("finance.description")}
           </label>
           <input
             type="text"
@@ -81,7 +83,7 @@ function TransactionForm({ onTransactionAdded }) {
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="amount" className={styles.label}>
-            Amount
+            {t("finance.amount")}
           </label>
           <input
             type="number"
@@ -97,7 +99,7 @@ function TransactionForm({ onTransactionAdded }) {
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="transactionDate" className={styles.label}>
-            Date
+            {t("finance.date")}
           </label>
           <input
             type="date"
@@ -111,7 +113,7 @@ function TransactionForm({ onTransactionAdded }) {
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="type" className={styles.label}>
-            Type
+            {t("finance.type")}
           </label>
           <select
             name="type"
@@ -130,7 +132,7 @@ function TransactionForm({ onTransactionAdded }) {
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="category" className={styles.label}>
-            Category
+            {t("finance.category")}
           </label>
           <select
             name="category"
@@ -153,7 +155,7 @@ function TransactionForm({ onTransactionAdded }) {
             disabled={isSubmitting}
             className={styles.button}
           >
-            {isSubmitting ? "Adding..." : "Add Transaction"}
+            {isSubmitting ? t("finance.adding") : t("finance.addTransaction")}
           </button>
         </div>
       </form>

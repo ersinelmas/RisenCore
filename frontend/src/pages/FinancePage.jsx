@@ -8,8 +8,10 @@ import ExpenseChart from "../components/charts/ExpenseChart";
 import TransactionForm from "../features/finance/TransactionForm";
 import TransactionTable from "../features/finance/TransactionTable";
 import FinanceSummary from "../features/finance/FinanceSummary";
+import { useTranslation } from "react-i18next";
 
 function FinancePage() {
+  const { t } = useTranslation();
   const [transactions, setTransactions] = useState([]);
   const [expenseSummary, setExpenseSummary] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,7 +27,7 @@ function FinancePage() {
         setExpenseSummary(summaryResponse.data);
       })
       .catch((err) => {
-        toast.error("Failed to load financial data.");
+        toast.error(t("finance.loadError"));
         console.error("Error fetching financial data:", err);
       })
       .finally(() => {
@@ -49,7 +51,7 @@ function FinancePage() {
   }, [transactions]);
 
   return (
-    <PageLayout title="Financial Overview">
+    <PageLayout title={t("finance.title")}>
       <div className={styles.overviewGrid}>
         <FinanceSummary summary={summary} />
 
@@ -60,7 +62,7 @@ function FinancePage() {
             </Card>
           ) : (
             <Card className={styles.fullHeightCard}>
-              <p>No expense data available to display a chart.</p>
+              <p>{t("finance.noExpenseData")}</p>
             </Card>
           )}
         </div>

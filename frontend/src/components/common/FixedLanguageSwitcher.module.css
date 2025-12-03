@@ -1,0 +1,36 @@
+.languageSwitcher {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #4f46e5;
+    border: 1px solid rgba(79, 70, 229, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+}
+
+.languageSwitcher:hover {
+    background: #4338ca;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+    transform: translateY(-1px);
+}
+
+.languageSwitcher:active {
+    transform: translateY(0);
+}
+
+/* Hide on mobile - will use navbar version */
+@media (max-width: 768px) {
+    .languageSwitcher {
+        display: none;
+    }
+}

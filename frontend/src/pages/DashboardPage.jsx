@@ -7,9 +7,11 @@ import PageLayout from "../components/layout/PageLayout";
 import taskService from "../services/taskService";
 import transactionService from "../services/transactionService";
 import habitService from "../services/habitService";
+import { useTranslation } from "react-i18next";
 
 function DashboardPage() {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [tasks, setTasks] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [habits, setHabits] = useState([]);
@@ -58,22 +60,21 @@ function DashboardPage() {
     const currentHour = new Date().getHours();
 
     if (currentHour >= 5 && currentHour < 12) {
-      return "Good morning";
+      return t("dashboard.goodMorning");
     }
     if (currentHour >= 12 && currentHour < 18) {
-      return "Good afternoon";
+      return t("dashboard.goodAfternoon");
     }
     if (currentHour >= 18 && currentHour < 22) {
-      return "Good evening";
+      return t("dashboard.goodEvening");
     }
-    // For late night hours (10 PM to 4:59 AM)
-    return "Burning the midnight oil";
+    return t("dashboard.burningMidnightOil");
   };
 
   if (loading) {
     return (
-      <PageLayout title="Loading Dashboard...">
-        <div>Loading...</div>
+      <PageLayout title={t("dashboard.loadingDashboard")}>
+        <div>{t("dashboard.loading")}</div>
       </PageLayout>
     );
   }
@@ -82,19 +83,18 @@ function DashboardPage() {
     <PageLayout title={`${getGreeting()}, ${user?.firstName || "User"}!`}>
       <div className={styles.gridContainer}>
         <Card className={styles.highlightCard}>
-          <h3 className={styles.cardTitle}>Your Weekly AI Review is Ready!</h3>
+          <h3 className={styles.cardTitle}>{t("dashboard.weeklyAIReady")}</h3>
           <p className={styles.cardDescription}>
-            Let's see your progress, discover patterns, and get insights to make
-            next week even better.
+            {t("dashboard.weeklyAIDescription")}
           </p>
           <Link to="/weekly-review" className={styles.highlightLink}>
-            View My Review
+            {t("dashboard.viewMyReview")}
           </Link>
         </Card>
 
         {/* Card 1: Today's Tasks */}
         <Card>
-          <h3 className={styles.cardTitle}>Today's Focus Tasks</h3>
+          <h3 className={styles.cardTitle}>{t("dashboard.todaysFocusTasks")}</h3>
           {tasks.length > 0 ? (
             <ul className={styles.quickTaskList}>
               {tasks.map((task) => (
@@ -103,17 +103,17 @@ function DashboardPage() {
             </ul>
           ) : (
             <p className={styles.noItemsText}>
-              No pending tasks. You're all clear!
+              {t("dashboard.noPendingTasks")}
             </p>
           )}
           <Link to="/tasks" className={styles.viewAllLink}>
-            Manage all tasks
+            {t("dashboard.manageAllTasks")}
           </Link>
         </Card>
 
         {/* Card 2: Today's Habits */}
         <Card>
-          <h3 className={styles.cardTitle}>Habits to Complete</h3>
+          <h3 className={styles.cardTitle}>{t("dashboard.habitsToComplete")}</h3>
           {habits.filter((h) => !h.completedToday).length > 0 ? (
             <ul className={styles.quickTaskList}>
               {habits
@@ -125,31 +125,31 @@ function DashboardPage() {
             </ul>
           ) : (
             <p className={styles.noItemsText}>
-              All habits completed for today. Amazing!
+              {t("dashboard.allHabitsCompleted")}
             </p>
           )}
           <Link to="/habits" className={styles.viewAllLink}>
-            Go to Habits
+            {t("dashboard.goToHabits")}
           </Link>
         </Card>
 
         {/* Card 3: Quick Balance */}
         <Card>
-          <h3 className={styles.cardTitle}>Current Balance</h3>
+          <h3 className={styles.cardTitle}>{t("dashboard.currentBalance")}</h3>
           <div className={styles.balanceDisplay}>
             ${financialSummary.balance.toFixed(2)}
           </div>
           <p className={styles.balanceSubtitle}>
             <span className={styles.income}>
-              ${financialSummary.income.toFixed(2)} Income
+              ${financialSummary.income.toFixed(2)} {t("dashboard.income")}
             </span>
             {" - "}
             <span className={styles.expense}>
-              ${financialSummary.expense.toFixed(2)} Expense
+              ${financialSummary.expense.toFixed(2)} {t("dashboard.expense")}
             </span>
           </p>
           <Link to="/finance" className={styles.viewAllLink}>
-            View financial details
+            {t("dashboard.viewFinancialDetails")}
           </Link>
         </Card>
       </div>

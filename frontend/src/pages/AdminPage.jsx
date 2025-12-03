@@ -8,8 +8,10 @@ import Modal from "../components/common/Modal";
 import { useModal } from "../hooks/useModal";
 import modalStyles from "../components/common/Modal.module.css";
 import { useAuth } from "../hooks/useAuth";
+import { useTranslation } from "react-i18next";
 
 function AdminPage() {
+  const { t } = useTranslation();
   const { user: currentUser } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -37,12 +39,12 @@ function AdminPage() {
       const response = await adminService.getAllUsers();
       setUsers(response.data);
     } catch (err) {
-      toast.error("Failed to fetch users.");
+      toast.error(t("admin.fetchError"));
       console.error("Fetch users error:", err);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     fetchUsers();
@@ -56,18 +58,18 @@ function AdminPage() {
   const confirmPromote = useCallback(async () => {
     if (!userToModify) return;
     closePromoteModal();
-    const toastId = toast.loading(`Promoting ${userToModify.username}...`);
+    const toastId = toast.loading(`${t("admin.promoting")} ${userToModify.username}...`);
     try {
       await adminService.promoteUser(userToModify.username);
-      toast.success("User promoted to Admin!", { id: toastId });
+      toast.success(t("admin.promotedSuccess"), { id: toastId });
       fetchUsers();
     } catch (err) {
-      toast.error("Failed to promote user.", { id: toastId });
+      toast.error(t("admin.promoteError"), { id: toastId });
       console.error("Promote user error:", err);
     } finally {
       setUserToModify(null);
     }
-  }, [userToModify, closePromoteModal, fetchUsers]);
+  }, [userToModify, closePromoteModal, fetchUsers, t]);
 
   const handleDemoteClick = (user) => {
     setUserToModify(user);
@@ -77,22 +79,22 @@ function AdminPage() {
   const confirmDemote = useCallback(async () => {
     if (!userToModify) return;
     closeDemoteModal();
-    const toastId = toast.loading(`Demoting ${userToModify.username}...`);
+    const toastId = toast.loading(`${t("admin.demoting")} ${userToModify.username}...`);
     try {
       await adminService.demoteUser(userToModify.username);
-      toast.success("User demoted from Admin!", { id: toastId });
+      toast.success(t("admin.demotedSuccess"), { id: toastId });
       fetchUsers();
     } catch (err) {
-      toast.error("Failed to demote user.", { id: toastId });
+      toast.error(t("admin.demoteError"), { id: toastId });
       console.error("Demote user error:", err);
     } finally {
       setUserToModify(null);
     }
-  }, [userToModify, closeDemoteModal, fetchUsers]);
+  }, [userToModify, closeDemoteModal, fetchUsers, t]);
 
   const handleDeleteClick = (user) => {
     if (currentUser?.username === user.username) {
-      toast.error("You cannot delete your own account.");
+      toast.error(t("admin.selfDeleteError"));
       return;
     }
     setUserToModify(user);
@@ -102,38 +104,38 @@ function AdminPage() {
   const confirmDelete = useCallback(async () => {
     if (!userToModify) return;
     closeDeleteModal();
-    const toastId = toast.loading(`Deleting ${userToModify.username}...`);
+    const toastId = toast.loading(`${t("admin.deleting")} ${userToModify.username}...`);
     try {
       await adminService.deleteUser(userToModify.id);
-      toast.success("User deleted!", { id: toastId });
+      toast.success(t("admin.deletedSuccess"), { id: toastId });
       fetchUsers();
     } catch (err) {
-      toast.error("Failed to delete user.", { id: toastId });
+      toast.error(t("admin.deleteError"), { id: toastId });
       console.error("Delete user error:", err);
     } finally {
       setUserToModify(null);
     }
-  }, [userToModify, closeDeleteModal, fetchUsers]);
+  }, [userToModify, closeDeleteModal, fetchUsers, t]);
 
   return (
     <>
-      <PageLayout title="Admin Panel - User Management">
+      <PageLayout title={t("admin.title")}>
         <Card>
           {loading ? (
             <p style={{ padding: "2rem", textAlign: "center" }}>
-              Loading users...
+              {t("admin.loading")}
             </p>
           ) : users.length > 0 ? (
             <div className={styles.tableContainer}>
               <table className={styles.userTable}>
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Roles</th>
-                    <th>Actions</th>
+                    <th>{t("admin.id")}</th>
+                    <th>{t("admin.username")}</th>
+                    <th>{t("admin.fullName")}</th>
+                    <th>{t("admin.email")}</th>
+                    <th>{t("admin.roles")}</th>
+                    <th>{t("admin.actions")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -149,11 +151,10 @@ function AdminPage() {
                         {user.roles.map((role) => (
                           <span
                             key={role}
-                            className={`${styles.roleBadge} ${
-                              role === "ADMIN"
-                                ? styles.roleAdmin
-                                : styles.roleUser
-                            }`}
+                            className={`${styles.roleBadge} ${role === "ADMIN"
+                              ? styles.roleAdmin
+                              : styles.roleUser
+                              }`}
                           >
                             {role}
                           </span>
@@ -162,7 +163,7 @@ function AdminPage() {
                       <td className={styles.actionsCell}>
                         {currentUser?.username === user.username ? (
                           <span className={styles.currentUserBadge}>
-                            Current User
+                            {t("admin.currentUser")}
                           </span>
                         ) : (
                           <>
@@ -171,21 +172,21 @@ function AdminPage() {
                                 className={`${styles.actionButton} ${styles.promoteButton}`}
                                 onClick={() => handlePromoteClick(user)}
                               >
-                                Promote
+                                {t("admin.promote")}
                               </button>
                             ) : (
                               <button
                                 className={`${styles.actionButton} ${styles.demoteButton}`}
                                 onClick={() => handleDemoteClick(user)}
                               >
-                                Demote
+                                {t("admin.demote")}
                               </button>
                             )}
                             <button
                               className={`${styles.actionButton} ${styles.deleteButton}`}
                               onClick={() => handleDeleteClick(user)}
                             >
-                              Delete
+                              {t("admin.delete")}
                             </button>
                           </>
                         )}
@@ -203,7 +204,7 @@ function AdminPage() {
                 color: "var(--color-text-secondary)",
               }}
             >
-              No users found in the system.
+              {t("admin.noUsers")}
             </p>
           )}
         </Card>
@@ -212,81 +213,81 @@ function AdminPage() {
       <Modal
         isOpen={isPromoteModalOpen}
         onClose={closePromoteModal}
-        title="Confirm Promotion"
+        title={t("admin.confirmPromotion")}
         actions={
           <>
             <button
               className={modalStyles.actionButton}
               onClick={closePromoteModal}
             >
-              Cancel
+              {t("common.cancel")}
             </button>
             <button
               className={`${modalStyles.actionButton} ${styles.promoteConfirmButton}`}
               onClick={confirmPromote}
             >
-              Promote
+              {t("admin.promote")}
             </button>
           </>
         }
       >
         <p>
-          Are you sure you want to promote{" "}
-          <strong>{userToModify?.username}</strong> to ADMIN?
+          {t("admin.promoteMessage")}{" "}
+          <strong>{userToModify?.username}</strong> {t("admin.toAdmin")}
         </p>
       </Modal>
 
       <Modal
         isOpen={isDemoteModalOpen}
         onClose={closeDemoteModal}
-        title="Confirm Demotion"
+        title={t("admin.confirmDemotion")}
         actions={
           <>
             <button
               className={modalStyles.actionButton}
               onClick={closeDemoteModal}
             >
-              Cancel
+              {t("common.cancel")}
             </button>
             <button
               className={`${modalStyles.actionButton} ${styles.demoteConfirmButton}`}
               onClick={confirmDemote}
             >
-              Demote
+              {t("admin.demote")}
             </button>
           </>
         }
       >
         <p>
-          Are you sure you want to demote{" "}
-          <strong>{userToModify?.username}</strong> from ADMIN role?
+          {t("admin.demoteMessage")}{" "}
+          <strong>{userToModify?.username}</strong> {t("admin.fromAdmin")}
         </p>
       </Modal>
 
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={closeDeleteModal}
-        title="Confirm Deletion"
+        title={t("admin.confirmDeletion")}
         actions={
           <>
             <button
               className={modalStyles.actionButton}
               onClick={closeDeleteModal}
             >
-              Cancel
+              {t("common.cancel")}
             </button>
             <button
               className={`${modalStyles.actionButton} ${modalStyles.confirmButton}`}
               onClick={confirmDelete}
             >
-              Delete
+              {t("admin.delete")}
             </button>
           </>
         }
       >
         <p>
-          Are you sure you want to delete user{" "}
-          <strong>{userToModify?.username}</strong>? This action is permanent.
+          {t("admin.deleteMessage")}{" "}
+          <strong>{userToModify?.username}</strong>? {t("admin.permanentAction")}
         </p>
       </Modal>
     </>
