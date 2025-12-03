@@ -1,24 +1,24 @@
 import { useTranslation } from 'react-i18next';
 import styles from './FixedLanguageSwitcher.module.css';
 
-function FixedLanguageSwitcher() {
+function FixedLanguageSwitcher({ className = '' }) {
     const { i18n } = useTranslation();
 
     const toggleLanguage = () => {
-        const currentLang = i18n.language || 'en';
-        const newLang = currentLang.startsWith('en') ? 'tr' : 'en';
+        const newLang = i18n.language === 'en' ? 'tr' : 'en';
         i18n.changeLanguage(newLang);
     };
-
-    const isEnglish = (i18n.language || 'en').startsWith('en');
 
     return (
         <button
             onClick={toggleLanguage}
-            className={styles.languageSwitcher}
-            title={isEnglish ? "Switch to Turkish" : "İngilizceye Geç"}
+            className={`${styles.languageSwitcher} ${className}`}
+            aria-label="Change Language"
         >
-            {isEnglish ? '🇹🇷 TR' : '🇬🇧 EN'}
+            <span role="img" aria-label="globe">
+                🌐
+            </span>
+            {i18n.language === 'en' ? 'TR' : 'EN'}
         </button>
     );
 }

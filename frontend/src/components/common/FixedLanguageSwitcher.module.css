@@ -28,9 +28,24 @@
     transform: translateY(0);
 }
 
-/* Hide on mobile - will use navbar version */
+/* Auth pages: add spacing from edges */
+.languageSwitcher:global(.authOnly) {
+    top: 1.5rem;
+    right: 1.5rem;
+}
+
+/* On mobile, hide by default (navbar has language switcher) */
 @media (max-width: 768px) {
     .languageSwitcher {
         display: none;
+    }
+
+    /* Show on mobile only for auth pages (no navbar there) */
+    .languageSwitcher:global(.authOnly) {
+        display: flex;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
     }
 }

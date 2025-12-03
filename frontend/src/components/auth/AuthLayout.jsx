@@ -5,7 +5,7 @@ import FixedLanguageSwitcher from '../common/FixedLanguageSwitcher';
 function AuthLayout({ children }) {
   return (
     <div className={styles.authContainer}>
-      <FixedLanguageSwitcher />
+      <FixedLanguageSwitcher className="authOnly" />
       <div className={styles.layoutGrid}>
         {/* Left Column: Banner Card */}
         <div className={styles.bannerCard}>
