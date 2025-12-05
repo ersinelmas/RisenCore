@@ -52,8 +52,7 @@ public class JwtService {
     private String buildToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails,
-            long expiration
-    ) {
+            long expiration) {
         // Add roles to the claims, removing the "ROLE_" prefix.
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -95,7 +94,18 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(this.secretKey);
+        byte[] keyBytes;
+        try {
+            keyBytes = Decoders.BASE64.decode(this.secretKey);
+        } catch (io.jsonwebtoken.io.DecodingException | IllegalArgumentException e) {
+            try {
+                // Try Base64URL if Base64 fails (e.g. contains '-' or '_')
+                keyBytes = Decoders.BASE64URL.decode(this.secretKey);
+            } catch (io.jsonwebtoken.io.DecodingException | IllegalArgumentException e2) {
+                // Fallback to raw bytes if both fail (e.g. plain text secret)
+                keyBytes = this.secretKey.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+            }
+        }
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
