@@ -1,8 +1,7 @@
 package com.risencore.risencore_api.service;
 
-import com.risencore.risencore_api.dto.HealthMetricDTO;
 import com.risencore.risencore_api.domain.HealthMetricType;
-
+import com.risencore.risencore_api.dto.HealthMetricDTO;
 import java.util.List;
 
 public interface HealthService {

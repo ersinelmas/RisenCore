@@ -1,5 +1,10 @@
 package com.risencore.risencore_api.controller;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.risencore.risencore_api.domain.Task;
 import com.risencore.risencore_api.dto.CreateTaskRequestDTO;
@@ -14,23 +19,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 class TaskControllerIT {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @Autowired private MockMvc mockMvc;
 
-    @Autowired
-    private TaskRepository taskRepository;
+    @Autowired private TaskRepository taskRepository;
 
-    @Autowired
-    private ObjectMapper objectMapper; // For converting objects to JSON strings
+    @Autowired private ObjectMapper objectMapper; // For converting objects to JSON strings
 
     @BeforeEach
     void setUp() {
@@ -46,9 +43,11 @@ class TaskControllerIT {
         createTaskRequest.setDescription("Read a book");
 
         // When
-        ResultActions response = mockMvc.perform(post("/api/v1/tasks")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createTaskRequest)));
+        ResultActions response =
+                mockMvc.perform(
+                        post("/api/v1/tasks")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(createTaskRequest)));
 
         // Then
         response.andDo(print()) // Optional: Prints the request and response, useful for debugging

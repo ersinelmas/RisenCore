@@ -6,12 +6,11 @@ import com.risencore.risencore_api.domain.User;
 import com.risencore.risencore_api.dto.HealthMetricDTO;
 import com.risencore.risencore_api.repository.HealthMetricRepository;
 import com.risencore.risencore_api.repository.UserRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +22,10 @@ public class HealthServiceImpl implements HealthService {
     @Override
     public HealthMetricDTO createMetric(HealthMetricDTO metricDTO) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user =
+                userRepository
+                        .findByUsername(username)
+                        .orElseThrow(() -> new RuntimeException("User not found"));
 
         HealthMetric metric = new HealthMetric();
         metric.setType(metricDTO.getType());
@@ -41,8 +42,10 @@ public class HealthServiceImpl implements HealthService {
     @Override
     public List<HealthMetricDTO> getAllMetrics() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user =
+                userRepository
+                        .findByUsername(username)
+                        .orElseThrow(() -> new RuntimeException("User not found"));
 
         return healthMetricRepository.findByUserId(user.getId()).stream()
                 .map(this::mapToDTO)
@@ -52,8 +55,10 @@ public class HealthServiceImpl implements HealthService {
     @Override
     public List<HealthMetricDTO> getMetricsByType(HealthMetricType type) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user =
+                userRepository
+                        .findByUsername(username)
+                        .orElseThrow(() -> new RuntimeException("User not found"));
 
         return healthMetricRepository.findByUserIdAndType(user.getId(), type).stream()
                 .map(this::mapToDTO)

@@ -1,9 +1,9 @@
 package com.risencore.risencore_api.dto;
 
 import com.risencore.risencore_api.domain.Frequency;
-import lombok.Data;
 import java.time.LocalDate;
 import java.util.Set;
+import lombok.Data;
 
 @Data
 public class HabitResponseDTO {

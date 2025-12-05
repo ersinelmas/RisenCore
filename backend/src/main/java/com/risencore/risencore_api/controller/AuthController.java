@@ -23,30 +23,38 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @Operation (
+    @Operation(
             summary = "User Registration",
-            description = "Registers a new user with the provided details. The user will be created with the default role of USER.",
+            description =
+                    "Registers a new user with the provided details. The user will be created with the default role of USER.",
             responses = {
-                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "User registered successfully"),
-                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Bad Request - Invalid input data")
-            }
-    )
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "201",
+                        description = "User registered successfully"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "400",
+                        description = "Bad Request - Invalid input data")
+            })
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@Valid @RequestBody SignUpRequestDTO signUpRequest) {
         authService.registerUser(signUpRequest);
         return new ResponseEntity<>("User registered successfully!", HttpStatus.CREATED);
     }
 
-    @Operation (
+    @Operation(
             summary = "User Login",
             description = "Authenticates a user and returns a JWT token for further requests.",
             responses = {
-                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "User logged in successfully"),
-                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized - Invalid credentials")
-            }
-    )
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "200",
+                        description = "User logged in successfully"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "401",
+                        description = "Unauthorized - Invalid credentials")
+            })
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthenticationResponseDTO> loginUser(@Valid @RequestBody LoginRequestDTO loginRequest) {
+    public ResponseEntity<JwtAuthenticationResponseDTO> loginUser(
+            @Valid @RequestBody LoginRequestDTO loginRequest) {
         return ResponseEntity.ok(authService.loginUser(loginRequest));
     }
 }

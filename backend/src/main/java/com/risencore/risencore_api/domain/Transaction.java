@@ -1,11 +1,11 @@
 package com.risencore.risencore_api.domain;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "transactions")
@@ -21,7 +21,10 @@ public class Transaction {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false, precision = 19, scale = 4) // Precision 19, scale 4 allows for large amounts with 4 decimal places
+    @Column(
+            nullable = false,
+            precision = 19,
+            scale = 4) // Precision 19, scale 4 allows for large amounts with 4 decimal places
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)

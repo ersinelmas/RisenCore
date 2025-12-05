@@ -2,9 +2,8 @@ package com.risencore.risencore_api.mapper;
 
 import com.risencore.risencore_api.domain.User;
 import com.risencore.risencore_api.dto.UserDTO;
-import org.mapstruct.Mapper;
-
 import java.util.List;
+import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

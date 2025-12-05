@@ -7,20 +7,20 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/habits")
 @RequiredArgsConstructor
 @Tag(name = "Habit Tracking", description = "Endpoints for managing user habits")
-@SecurityRequirement(name = "bearerAuth") // Applies JWT security to all endpoints in this controller
+@SecurityRequirement(
+        name = "bearerAuth") // Applies JWT security to all endpoints in this controller
 public class HabitController {
 
     private final HabitService habitService;
@@ -33,7 +33,8 @@ public class HabitController {
 
     @Operation(summary = "Create a new habit for the current user")
     @PostMapping
-    public ResponseEntity<HabitResponseDTO> createHabit(@Valid @RequestBody CreateHabitDTO createDto) {
+    public ResponseEntity<HabitResponseDTO> createHabit(
+            @Valid @RequestBody CreateHabitDTO createDto) {
         HabitResponseDTO newHabit = habitService.createHabitForCurrentUser(createDto);
         return new ResponseEntity<>(newHabit, HttpStatus.CREATED);
     }

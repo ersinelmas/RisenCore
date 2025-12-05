@@ -6,13 +6,12 @@ import com.risencore.risencore_api.dto.JwtAuthenticationResponseDTO;
 import com.risencore.risencore_api.dto.LoginRequestDTO;
 import com.risencore.risencore_api.dto.SignUpRequestDTO;
 import com.risencore.risencore_api.repository.UserRepository;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -48,13 +47,15 @@ public class AuthServiceImpl implements AuthService {
     public JwtAuthenticationResponseDTO loginUser(LoginRequestDTO loginRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()
-                )
-        );
+                        loginRequest.getUsername(), loginRequest.getPassword()));
 
-        var user = userRepository.findByUsername(loginRequest.getUsername())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password."));
+        var user =
+                userRepository
+                        .findByUsername(loginRequest.getUsername())
+                        .orElseThrow(
+                                () ->
+                                        new IllegalArgumentException(
+                                                "Invalid username or password."));
         var jwt = jwtService.generateToken(user);
         return new JwtAuthenticationResponseDTO(jwt);
     }

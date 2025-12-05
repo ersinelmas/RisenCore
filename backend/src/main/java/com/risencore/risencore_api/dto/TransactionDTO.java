@@ -2,9 +2,9 @@ package com.risencore.risencore_api.dto;
 
 import com.risencore.risencore_api.domain.Category;
 import com.risencore.risencore_api.domain.TransactionType;
-import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import lombok.Data;
 
 @Data
 public class TransactionDTO {

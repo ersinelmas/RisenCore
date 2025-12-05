@@ -6,5 +6,6 @@ import com.risencore.risencore_api.dto.SignUpRequestDTO;
 
 public interface AuthService {
     void registerUser(SignUpRequestDTO signUpRequest);
+
     JwtAuthenticationResponseDTO loginUser(LoginRequestDTO loginRequest);
 }

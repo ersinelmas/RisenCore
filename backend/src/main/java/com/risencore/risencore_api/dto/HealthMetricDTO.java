@@ -1,11 +1,10 @@
 package com.risencore.risencore_api.dto;
 
 import com.risencore.risencore_api.domain.HealthMetricType;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor

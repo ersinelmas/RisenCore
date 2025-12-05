@@ -1,8 +1,8 @@
 package com.risencore.risencore_api.dto;
 
 import com.risencore.risencore_api.domain.Role;
-import lombok.Data;
 import java.util.Set;
+import lombok.Data;
 
 @Data
 public class UserDTO {

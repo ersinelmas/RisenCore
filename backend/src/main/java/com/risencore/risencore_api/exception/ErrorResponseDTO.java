@@ -1,12 +1,11 @@
 package com.risencore.risencore_api.exception;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -31,7 +30,12 @@ public class ErrorResponseDTO {
     }
 
     // Constructor for validation errors
-    public ErrorResponseDTO(int status, String error, String message, String path, Map<String, List<String>> validationErrors) {
+    public ErrorResponseDTO(
+            int status,
+            String error,
+            String message,
+            String path,
+            Map<String, List<String>> validationErrors) {
         this.timestamp = LocalDateTime.now();
         this.status = status;
         this.error = error;

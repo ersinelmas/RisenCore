@@ -3,13 +3,12 @@ package com.risencore.risencore_api;
 import com.risencore.risencore_api.domain.Role;
 import com.risencore.risencore_api.domain.User;
 import com.risencore.risencore_api.repository.UserRepository;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Set;
 
 @Component
 @RequiredArgsConstructor

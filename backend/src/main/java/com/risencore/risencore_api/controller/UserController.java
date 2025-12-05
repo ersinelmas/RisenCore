@@ -22,15 +22,22 @@ public class UserController {
 
     @Operation(
             summary = "Change User Password",
-            description = "Allows a user to change their password. The request must include the current password and the new password.",
+            description =
+                    "Allows a user to change their password. The request must include the current password and the new password.",
             responses = {
-                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Password changed successfully"),
-                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Bad Request - Invalid input data"),
-                    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized - Invalid current password")
-            }
-    )
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "200",
+                        description = "Password changed successfully"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "400",
+                        description = "Bad Request - Invalid input data"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                        responseCode = "401",
+                        description = "Unauthorized - Invalid current password")
+            })
     @PatchMapping("/change-password")
-    public ResponseEntity<String> changePassword(@Valid @RequestBody ChangePasswordRequestDTO request) {
+    public ResponseEntity<String> changePassword(
+            @Valid @RequestBody ChangePasswordRequestDTO request) {
         userService.changePassword(request);
         return ResponseEntity.ok("Password changed successfully");
     }

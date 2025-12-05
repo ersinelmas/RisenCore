@@ -1,13 +1,12 @@
 package com.risencore.risencore_api.controller;
 
-import com.risencore.risencore_api.dto.HealthMetricDTO;
 import com.risencore.risencore_api.domain.HealthMetricType;
+import com.risencore.risencore_api.dto.HealthMetricDTO;
 import com.risencore.risencore_api.service.HealthService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/health")
@@ -27,7 +26,8 @@ public class HealthController {
     }
 
     @GetMapping("/type/{type}")
-    public ResponseEntity<List<HealthMetricDTO>> getMetricsByType(@PathVariable HealthMetricType type) {
+    public ResponseEntity<List<HealthMetricDTO>> getMetricsByType(
+            @PathVariable HealthMetricType type) {
         return ResponseEntity.ok(healthService.getMetricsByType(type));
     }
 

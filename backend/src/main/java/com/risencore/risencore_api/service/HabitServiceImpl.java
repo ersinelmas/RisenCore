@@ -10,14 +10,13 @@ import com.risencore.risencore_api.mapper.HabitMapper;
 import com.risencore.risencore_api.repository.HabitCompletionRepository;
 import com.risencore.risencore_api.repository.HabitRepository;
 import com.risencore.risencore_api.repository.UserRepository;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +50,8 @@ public class HabitServiceImpl implements HabitService {
         User currentUser = getCurrentUser();
         Habit habit = findHabitByIdAndEnsureOwnership(habitId, currentUser);
 
-        Optional<HabitCompletion> existingCompletion = habitCompletionRepository.findByHabitIdAndCompletionDate(habitId, date);
+        Optional<HabitCompletion> existingCompletion =
+                habitCompletionRepository.findByHabitIdAndCompletionDate(habitId, date);
 
         if (existingCompletion.isPresent()) {
             // If already completed, remove the completion (toggle off)
@@ -74,8 +74,10 @@ public class HabitServiceImpl implements HabitService {
     }
 
     private Habit findHabitByIdAndEnsureOwnership(Long habitId, User user) {
-        Habit habit = habitRepository.findById(habitId)
-                .orElseThrow(() -> new ResourceNotFoundException("Habit", "id", habitId));
+        Habit habit =
+                habitRepository
+                        .findById(habitId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Habit", "id", habitId));
         if (!habit.getUser().getId().equals(user.getId())) {
             throw new ResourceNotFoundException("Habit", "id", habitId);
         }
@@ -84,7 +86,8 @@ public class HabitServiceImpl implements HabitService {
 
     private User getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByUsername(username)
+        return userRepository
+                .findByUsername(username)
                 .orElseThrow(() -> new IllegalStateException("Current user not found in database"));
     }
 }

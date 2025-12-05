@@ -1,5 +1,10 @@
 package com.risencore.risencore_api.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 import com.risencore.risencore_api.domain.Task;
 import com.risencore.risencore_api.domain.User;
 import com.risencore.risencore_api.dto.CreateTaskRequestDTO;
@@ -8,6 +13,7 @@ import com.risencore.risencore_api.exception.ResourceNotFoundException;
 import com.risencore.risencore_api.mapper.TaskMapper;
 import com.risencore.risencore_api.repository.TaskRepository;
 import com.risencore.risencore_api.repository.UserRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,33 +25,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
 @ExtendWith(MockitoExtension.class)
 class TaskServiceImplTest {
 
-    @Mock
-    private TaskRepository taskRepository;
+    @Mock private TaskRepository taskRepository;
 
-    @Mock
-    private TaskMapper taskMapper;
+    @Mock private TaskMapper taskMapper;
 
-    @Mock
-    private UserRepository userRepository;
+    @Mock private UserRepository userRepository;
 
-    @Mock
-    private SecurityContext securityContext;
+    @Mock private SecurityContext securityContext;
 
-    @Mock
-    private Authentication authentication;
+    @Mock private Authentication authentication;
 
-    @InjectMocks
-    private TaskServiceImpl taskService;
+    @InjectMocks private TaskServiceImpl taskService;
 
     private User testUser;
     private Task task;
@@ -63,7 +56,8 @@ class TaskServiceImplTest {
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.isAuthenticated()).thenReturn(true); // Crucial for the new check
         SecurityContextHolder.setContext(securityContext);
-        when(userRepository.findByUsername(testUser.getUsername())).thenReturn(Optional.of(testUser));
+        when(userRepository.findByUsername(testUser.getUsername()))
+                .thenReturn(Optional.of(testUser));
 
         task = new Task();
         task.setId(1L);
@@ -101,9 +95,11 @@ class TaskServiceImplTest {
         when(taskRepository.findById(nonExistentId)).thenReturn(Optional.empty());
 
         // When & Then
-        assertThrows(ResourceNotFoundException.class, () -> {
-            taskService.getTaskById(nonExistentId);
-        });
+        assertThrows(
+                ResourceNotFoundException.class,
+                () -> {
+                    taskService.getTaskById(nonExistentId);
+                });
 
         verify(taskMapper, never()).taskToTaskResponseDTO(any(Task.class));
     }

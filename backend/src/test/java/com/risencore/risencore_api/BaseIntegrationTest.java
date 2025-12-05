@@ -1,5 +1,7 @@
 package com.risencore.risencore_api;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.risencore.risencore_api.domain.Role;
 import com.risencore.risencore_api.domain.User;
@@ -7,6 +9,7 @@ import com.risencore.risencore_api.dto.LoginRequestDTO;
 import com.risencore.risencore_api.repository.TaskRepository;
 import com.risencore.risencore_api.repository.TransactionRepository;
 import com.risencore.risencore_api.repository.UserRepository;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,31 +18,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.Set;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 public abstract class BaseIntegrationTest {
 
-    @Autowired
-    protected MockMvc mockMvc;
+    @Autowired protected MockMvc mockMvc;
 
-    @Autowired
-    protected UserRepository userRepository;
+    @Autowired protected UserRepository userRepository;
 
-    @Autowired
-    protected TransactionRepository transactionRepository;
+    @Autowired protected TransactionRepository transactionRepository;
 
-    @Autowired
-    protected TaskRepository taskRepository;
+    @Autowired protected TaskRepository taskRepository;
 
-    @Autowired
-    protected PasswordEncoder passwordEncoder;
+    @Autowired protected PasswordEncoder passwordEncoder;
 
-    @Autowired
-    protected ObjectMapper objectMapper;
+    @Autowired protected ObjectMapper objectMapper;
 
     @BeforeEach
     void setUpBase() {
@@ -54,10 +47,12 @@ public abstract class BaseIntegrationTest {
         loginRequest.setUsername(username);
         loginRequest.setPassword(password);
 
-        MvcResult result = mockMvc.perform(post("/api/auth/login")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(loginRequest)))
-                .andReturn();
+        MvcResult result =
+                mockMvc.perform(
+                                post("/api/auth/login")
+                                        .contentType("application/json")
+                                        .content(objectMapper.writeValueAsString(loginRequest)))
+                        .andReturn();
 
         String responseBody = result.getResponse().getContentAsString();
         // A simple way to parse the token from the JSON response

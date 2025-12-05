@@ -20,10 +20,8 @@ public class GeminiAIServiceImpl implements AIService {
     public String generateTextFromPrompt(String prompt) {
         try {
             log.info("Sending prompt to Gemini (google-genai SDK)...");
-            GenerateContentResponse response = client.models.generateContent(
-                    "gemini-2.5-flash",
-                    prompt,
-                    null);
+            GenerateContentResponse response =
+                    client.models.generateContent("gemini-2.5-flash", prompt, null);
 
             String textResponse = response.text();
             log.info("Received response from Gemini API.");

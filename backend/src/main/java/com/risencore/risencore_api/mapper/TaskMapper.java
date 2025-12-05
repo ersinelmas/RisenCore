@@ -9,7 +9,9 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(
+        componentModel = "spring",
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface TaskMapper {
 
     TaskMapper INSTANCE = Mappers.getMapper(TaskMapper.class);
@@ -18,6 +20,6 @@ public interface TaskMapper {
 
     Task createTaskRequestDTOToTask(CreateTaskRequestDTO createTaskRequestDTO);
 
-    void updateTaskFromUpdateTaskRequestDTO(UpdateTaskRequestDTO updateTaskRequestDTO, @MappingTarget Task task);
-
+    void updateTaskFromUpdateTaskRequestDTO(
+            UpdateTaskRequestDTO updateTaskRequestDTO, @MappingTarget Task task);
 }

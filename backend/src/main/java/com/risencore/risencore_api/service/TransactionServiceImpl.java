@@ -9,12 +9,11 @@ import com.risencore.risencore_api.exception.ResourceNotFoundException;
 import com.risencore.risencore_api.mapper.TransactionMapper;
 import com.risencore.risencore_api.repository.TransactionRepository;
 import com.risencore.risencore_api.repository.UserRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +27,8 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional(readOnly = true)
     public List<TransactionDTO> getTransactionsForCurrentUser() {
         User currentUser = getCurrentUser();
-        List<Transaction> transactions = transactionRepository.findByUserIdOrderByTransactionDateDesc(currentUser.getId());
+        List<Transaction> transactions =
+                transactionRepository.findByUserIdOrderByTransactionDateDesc(currentUser.getId());
         return transactionMapper.toDtoList(transactions);
     }
 
@@ -45,7 +45,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     private User getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByUsername(username)
+        return userRepository
+                .findByUsername(username)
                 .orElseThrow(() -> new IllegalStateException("Current user not found in database"));
     }
 
@@ -62,8 +63,13 @@ public class TransactionServiceImpl implements TransactionService {
         User currentUser = getCurrentUser();
 
         // Find the transaction by its ID
-        Transaction transaction = transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new ResourceNotFoundException("Transaction", "id", transactionId));
+        Transaction transaction =
+                transactionRepository
+                        .findById(transactionId)
+                        .orElseThrow(
+                                () ->
+                                        new ResourceNotFoundException(
+                                                "Transaction", "id", transactionId));
 
         // Security Check: Ensure the transaction belongs to the current user
         if (!transaction.getUser().getId().equals(currentUser.getId())) {

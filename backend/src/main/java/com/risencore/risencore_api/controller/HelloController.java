@@ -10,19 +10,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Hello Controller", description = "Endpoints for greeting users")
 public class HelloController {
 
-    @Operation (
+    @Operation(
             summary = "Say Hello",
-            description = "Returns a simple greeting message from the RisenCore API."
-    )
+            description = "Returns a simple greeting message from the RisenCore API.")
     @GetMapping("/hello")
     public String sayHello() {
         return "Hello from RisenCore API!";
     }
 
-    @Operation (
+    @Operation(
             summary = "Greet User",
-            description = "Returns a personalized greeting message. You can provide a name as a query parameter."
-    )
+            description =
+                    "Returns a personalized greeting message. You can provide a name as a query parameter.")
     @GetMapping("/greet")
     public String greet(@RequestParam(value = "name", defaultValue = "World") String name) {
         return String.format("Hello, %s! Welcome to RisenCore.", name);

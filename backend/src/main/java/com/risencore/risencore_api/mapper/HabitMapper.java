@@ -4,17 +4,16 @@ import com.risencore.risencore_api.domain.Habit;
 import com.risencore.risencore_api.domain.HabitCompletion;
 import com.risencore.risencore_api.dto.CreateHabitDTO;
 import com.risencore.risencore_api.dto.HabitResponseDTO;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface HabitMapper {
@@ -38,9 +37,10 @@ public interface HabitMapper {
             return;
         }
 
-        Set<LocalDate> completionDates = habit.getCompletions().stream()
-                .map(HabitCompletion::getCompletionDate)
-                .collect(Collectors.toSet());
+        Set<LocalDate> completionDates =
+                habit.getCompletions().stream()
+                        .map(HabitCompletion::getCompletionDate)
+                        .collect(Collectors.toSet());
 
         dto.setCompletionDates(completionDates);
 

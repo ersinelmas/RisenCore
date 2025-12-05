@@ -4,21 +4,19 @@ import com.risencore.risencore_api.domain.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-
-import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
 @Service
 public class JwtService {
@@ -33,7 +31,7 @@ public class JwtService {
 
     public JwtService(@Value("${application.security.jwt.secret-key}") String secretKey) {
         this.secretKey = secretKey;
-        this.jwtParser = Jwts.parser().setSigningKey(getSignInKey()).build();
+        this.jwtParser = Jwts.parser().verifyWith(getSignInKey()).build();
     }
 
     public String extractUsername(String token) {
@@ -50,14 +48,13 @@ public class JwtService {
     }
 
     private String buildToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails,
-            long expiration) {
+            Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
         // Add roles to the claims, removing the "ROLE_" prefix.
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .map(role -> role.replace("ROLE_", "")) // Removes the prefix
-                .collect(Collectors.toList());
+        List<String> roles =
+                userDetails.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .map(role -> role.replace("ROLE_", "")) // Removes the prefix
+                        .collect(Collectors.toList());
         extraClaims.put("roles", roles);
 
         if (userDetails instanceof User) {
@@ -66,13 +63,12 @@ public class JwtService {
             extraClaims.put("lastName", ((User) userDetails).getLastName());
         }
 
-        return Jwts
-                .builder()
-                .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+        return Jwts.builder()
+                .claims(extraClaims)
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(getSignInKey(), Jwts.SIG.HS256)
                 .compact();
     }
 
@@ -90,10 +86,10 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return jwtParser.parseClaimsJws(token).getBody();
+        return jwtParser.parseSignedClaims(token).getPayload();
     }
 
-    private Key getSignInKey() {
+    private SecretKey getSignInKey() {
         byte[] keyBytes;
         try {
             keyBytes = Decoders.BASE64.decode(this.secretKey);

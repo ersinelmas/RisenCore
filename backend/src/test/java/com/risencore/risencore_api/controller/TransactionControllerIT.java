@@ -1,26 +1,25 @@
 package com.risencore.risencore_api.controller;
 
-import com.risencore.risencore_api.BaseIntegrationTest;
-import com.risencore.risencore_api.domain.Category;
-import com.risencore.risencore_api.domain.Role;
-import com.risencore.risencore_api.domain.TransactionType;
-import com.risencore.risencore_api.domain.User;
-import com.risencore.risencore_api.dto.CreateTransactionDTO;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.risencore.risencore_api.BaseIntegrationTest;
+import com.risencore.risencore_api.domain.Category;
+import com.risencore.risencore_api.domain.Role;
+import com.risencore.risencore_api.domain.TransactionType;
+import com.risencore.risencore_api.domain.User;
+import com.risencore.risencore_api.dto.CreateTransactionDTO;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 
 class TransactionControllerIT extends BaseIntegrationTest {
 
@@ -39,7 +38,8 @@ class TransactionControllerIT extends BaseIntegrationTest {
     }
 
     @Test
-    @DisplayName("POST /api/v1/transactions - Should create a new transaction for the authenticated user")
+    @DisplayName(
+            "POST /api/v1/transactions - Should create a new transaction for the authenticated user")
     void givenTransactionRequest_whenCreateTransaction_thenReturns201() throws Exception {
         // Given
         CreateTransactionDTO createDto = new CreateTransactionDTO();
@@ -50,10 +50,12 @@ class TransactionControllerIT extends BaseIntegrationTest {
         createDto.setTransactionDate(LocalDate.now());
 
         // When
-        ResultActions response = mockMvc.perform(post("/api/v1/transactions")
-                .header("Authorization", "Bearer " + userToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createDto)));
+        ResultActions response =
+                mockMvc.perform(
+                        post("/api/v1/transactions")
+                                .header("Authorization", "Bearer " + userToken)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(createDto)));
 
         // Then
         response.andDo(print())
@@ -64,7 +66,8 @@ class TransactionControllerIT extends BaseIntegrationTest {
 
     @Test
     @DisplayName("GET /api/v1/transactions - Should return transactions for the authenticated user")
-    void givenUserHasTransactions_whenGetTransactions_thenReturnsTransactionList() throws Exception {
+    void givenUserHasTransactions_whenGetTransactions_thenReturnsTransactionList()
+            throws Exception {
         // Given: Create a transaction first
         CreateTransactionDTO createDto = new CreateTransactionDTO();
         createDto.setDescription("Groceries");
@@ -73,14 +76,16 @@ class TransactionControllerIT extends BaseIntegrationTest {
         createDto.setCategory(Category.GROCERIES);
         createDto.setTransactionDate(LocalDate.now());
 
-        mockMvc.perform(post("/api/v1/transactions")
-                .header("Authorization", "Bearer " + userToken)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createDto)));
+        mockMvc.perform(
+                post("/api/v1/transactions")
+                        .header("Authorization", "Bearer " + userToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createDto)));
 
         // When
-        ResultActions response = mockMvc.perform(get("/api/v1/transactions")
-                .header("Authorization", "Bearer " + userToken));
+        ResultActions response =
+                mockMvc.perform(
+                        get("/api/v1/transactions").header("Authorization", "Bearer " + userToken));
 
         // Then
         response.andExpect(status().isOk())

@@ -1,9 +1,8 @@
 package com.risencore.risencore_api.dto;
 
-import lombok.Data;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.Data;
 
 @Data // Lombok: @Getter, @Setter, @ToString, @EqualsAndHashCode, @RequiredArgsConstructor
 public class TaskResponseDTO {

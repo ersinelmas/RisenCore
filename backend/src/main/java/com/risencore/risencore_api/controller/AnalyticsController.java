@@ -22,12 +22,17 @@ public class AnalyticsController {
 
     @Operation(
             summary = "Generate Weekly Review",
-            description = "Analyzes the current user's data from the last 7 days and generates a personalized weekly review using an AI service.",
+            description =
+                    "Analyzes the current user's data from the last 7 days and generates a personalized weekly review using an AI service.",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Successfully generated and returned the review text."),
-                    @ApiResponse(responseCode = "500", description = "Internal server error, e.g., failed to contact the AI service.")
-            }
-    )
+                @ApiResponse(
+                        responseCode = "200",
+                        description = "Successfully generated and returned the review text."),
+                @ApiResponse(
+                        responseCode = "500",
+                        description =
+                                "Internal server error, e.g., failed to contact the AI service.")
+            })
     @GetMapping("/weekly-review")
     public ResponseEntity<String> getWeeklyReview() {
         String review = analyticsService.generateWeeklyReview();

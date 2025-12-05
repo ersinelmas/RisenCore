@@ -8,11 +8,10 @@ import lombok.Data;
 
 @Data
 public class CreateHabitDTO {
-    @NotBlank
-    private String name;
+    @NotBlank private String name;
     private String description;
-    @NotNull
-    private Frequency frequency;
+    @NotNull private Frequency frequency;
+
     @Min(1)
     private int targetCount;
 }
