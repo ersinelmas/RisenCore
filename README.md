@@ -78,12 +78,22 @@ git clone https://github.com/ersinelmas/RisenCore.git
 cd RisenCore
 ```
 
-**2. Configure Environment (Optional):**
-- The project comes with default configuration for local development in `docker-compose.yml` and `.env`.
-- If you want to use the AI features, you need to provide a Google Gemini API key.
-- Create a `.env` file in the root directory (or modify the existing one) and add:
+**2. Configure Environment:**
+- Copy `.env.example` to `.env` and fill in secure values. The backend now reads JWT secrets, database credentials, and the Gemini API key exclusively from environment variables.
+- Required variables for the backend:
   ```env
-  GEMINI_API_KEY=your_actual_api_key_here
+  DB_NAME=risencore_db
+  DB_USER=risencore_user
+  DB_PASSWORD=replace_with_secure_password
+  SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/risencore_db
+
+  JWT_SECRET=replace_with_secure_jwt_secret
+
+  GEMINI_API_KEY=replace_with_gemini_api_key
+  GEMINI_MODEL_NAME=gemini-2.5-flash
+
+  # Choose the active Spring profile for the backend
+  SPRING_PROFILES_ACTIVE=dev  # or prod
   ```
 - Frontend-only development also needs an API base URL. Create `frontend/.env` with:
   ```env
@@ -95,6 +105,7 @@ cd RisenCore
 ```sh
 docker-compose up --build
 ```
+- The backend profile comes from `SPRING_PROFILES_ACTIVE` (in your `.env`); `docker-compose.yml` defaults to `dev` and `docker-compose.prod.yml` defaults to `prod` if you don't override it.
 
 **That's it!** 🎉
 

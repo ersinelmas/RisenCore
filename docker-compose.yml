@@ -25,7 +25,7 @@ services:
       - ./.env
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/${DB_NAME}
-      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-dev}
 
   risencore-frontend:
     build:

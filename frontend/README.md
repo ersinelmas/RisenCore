@@ -58,6 +58,7 @@ Steps to develop, test, and package the React-based RisenCore UI locally or for 
   docker-compose -f docker-compose.prod.yml up --build
   ```
   The Compose files select the appropriate targets (`development` / `production`) from the frontend Dockerfile and place the frontend on the same network as the backend.
+  - Set `SPRING_PROFILES_ACTIVE` in your root `.env` to pick the backend profile (`dev` or `prod`) when running through Docker Compose.
 
 ## Useful Files
 - `src/api/axiosConfig.js` — API base URL and request interceptors.
