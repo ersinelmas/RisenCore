@@ -85,6 +85,11 @@ cd RisenCore
   ```env
   GEMINI_API_KEY=your_actual_api_key_here
   ```
+- Frontend-only development also needs an API base URL. Create `frontend/.env` with:
+  ```env
+  VITE_API_BASE_URL=http://localhost:8080
+  ```
+  See `frontend/README.md` for detailed npm, environment, and Docker instructions that align with the Compose setup below.
 
 **3. Run with Docker Compose:**
 ```sh
@@ -96,10 +101,6 @@ docker-compose up --build
 - **Frontend:** Open [http://localhost:5173](http://localhost:5173) in your browser.
 - **Backend API:** Running on `http://localhost:8080`.
 - **API Documentation:** [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html).
-
-**Default Credentials:**
-- **Admin:** `adminuser` / `adminpass`
-- **User:** `testuser` / `userpass`
 
 To stop the application:
 ```sh
