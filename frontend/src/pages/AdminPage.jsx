@@ -8,6 +8,9 @@ import Modal from "../components/common/Modal";
 import { useModal } from "../hooks/useModal";
 import modalStyles from "../components/common/Modal.module.css";
 import { useAuth } from "../hooks/useAuth";
+import LoadingIndicator from "../components/common/LoadingIndicator";
+import EmptyState from "../components/common/EmptyState";
+import ErrorBoundary from "../components/common/ErrorBoundary";
 import { useTranslation } from "react-i18next";
 
 function AdminPage() {
@@ -15,6 +18,7 @@ function AdminPage() {
   const { user: currentUser } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const [userToModify, setUserToModify] = useState(null);
   const {
@@ -35,11 +39,13 @@ function AdminPage() {
 
   const fetchUsers = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
       const response = await adminService.getAllUsers();
       setUsers(response.data);
     } catch (err) {
       toast.error(t("admin.fetchError"));
+      setError(t("admin.fetchError"));
       console.error("Fetch users error:", err);
     } finally {
       setLoading(false);
@@ -119,96 +125,103 @@ function AdminPage() {
 
   return (
     <>
-      <PageLayout title={t("admin.title")}>
-        <Card>
-          {loading ? (
-            <p style={{ padding: "2rem", textAlign: "center" }}>
-              {t("admin.loading")}
-            </p>
-          ) : users.length > 0 ? (
-            <div className={styles.tableContainer}>
-              <table className={styles.userTable}>
-                <thead>
-                  <tr>
-                    <th>{t("admin.id")}</th>
-                    <th>{t("admin.username")}</th>
-                    <th>{t("admin.fullName")}</th>
-                    <th>{t("admin.email")}</th>
-                    <th>{t("admin.roles")}</th>
-                    <th>{t("admin.actions")}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((user) => (
-                    <tr key={user.id}>
-                      <td>{user.id}</td>
-                      <td>{user.username}</td>
-                      <td>
-                        {user.firstName} {user.lastName}
-                      </td>
-                      <td>{user.email}</td>
-                      <td>
-                        {user.roles.map((role) => (
-                          <span
-                            key={role}
-                            className={`${styles.roleBadge} ${role === "ADMIN"
-                              ? styles.roleAdmin
-                              : styles.roleUser
-                              }`}
-                          >
-                            {role}
-                          </span>
-                        ))}
-                      </td>
-                      <td className={styles.actionsCell}>
-                        {currentUser?.username === user.username ? (
-                          <span className={styles.currentUserBadge}>
-                            {t("admin.currentUser")}
-                          </span>
-                        ) : (
-                          <>
-                            {!user.roles.includes("ADMIN") ? (
-                              <button
-                                className={`${styles.actionButton} ${styles.promoteButton}`}
-                                onClick={() => handlePromoteClick(user)}
-                              >
-                                {t("admin.promote")}
-                              </button>
-                            ) : (
-                              <button
-                                className={`${styles.actionButton} ${styles.demoteButton}`}
-                                onClick={() => handleDemoteClick(user)}
-                              >
-                                {t("admin.demote")}
-                              </button>
-                            )}
-                            <button
-                              className={`${styles.actionButton} ${styles.deleteButton}`}
-                              onClick={() => handleDeleteClick(user)}
-                            >
-                              {t("admin.delete")}
-                            </button>
-                          </>
-                        )}
-                      </td>
+      <ErrorBoundary>
+        <PageLayout title={t("admin.title")}>
+          <Card>
+            {loading ? (
+              <LoadingIndicator messageKey="admin.loading" />
+            ) : error ? (
+              <EmptyState
+                icon="⚠️"
+                title={t("admin.fetchError")}
+                description={t("admin.fetchErrorDescription")}
+                actionLabel={t("common.retry")}
+                onAction={fetchUsers}
+              />
+            ) : users.length > 0 ? (
+              <div className={styles.tableContainer}>
+                <table className={styles.userTable}>
+                  <thead>
+                    <tr>
+                      <th>{t("admin.id")}</th>
+                      <th>{t("admin.username")}</th>
+                      <th>{t("admin.fullName")}</th>
+                      <th>{t("admin.email")}</th>
+                      <th>{t("admin.roles")}</th>
+                      <th>{t("admin.actions")}</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p
-              style={{
-                padding: "2rem",
-                textAlign: "center",
-                color: "var(--color-text-secondary)",
-              }}
-            >
-              {t("admin.noUsers")}
-            </p>
-          )}
-        </Card>
-      </PageLayout>
+                  </thead>
+                  <tbody>
+                    {users.map((user) => (
+                      <tr key={user.id}>
+                        <td>{user.id}</td>
+                        <td>{user.username}</td>
+                        <td>
+                          {user.firstName} {user.lastName}
+                        </td>
+                        <td>{user.email}</td>
+                        <td>
+                          {user.roles.map((role) => (
+                            <span
+                              key={role}
+                              className={`${styles.roleBadge} ${role === "ADMIN"
+                                ? styles.roleAdmin
+                                : styles.roleUser
+                                }`}
+                            >
+                              {role}
+                            </span>
+                          ))}
+                        </td>
+                        <td className={styles.actionsCell}>
+                          {currentUser?.username === user.username ? (
+                            <span className={styles.currentUserBadge}>
+                              {t("admin.currentUser")}
+                            </span>
+                          ) : (
+                            <>
+                              {!user.roles.includes("ADMIN") ? (
+                                <button
+                                  className={`${styles.actionButton} ${styles.promoteButton}`}
+                                  onClick={() => handlePromoteClick(user)}
+                                >
+                                  {t("admin.promote")}
+                                </button>
+                              ) : (
+                                <button
+                                  className={`${styles.actionButton} ${styles.demoteButton}`}
+                                  onClick={() => handleDemoteClick(user)}
+                                >
+                                  {t("admin.demote")}
+                                </button>
+                              )}
+                              <button
+                                className={`${styles.actionButton} ${styles.deleteButton}`}
+                                onClick={() => handleDeleteClick(user)}
+                              >
+                                {t("admin.delete")}
+                              </button>
+                            </>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <EmptyState
+                compact
+                icon="📋"
+                title={t("admin.noUsers")}
+                description={t("admin.noUsersDescription")}
+                actionLabel={t("common.retry")}
+                onAction={fetchUsers}
+              />
+            )}
+          </Card>
+        </PageLayout>
+      </ErrorBoundary>
 
       <Modal
         isOpen={isPromoteModalOpen}

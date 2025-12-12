@@ -1,26 +1,31 @@
 import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import taskService from "../services/taskService";
 
 export function useTasks() {
+  const { t } = useTranslation();
   const [tasks, setTasks] = useState([]);
   const [loadingTasks, setLoadingTasks] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editingText, setEditingText] = useState("");
+  const [error, setError] = useState(null);
 
   const fetchTasks = useCallback(async () => {
     setLoadingTasks(true);
+    setError(null);
     try {
       const response = await taskService.getAllTasks();
       setTasks(response.data);
     } catch (error) {
-      toast.error("Failed to load tasks.");
+      toast.error(t("tasks.loadError"));
+      setError(t("tasks.loadError"));
       console.error("Failed to fetch tasks:", error);
     } finally {
       setLoadingTasks(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     fetchTasks();
@@ -127,6 +132,7 @@ export function useTasks() {
   return {
     tasks,
     loadingTasks,
+    error,
     isCreating,
     createTask,
     deleteTask,

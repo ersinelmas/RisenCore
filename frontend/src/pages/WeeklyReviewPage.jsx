@@ -4,6 +4,9 @@ import Card from "../components/Card";
 import analyticsService from "../services/analyticsService";
 import styles from "./WeeklyReviewPage.module.css";
 import ReactMarkdown from "react-markdown";
+import LoadingIndicator from "../components/common/LoadingIndicator";
+import EmptyState from "../components/common/EmptyState";
+import ErrorBoundary from "../components/common/ErrorBoundary";
 import { useTranslation } from "react-i18next";
 
 function WeeklyReviewPage() {
@@ -31,18 +34,23 @@ function WeeklyReviewPage() {
   const renderContent = () => {
     if (isLoading) {
       return (
-        <div className={styles.loadingContainer}>
-          <div className={styles.spinner}></div>
-          <p className={styles.loadingText}>
-            {t("weeklyReview.generating")}
-          </p>
-          <p className={styles.subtleText}>{t("weeklyReview.mayTakeMoment")}</p>
-        </div>
+        <LoadingIndicator
+          fullHeight
+          message={`${t("weeklyReview.generating")} ${t("weeklyReview.mayTakeMoment")}`}
+        />
       );
     }
 
     if (error) {
-      return <p className={styles.errorText}>{error}</p>;
+      return (
+        <EmptyState
+          icon="⚠️"
+          title={t("weeklyReview.error")}
+          description={error}
+          actionLabel={t("common.retry")}
+          onAction={() => window.location.reload()}
+        />
+      );
     }
 
     return (
@@ -53,9 +61,11 @@ function WeeklyReviewPage() {
   };
 
   return (
-    <PageLayout title={t("weeklyReview.title")}>
-      <Card>{renderContent()}</Card>
-    </PageLayout>
+    <ErrorBoundary>
+      <PageLayout title={t("weeklyReview.title")}>
+        <Card>{renderContent()}</Card>
+      </PageLayout>
+    </ErrorBoundary>
   );
 }
 
