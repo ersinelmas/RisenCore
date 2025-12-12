@@ -16,6 +16,7 @@ import com.risencore.risencore_api.mapper.UserMapper;
 import com.risencore.risencore_api.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,7 +52,7 @@ class UserServiceImplTest {
         currentUser.setId(1L);
         currentUser.setUsername("jane");
         currentUser.setPassword("encoded");
-        currentUser.setRoles(List.of(Role.USER));
+        currentUser.setRoles(Set.of(Role.USER));
 
         when(authentication.getName()).thenReturn(currentUser.getUsername());
         when(securityContext.getAuthentication()).thenReturn(authentication);
@@ -125,7 +126,7 @@ class UserServiceImplTest {
     void promoteUserToAdmin_addsRole() {
         User target = new User();
         target.setUsername("target");
-        target.setRoles(List.of(Role.USER));
+        target.setRoles(Set.of(Role.USER));
 
         when(userRepository.findByUsername("target")).thenReturn(Optional.of(target));
 
