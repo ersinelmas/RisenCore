@@ -6,9 +6,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.risencore.risencore_api.domain.Role;
 import com.risencore.risencore_api.domain.User;
 import com.risencore.risencore_api.dto.LoginRequestDTO;
+import com.risencore.risencore_api.repository.HabitCompletionRepository;
+import com.risencore.risencore_api.repository.HabitRepository;
+import com.risencore.risencore_api.repository.HealthMetricRepository;
 import com.risencore.risencore_api.repository.TaskRepository;
 import com.risencore.risencore_api.repository.TransactionRepository;
 import com.risencore.risencore_api.repository.UserRepository;
+import com.risencore.risencore_api.repository.WeeklyReviewRepository;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,14 @@ public abstract class BaseIntegrationTest {
 
     @Autowired protected UserRepository userRepository;
 
+    @Autowired protected HealthMetricRepository healthMetricRepository;
+
+    @Autowired protected HabitRepository habitRepository;
+
+    @Autowired protected HabitCompletionRepository habitCompletionRepository;
+
+    @Autowired protected WeeklyReviewRepository weeklyReviewRepository;
+
     @Autowired protected TransactionRepository transactionRepository;
 
     @Autowired protected TaskRepository taskRepository;
@@ -37,6 +49,10 @@ public abstract class BaseIntegrationTest {
     @BeforeEach
     void setUpBase() {
         // Clean up dependent tables FIRST, then the main user table.
+        habitCompletionRepository.deleteAll();
+        habitRepository.deleteAll();
+        healthMetricRepository.deleteAll();
+        weeklyReviewRepository.deleteAll();
         transactionRepository.deleteAll();
         taskRepository.deleteAll();
         userRepository.deleteAll();
