@@ -40,8 +40,10 @@ replay_pid*
 .env
 .env.local
 
-# Ignore environment-specific properties files, except for the example templates.
+# Ignore environment-specific properties files, except for the committed profiles and example templates.
 /backend/src/main/resources/application-*.properties
+!/backend/src/main/resources/application-dev.properties
+!/backend/src/main/resources/application-prod.properties
 !/backend/src/main/resources/application-dev.properties.template
 !/backend/src/main/resources/application-prod.properties.template
 
