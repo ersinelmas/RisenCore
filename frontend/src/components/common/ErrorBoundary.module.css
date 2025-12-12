@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: #fef2f2;
+  border: 1px solid #fecdd3;
+  border-radius: 12px;
+  color: #991b1b;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+.texts {
+  flex: 1;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.message {
+  margin: 0.25rem 0 0;
+  color: #b91c1c;
+}
+
+.retryButton {
+  background: #991b1b;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.retryButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(153, 27, 27, 0.22);
+}

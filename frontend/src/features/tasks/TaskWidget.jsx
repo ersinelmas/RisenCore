@@ -7,6 +7,8 @@ import { useModal } from "../../hooks/useModal";
 import modalStyles from "../../components/common/Modal.module.css";
 import TaskItem from "./TaskItem";
 import CreateTaskForm from "./CreateTaskForm";
+import LoadingIndicator from "../../components/common/LoadingIndicator";
+import EmptyState from "../../components/common/EmptyState";
 
 import { useTranslation } from "react-i18next";
 
@@ -15,6 +17,7 @@ function TaskWidget() {
   const {
     tasks,
     loadingTasks,
+    error,
     isCreating,
     createTask,
     deleteTask,
@@ -76,33 +79,44 @@ function TaskWidget() {
             <h2 className={styles.sectionTitle}>{t("tasks.yourTasks")}</h2>
 
             {loadingTasks && (
-              <p style={{ textAlign: "center", padding: "1rem" }}>
-                {t("tasks.loading")}
-              </p>
+              <LoadingIndicator messageKey="tasks.loading" />
             )}
 
-            <ul className={styles.tasksList}>
-              {!loadingTasks && tasks.length === 0 && (
-                <p className={styles.noTasks}>{t("tasks.noTasks")}</p>
-              )}
+            {error ? (
+              <EmptyState
+                icon="⚠️"
+                title={t("tasks.loadError")}
+                description={t("tasks.loadErrorDescription")}
+              />
+            ) : (
+              <ul className={styles.tasksList}>
+                {!loadingTasks && tasks.length === 0 && (
+                  <EmptyState
+                    compact
+                    icon="✅"
+                    title={t("tasks.noTasks")}
+                    description={t("tasks.noTasksDescription")}
+                  />
+                )}
 
-              {tasks.map((task) => (
-                <TaskItem
-                  key={task.id}
-                  task={task}
-                  editingState={{
-                    editingTaskId,
-                    editingText,
-                    setEditingText,
-                  }}
-                  onToggleComplete={toggleTaskComplete}
-                  onStartEdit={handleStartEdit}
-                  onCancelEdit={handleCancelEdit}
-                  onSave={handleSaveEdit}
-                  onDelete={handleDeleteRequest}
-                />
-              ))}
-            </ul>
+                {tasks.map((task) => (
+                  <TaskItem
+                    key={task.id}
+                    task={task}
+                    editingState={{
+                      editingTaskId,
+                      editingText,
+                      setEditingText,
+                    }}
+                    onToggleComplete={toggleTaskComplete}
+                    onStartEdit={handleStartEdit}
+                    onCancelEdit={handleCancelEdit}
+                    onSave={handleSaveEdit}
+                    onDelete={handleDeleteRequest}
+                  />
+                ))}
+              </ul>
+            )}
           </main>
         </Card>
       </div>

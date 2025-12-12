@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
 import PageLayout from "../components/layout/PageLayout";
 import Card from "../components/Card";
+import LoadingIndicator from "../components/common/LoadingIndicator";
+import EmptyState from "../components/common/EmptyState";
+import ErrorBoundary from "../components/common/ErrorBoundary";
 import habitService from "../services/habitService";
 import styles from "./HabitsPage.module.css";
 import HabitItem from "../features/habits/HabitItem";
@@ -12,19 +15,22 @@ function HabitsPage() {
   const { t } = useTranslation();
   const [habits, setHabits] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchHabits = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
       const response = await habitService.getAllHabits();
       setHabits(response.data);
     } catch (error) {
       toast.error(t("habits.loadError"));
+      setError(t("habits.loadError"));
       console.error("Failed to fetch habits:", error);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     fetchHabits();
@@ -51,42 +57,63 @@ function HabitsPage() {
   if (loading) {
     return (
       <PageLayout title={t("habits.title")}>
-        <div>{t("habits.loading")}</div>
+        <LoadingIndicator fullHeight messageKey="habits.loading" />
+      </PageLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <PageLayout title={t("habits.title")}>
+        <EmptyState
+          icon="⚠️"
+          title={t("habits.loadError")}
+          description={t("habits.loadErrorDescription")}
+          actionLabel={t("common.retry")}
+          onAction={fetchHabits}
+        />
       </PageLayout>
     );
   }
 
   return (
-    <PageLayout title={t("habits.title")}>
-      <div className={styles.pageContent}>
-        <Card>
-          <h2 className={styles.sectionTitle}>{t("habits.addNew")}</h2>
-          <CreateHabitForm onHabitCreated={handleHabitCreated} />
-        </Card>
+    <ErrorBoundary>
+      <PageLayout title={t("habits.title")}>
+        <div className={styles.pageContent}>
+          <Card>
+            <h2 className={styles.sectionTitle}>{t("habits.addNew")}</h2>
+            <CreateHabitForm onHabitCreated={handleHabitCreated} />
+          </Card>
 
-        <div>
-          <h2 className={styles.sectionTitle}>{t("habits.myHabits")}</h2>
-          {habits.length > 0 ? (
-            <div className={styles.habitListContainer}>
-              {habits.map((habit) => (
-                <HabitItem
-                  key={habit.id}
-                  habit={habit}
-                  onUpdate={handleHabitUpdate}
-                  onDelete={handleHabitDelete}
+          <div>
+            <h2 className={styles.sectionTitle}>{t("habits.myHabits")}</h2>
+            {habits.length > 0 ? (
+              <div className={styles.habitListContainer}>
+                {habits.map((habit) => (
+                  <HabitItem
+                    key={habit.id}
+                    habit={habit}
+                    onUpdate={handleHabitUpdate}
+                    onDelete={handleHabitDelete}
+                  />
+                ))}
+              </div>
+            ) : (
+              <Card>
+                <EmptyState
+                  compact
+                  icon="🧭"
+                  title={t("habits.noHabits")}
+                  description={t("habits.noHabitsDescription")}
+                  actionLabel={t("common.retry")}
+                  onAction={fetchHabits}
                 />
-              ))}
-            </div>
-          ) : (
-            <Card>
-              <p style={{ textAlign: "center", padding: "2rem" }}>
-                {t("habits.noHabits")}
-              </p>
-            </Card>
-          )}
+              </Card>
+            )}
+          </div>
         </div>
-      </div>
-    </PageLayout>
+      </PageLayout>
+    </ErrorBoundary>
   );
 }
 
