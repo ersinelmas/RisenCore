@@ -3,6 +3,7 @@ package com.risencore.risencore_api.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -10,6 +11,8 @@ import com.risencore.risencore_api.domain.HealthMetric;
 import com.risencore.risencore_api.domain.HealthMetricType;
 import com.risencore.risencore_api.domain.User;
 import com.risencore.risencore_api.dto.HealthMetricDTO;
+import com.risencore.risencore_api.exception.ResourceNotFoundException;
+import com.risencore.risencore_api.mapper.HealthMapper;
 import com.risencore.risencore_api.repository.HealthMetricRepository;
 import com.risencore.risencore_api.repository.UserRepository;
 import java.time.LocalDate;
@@ -33,6 +36,8 @@ class HealthServiceImplTest {
 
     @Mock private UserRepository userRepository;
 
+    @Mock private HealthMapper healthMapper;
+
     @Mock private SecurityContext securityContext;
 
     @Mock private Authentication authentication;
@@ -47,6 +52,8 @@ class HealthServiceImplTest {
         user.setId(1L);
         user.setUsername("healthUser");
 
+        when(authentication.isAuthenticated()).thenReturn(true);
+        when(authentication.getPrincipal()).thenReturn(user.getUsername());
         when(authentication.getName()).thenReturn(user.getUsername());
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
@@ -58,13 +65,9 @@ class HealthServiceImplTest {
     void createMetric_savesWithCurrentUser() {
         HealthMetricDTO request =
                 new HealthMetricDTO(
-                        null,
-                        HealthMetricType.WEIGHT,
-                        70.0,
-                        "kg",
-                        LocalDate.now(),
-                        "Post-workout");
+                        null, HealthMetricType.WEIGHT, 70.0, "kg", LocalDate.now(), "Post-workout");
 
+        HealthMetric mapped = new HealthMetric();
         HealthMetric saved = new HealthMetric();
         saved.setId(10L);
         saved.setType(HealthMetricType.WEIGHT);
@@ -74,7 +77,18 @@ class HealthServiceImplTest {
         saved.setNotes(request.getNotes());
         saved.setUser(user);
 
+        HealthMetricDTO savedDto =
+                new HealthMetricDTO(
+                        10L,
+                        HealthMetricType.WEIGHT,
+                        70.0,
+                        "kg",
+                        request.getDate(),
+                        "Post-workout");
+
+        when(healthMapper.healthMetricDTOToHealthMetric(request)).thenReturn(mapped);
         when(healthMetricRepository.save(any(HealthMetric.class))).thenReturn(saved);
+        when(healthMapper.healthMetricToHealthMetricDTO(saved)).thenReturn(savedDto);
 
         HealthMetricDTO result = healthService.createMetric(request);
 
@@ -94,8 +108,14 @@ class HealthServiceImplTest {
         metric.setDate(LocalDate.now());
         metric.setUser(user);
 
-        when(healthMetricRepository.findByUserIdAndType(user.getId(), HealthMetricType.BLOOD_PRESSURE))
+        HealthMetricDTO dto =
+                new HealthMetricDTO(
+                        5L, HealthMetricType.BLOOD_PRESSURE, 120.0, "mmHg", metric.getDate(), null);
+
+        when(healthMetricRepository.findByUserIdAndType(
+                        user.getId(), HealthMetricType.BLOOD_PRESSURE))
                 .thenReturn(Collections.singletonList(metric));
+        when(healthMapper.healthMetricToHealthMetricDTO(metric)).thenReturn(dto);
 
         var results = healthService.getMetricsByType(HealthMetricType.BLOOD_PRESSURE);
 
@@ -112,6 +132,45 @@ class HealthServiceImplTest {
                 new HealthMetricDTO(
                         null, HealthMetricType.WEIGHT, 70.0, "kg", LocalDate.now(), "notes");
 
-        assertThrows(RuntimeException.class, () -> healthService.createMetric(request));
+        assertThrows(IllegalStateException.class, () -> healthService.createMetric(request));
+    }
+
+    @Test
+    @DisplayName("deleteMetric should delete when the metric belongs to the current user")
+    void deleteMetric_ownedByCurrentUser_deletes() {
+        HealthMetric metric = new HealthMetric();
+        metric.setId(7L);
+        metric.setUser(user);
+
+        when(healthMetricRepository.findById(7L)).thenReturn(Optional.of(metric));
+
+        healthService.deleteMetric(7L);
+
+        verify(healthMetricRepository).deleteById(7L);
+    }
+
+    @Test
+    @DisplayName("deleteMetric should reject deletion when the metric belongs to another user")
+    void deleteMetric_ownedByAnotherUser_throwsAndDoesNotDelete() {
+        User otherUser = new User();
+        otherUser.setId(2L);
+
+        HealthMetric metric = new HealthMetric();
+        metric.setId(7L);
+        metric.setUser(otherUser);
+
+        when(healthMetricRepository.findById(7L)).thenReturn(Optional.of(metric));
+
+        assertThrows(ResourceNotFoundException.class, () -> healthService.deleteMetric(7L));
+        verify(healthMetricRepository, never()).deleteById(any());
+    }
+
+    @Test
+    @DisplayName("deleteMetric should throw ResourceNotFoundException when metric does not exist")
+    void deleteMetric_notFound_throws() {
+        when(healthMetricRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> healthService.deleteMetric(99L));
+        verify(healthMetricRepository, never()).deleteById(any());
     }
 }

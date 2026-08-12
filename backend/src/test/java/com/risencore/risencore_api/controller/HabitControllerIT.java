@@ -73,7 +73,10 @@ class HabitControllerIT extends BaseIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors.name[0]", containsString("must not be blank")))
                 .andExpect(jsonPath("$.errors.frequency[0]", containsString("must not be null")))
-                .andExpect(jsonPath("$.errors.targetCount[0]", containsString("must be greater than or equal to 1")));
+                .andExpect(
+                        jsonPath(
+                                "$.errors.targetCount[0]",
+                                containsString("must be greater than or equal to 1")));
     }
 
     @Test
@@ -98,9 +101,7 @@ class HabitControllerIT extends BaseIntegrationTest {
                                 .header("Authorization", "Bearer " + otherToken))
                 .andExpect(status().isNotFound());
 
-        mockMvc.perform(
-                        get("/api/v1/habits")
-                                .header("Authorization", "Bearer " + userToken))
+        mockMvc.perform(get("/api/v1/habits").header("Authorization", "Bearer " + userToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].completionDates", hasSize(1)));
     }
@@ -137,7 +138,6 @@ class HabitControllerIT extends BaseIntegrationTest {
     void unauthenticatedRequests_return401() throws Exception {
         mockMvc.perform(get("/api/v1/habits")).andExpect(status().isUnauthorized());
 
-        mockMvc.perform(post("/api/v1/habits").content("{}"))
-                .andExpect(status().isUnauthorized());
+        mockMvc.perform(post("/api/v1/habits").content("{}")).andExpect(status().isUnauthorized());
     }
 }

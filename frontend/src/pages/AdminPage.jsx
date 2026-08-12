@@ -21,6 +21,7 @@ function AdminPage() {
   const [error, setError] = useState(null);
 
   const [userToModify, setUserToModify] = useState(null);
+  const [isMutating, setIsMutating] = useState(false);
   const {
     isOpen: isPromoteModalOpen,
     openModal: openPromoteModal,
@@ -64,6 +65,7 @@ function AdminPage() {
   const confirmPromote = useCallback(async () => {
     if (!userToModify) return;
     closePromoteModal();
+    setIsMutating(true);
     const toastId = toast.loading(`${t("admin.promoting")} ${userToModify.username}...`);
     try {
       await adminService.promoteUser(userToModify.username);
@@ -74,6 +76,7 @@ function AdminPage() {
       console.error("Promote user error:", err);
     } finally {
       setUserToModify(null);
+      setIsMutating(false);
     }
   }, [userToModify, closePromoteModal, fetchUsers, t]);
 
@@ -85,6 +88,7 @@ function AdminPage() {
   const confirmDemote = useCallback(async () => {
     if (!userToModify) return;
     closeDemoteModal();
+    setIsMutating(true);
     const toastId = toast.loading(`${t("admin.demoting")} ${userToModify.username}...`);
     try {
       await adminService.demoteUser(userToModify.username);
@@ -95,6 +99,7 @@ function AdminPage() {
       console.error("Demote user error:", err);
     } finally {
       setUserToModify(null);
+      setIsMutating(false);
     }
   }, [userToModify, closeDemoteModal, fetchUsers, t]);
 
@@ -110,6 +115,7 @@ function AdminPage() {
   const confirmDelete = useCallback(async () => {
     if (!userToModify) return;
     closeDeleteModal();
+    setIsMutating(true);
     const toastId = toast.loading(`${t("admin.deleting")} ${userToModify.username}...`);
     try {
       await adminService.deleteUser(userToModify.id);
@@ -120,6 +126,7 @@ function AdminPage() {
       console.error("Delete user error:", err);
     } finally {
       setUserToModify(null);
+      setIsMutating(false);
     }
   }, [userToModify, closeDeleteModal, fetchUsers, t]);
 
@@ -184,6 +191,7 @@ function AdminPage() {
                                 <button
                                   className={`${styles.actionButton} ${styles.promoteButton}`}
                                   onClick={() => handlePromoteClick(user)}
+                                  disabled={isMutating}
                                 >
                                   {t("admin.promote")}
                                 </button>
@@ -191,6 +199,7 @@ function AdminPage() {
                                 <button
                                   className={`${styles.actionButton} ${styles.demoteButton}`}
                                   onClick={() => handleDemoteClick(user)}
+                                  disabled={isMutating}
                                 >
                                   {t("admin.demote")}
                                 </button>
@@ -198,6 +207,7 @@ function AdminPage() {
                               <button
                                 className={`${styles.actionButton} ${styles.deleteButton}`}
                                 onClick={() => handleDeleteClick(user)}
+                                disabled={isMutating}
                               >
                                 {t("admin.delete")}
                               </button>

@@ -21,7 +21,9 @@ public class HealthMetric {
     @Column(nullable = false)
     private HealthMetricType type;
 
-    @Column(nullable = false)
+    // Backtick-quoted: "value" is a reserved word in H2 (used in tests), though not in
+    // PostgreSQL. Hibernate auto-translates backticks to the correct quoting per dialect.
+    @Column(name = "`value`", nullable = false)
     private Double value;
 
     @Column(nullable = false)

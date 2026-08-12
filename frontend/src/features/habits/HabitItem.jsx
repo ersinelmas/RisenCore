@@ -131,7 +131,11 @@ function HabitItem({ habit, onUpdate, onDelete }) {
                 } ${toTitleCase(habit.frequency)}`}
             </p>
           </div>
-          <button className={styles.deleteButton} onClick={openDeleteModal}>
+          <button
+            className={styles.deleteButton}
+            onClick={openDeleteModal}
+            aria-label={t("habits.deleteHabit")}
+          >
             <FiTrash2 size={20} />
           </button>
         </div>
@@ -146,10 +150,13 @@ function HabitItem({ habit, onUpdate, onDelete }) {
                     {day.toLocaleDateString("en-US", { weekday: "short" })}
                   </span>
                   <span className={styles.dayNumber}>{day.getDate()}</span>
-                  <div
+                  <button
+                    type="button"
                     className={`${styles.dayCheckbox} ${isCompleted ? styles.completed : ""
                       }`}
                     onClick={() => handleToggle(day)}
+                    aria-pressed={isCompleted}
+                    aria-label={`${habit.name} - ${day.toLocaleDateString("en-US", { weekday: "long" })}`}
                   />
                 </div>
               );

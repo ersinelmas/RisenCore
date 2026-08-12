@@ -54,7 +54,8 @@ class HealthControllerIT extends BaseIntegrationTest {
     }
 
     @Test
-    @DisplayName("GET /api/v1/health/type/{type} should return only metrics of that type for the user")
+    @DisplayName(
+            "GET /api/v1/health/type/{type} should return only metrics of that type for the user")
     void getMetricsByType_returnsFilteredMetrics() throws Exception {
         // Metric for current user
         HealthMetric metric = new HealthMetric();
@@ -84,13 +85,46 @@ class HealthControllerIT extends BaseIntegrationTest {
     }
 
     @Test
+    @DisplayName("DELETE /api/v1/health/{id} should reject deleting another user's metric")
+    void deleteMetric_ownedByAnotherUser_returnsNotFound() throws Exception {
+        User other = createTestUser("health_owner", "password", Role.USER);
+        HealthMetric otherMetric = new HealthMetric();
+        otherMetric.setType(HealthMetricType.WEIGHT);
+        otherMetric.setValue(80.0);
+        otherMetric.setUnit("kg");
+        otherMetric.setDate(LocalDate.now());
+        otherMetric.setUser(other);
+        otherMetric = healthMetricRepository.save(otherMetric);
+
+        mockMvc.perform(
+                        delete("/api/v1/health/{id}", otherMetric.getId())
+                                .header("Authorization", "Bearer " + userToken))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("DELETE /api/v1/health/{id} should delete the caller's own metric")
+    void deleteMetric_ownedByCurrentUser_returnsNoContent() throws Exception {
+        HealthMetric metric = new HealthMetric();
+        metric.setType(HealthMetricType.WEIGHT);
+        metric.setValue(75.0);
+        metric.setUnit("kg");
+        metric.setDate(LocalDate.now());
+        metric.setUser(owner);
+        metric = healthMetricRepository.save(metric);
+
+        mockMvc.perform(
+                        delete("/api/v1/health/{id}", metric.getId())
+                                .header("Authorization", "Bearer " + userToken))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
     @DisplayName("Unauthenticated health metric requests should be rejected")
     void unauthorizedRequests_return401() throws Exception {
-        mockMvc.perform(post("/api/v1/health").content("{}"))
-                .andExpect(status().isUnauthorized());
+        mockMvc.perform(post("/api/v1/health").content("{}")).andExpect(status().isUnauthorized());
 
-        mockMvc.perform(delete("/api/v1/health/{id}", 1L))
-                .andExpect(status().isUnauthorized());
+        mockMvc.perform(delete("/api/v1/health/{id}", 1L)).andExpect(status().isUnauthorized());
 
         mockMvc.perform(get("/api/v1/health/type/{type}", HealthMetricType.BLOOD_PRESSURE))
                 .andExpect(status().isUnauthorized());

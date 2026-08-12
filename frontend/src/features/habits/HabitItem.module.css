@@ -25,6 +25,14 @@
   justify-content: space-between;
   align-items: flex-start;
   text-align: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (max-width: 480px) {
+  .weekView {
+    justify-content: center;
+  }
 }
 .day {
   display: flex;
@@ -44,8 +52,10 @@
 .dayCheckbox {
   width: 36px;
   height: 36px;
+  padding: 0;
   border-radius: 6px;
   border: 2px solid var(--color-border);
+  background-color: var(--color-bg-card);
   cursor: pointer;
   transition: all 0.2s;
 }

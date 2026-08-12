@@ -11,7 +11,9 @@
         "logout": "Çıkış Yap",
         "confirmLogout": "Çıkışı Onayla",
         "logoutMessage": "Çıkış yapmak istediğinize emin misiniz?",
-        "cancel": "İptal"
+        "cancel": "İptal",
+        "openMenu": "Menüyü aç",
+        "closeMenu": "Menüyü kapat"
     },
     "auth": {
         "welcomeBack": "Tekrar Hoş Geldiniz",
@@ -82,7 +84,9 @@
         "title": "Haftalık Özetiniz",
         "generating": "AI destekli özetiniz oluşturuluyor...",
         "mayTakeMoment": "(Bu biraz zaman alabilir)",
-        "error": "Haftalık özetiniz oluşturulamadı. Lütfen daha sonra tekrar deneyin."
+        "error": "Haftalık özetiniz oluşturulamadı. Lütfen daha sonra tekrar deneyin.",
+        "empty": "Henüz bir özet yok",
+        "emptyDescription": "Bu hafta özet oluşturmak için yeterli aktivite yoktu. Görev, alışkanlık veya işlem ekleyip tekrar kontrol edin."
     },
     "tasks": {
         "title": "Görevlerim",
@@ -100,7 +104,20 @@
         "cancel": "İptal",
         "loading": "Görevler yükleniyor...",
         "loadError": "Görevler yüklenemedi.",
-        "loadErrorDescription": "Görevlerinizi yeniden getirmek için sayfayı tazelemeyi deneyin."
+        "loadErrorDescription": "Görevlerinizi yeniden getirmek için sayfayı tazelemeyi deneyin.",
+        "createNewTask": "Yeni Görev Oluştur",
+        "descriptionPlaceholder": "Ne yapman gerekiyor?",
+        "descriptionEmpty": "Görev açıklaması boş olamaz.",
+        "creating": "Görev oluşturuluyor...",
+        "createSuccess": "Görev başarıyla oluşturuldu!",
+        "createError": "Görev oluşturulamadı.",
+        "updateError": "Görev güncellenemedi.",
+        "deleting": "Görev siliniyor...",
+        "deleted": "Görev silindi.",
+        "deleteError": "Görev silinemedi.",
+        "saving": "Görev kaydediliyor...",
+        "updated": "Görev güncellendi!",
+        "saveError": "Görev kaydedilemedi."
     },
     "finance": {
         "title": "Finans Takibi",
@@ -162,7 +179,6 @@
         "title": "Sağlık Takibi",
         "logMetric": "Sağlık Verisi Kaydet",
         "recentEntries": "Son Kayıtlar",
-        "noEntries": "Henüz sağlık kaydı yok.",
         "metricType": "Veri Tipi",
         "value": "Değer",
         "unit": "Birim",
@@ -176,7 +192,12 @@
         "added": "Veri eklendi!",
         "addError": "Veri eklenemedi.",
         "noMetrics": "Gösterilecek sağlık verisi yok.",
-        "noMetricsDescription": "Sağlık trendlerini takip etmek için yeni bir kayıt ekleyin."
+        "noMetricsDescription": "Sağlık trendlerini takip etmek için yeni bir kayıt ekleyin.",
+        "deleteMetric": "Sağlık verisini sil",
+        "deleteMetricConfirm": "Bu kaydı silmek istediğinize emin misiniz?",
+        "deleting": "Veri siliniyor...",
+        "deleted": "Veri silindi.",
+        "deleteError": "Veri silinemedi."
     },
     "admin": {
         "title": "Yönetici Paneli",

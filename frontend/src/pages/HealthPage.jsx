@@ -1,11 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
+import { FiTrash2 } from "react-icons/fi";
 import healthService from "../services/healthService";
 import PageLayout from "../components/layout/PageLayout";
 import Card from "../components/Card";
 import LoadingIndicator from "../components/common/LoadingIndicator";
 import EmptyState from "../components/common/EmptyState";
 import ErrorBoundary from "../components/common/ErrorBoundary";
+import Modal from "../components/common/Modal";
+import modalStyles from "../components/common/Modal.module.css";
+import { useModal } from "../hooks/useModal";
 import styles from "./HealthPage.module.css";
 import { toTitleCase } from "../utils/stringUtils";
 import { useTranslation } from "react-i18next";
@@ -17,6 +21,13 @@ function HealthPage() {
   const [metrics, setMetrics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [metricToDelete, setMetricToDelete] = useState(null);
+  const {
+    isOpen: isDeleteModalOpen,
+    openModal: openDeleteModal,
+    closeModal: closeDeleteModal,
+  } = useModal();
   const [form, setForm] = useState({
     type: "WEIGHT",
     value: "",
@@ -26,6 +37,7 @@ function HealthPage() {
   });
 
   const fetchMetrics = useCallback(async () => {
+    setError(null);
     try {
       const response = await healthService.getAllMetrics();
       setMetrics(response.data);
@@ -49,6 +61,7 @@ function HealthPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const toastId = toast.loading(t("health.adding"));
     try {
       await healthService.createMetric(form);
@@ -62,8 +75,32 @@ function HealthPage() {
       // eslint-disable-next-line no-unused-vars
     } catch (error) {
       toast.error(t("health.addError"), { id: toastId });
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
+  const handleDeleteClick = (metric) => {
+    setMetricToDelete(metric);
+    openDeleteModal();
+  };
+
+  const confirmDeleteMetric = useCallback(async () => {
+    if (!metricToDelete) return;
+
+    closeDeleteModal();
+    const toastId = toast.loading(t("health.deleting"));
+    try {
+      await healthService.deleteMetric(metricToDelete.id);
+      toast.success(t("health.deleted"), { id: toastId });
+      fetchMetrics();
+    } catch (error) {
+      console.error("Error deleting health metric:", error);
+      toast.error(t("health.deleteError"), { id: toastId });
+    } finally {
+      setMetricToDelete(null);
+    }
+  }, [metricToDelete, closeDeleteModal, fetchMetrics, t]);
 
   if (loading) {
     return (
@@ -95,8 +132,11 @@ function HealthPage() {
             <h2>{t("health.logMetric")}</h2>
             <form onSubmit={handleSubmit} className={styles.form}>
               <div className={styles.formGroup}>
-                <label className={styles.label}>{t("health.metricType")}</label>
+                <label htmlFor="health-type" className={styles.label}>
+                  {t("health.metricType")}
+                </label>
                 <select
+                  id="health-type"
                   name="type"
                   value={form.type}
                   onChange={handleInputChange}
@@ -111,8 +151,11 @@ function HealthPage() {
               </div>
 
               <div className={styles.formGroup}>
-                <label className={styles.label}>{t("health.value")}</label>
+                <label htmlFor="health-value" className={styles.label}>
+                  {t("health.value")}
+                </label>
                 <input
+                  id="health-value"
                   type="number"
                   name="value"
                   value={form.value}
@@ -124,8 +167,11 @@ function HealthPage() {
               </div>
 
               <div className={styles.formGroup}>
-                <label className={styles.label}>{t("health.unit")}</label>
+                <label htmlFor="health-unit" className={styles.label}>
+                  {t("health.unit")}
+                </label>
                 <input
+                  id="health-unit"
                   type="text"
                   name="unit"
                   value={form.unit}
@@ -136,8 +182,11 @@ function HealthPage() {
               </div>
 
               <div className={styles.formGroup}>
-                <label className={styles.label}>{t("health.date")}</label>
+                <label htmlFor="health-date" className={styles.label}>
+                  {t("health.date")}
+                </label>
                 <input
+                  id="health-date"
                   type="date"
                   name="date"
                   value={form.date}
@@ -148,8 +197,11 @@ function HealthPage() {
               </div>
 
               <div className={styles.formGroup}>
-                <label className={styles.label}>{t("health.notes")}</label>
+                <label htmlFor="health-notes" className={styles.label}>
+                  {t("health.notes")}
+                </label>
                 <textarea
+                  id="health-notes"
                   name="notes"
                   value={form.notes}
                   onChange={handleInputChange}
@@ -158,8 +210,12 @@ function HealthPage() {
                 />
               </div>
 
-              <button type="submit" className={styles.button}>
-                {t("health.submit")}
+              <button
+                type="submit"
+                className={styles.button}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? t("health.adding") : t("health.submit")}
               </button>
             </form>
           </Card>
@@ -174,6 +230,13 @@ function HealthPage() {
                       {toTitleCase(metric.type)}
                     </span>
                     <span className={styles.metricDate}>{metric.date}</span>
+                    <button
+                      className={styles.deleteButton}
+                      onClick={() => handleDeleteClick(metric)}
+                      aria-label={t("health.deleteMetric")}
+                    >
+                      <FiTrash2 size={16} />
+                    </button>
                   </div>
                   <div>
                     <span className={styles.metricValue}>{metric.value}</span>
@@ -195,6 +258,27 @@ function HealthPage() {
           </div>
         </div>
       </PageLayout>
+
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        title={t("health.deleteMetric")}
+        actions={
+          <>
+            <button className={modalStyles.actionButton} onClick={closeDeleteModal}>
+              {t("common.cancel")}
+            </button>
+            <button
+              className={`${modalStyles.actionButton} ${modalStyles.confirmButton}`}
+              onClick={confirmDeleteMetric}
+            >
+              {t("common.delete")}
+            </button>
+          </>
+        }
+      >
+        <p>{t("health.deleteMetricConfirm")}</p>
+      </Modal>
     </ErrorBoundary>
   );
 }

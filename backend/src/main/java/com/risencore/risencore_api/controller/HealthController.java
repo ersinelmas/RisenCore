@@ -3,6 +3,7 @@ package com.risencore.risencore_api.controller;
 import com.risencore.risencore_api.domain.HealthMetricType;
 import com.risencore.risencore_api.dto.HealthMetricDTO;
 import com.risencore.risencore_api.service.HealthService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,8 @@ public class HealthController {
     private final HealthService healthService;
 
     @PostMapping
-    public ResponseEntity<HealthMetricDTO> createMetric(@RequestBody HealthMetricDTO metricDTO) {
+    public ResponseEntity<HealthMetricDTO> createMetric(
+            @Valid @RequestBody HealthMetricDTO metricDTO) {
         return ResponseEntity.ok(healthService.createMetric(metricDTO));
     }
 

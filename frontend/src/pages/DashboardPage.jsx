@@ -104,7 +104,7 @@ function DashboardPage() {
       <PageLayout title={`${getGreeting()}, ${user?.firstName || "User"}!`}>
         <div className={styles.gridContainer}>
           <Card className={styles.highlightCard}>
-            <h3 className={styles.cardTitle}>{t("dashboard.weeklyAIReady")}</h3>
+            <h2 className={styles.cardTitle}>{t("dashboard.weeklyAIReady")}</h2>
             <p className={styles.cardDescription}>
               {t("dashboard.weeklyAIDescription")}
             </p>
@@ -115,7 +115,7 @@ function DashboardPage() {
 
           {/* Card 1: Today's Tasks */}
           <Card>
-            <h3 className={styles.cardTitle}>{t("dashboard.todaysFocusTasks")}</h3>
+            <h2 className={styles.cardTitle}>{t("dashboard.todaysFocusTasks")}</h2>
             {tasks.length > 0 ? (
               <ul className={styles.quickTaskList}>
                 {tasks.map((task) => (
@@ -137,7 +137,7 @@ function DashboardPage() {
 
           {/* Card 2: Today's Habits */}
           <Card>
-            <h3 className={styles.cardTitle}>{t("dashboard.habitsToComplete")}</h3>
+            <h2 className={styles.cardTitle}>{t("dashboard.habitsToComplete")}</h2>
             {habits.filter((h) => !h.completedToday).length > 0 ? (
               <ul className={styles.quickTaskList}>
                 {habits
@@ -162,7 +162,7 @@ function DashboardPage() {
 
           {/* Card 3: Quick Balance */}
           <Card>
-            <h3 className={styles.cardTitle}>{t("dashboard.currentBalance")}</h3>
+            <h2 className={styles.cardTitle}>{t("dashboard.currentBalance")}</h2>
             <div className={styles.balanceDisplay}>
               ${financialSummary.balance.toFixed(2)}
             </div>

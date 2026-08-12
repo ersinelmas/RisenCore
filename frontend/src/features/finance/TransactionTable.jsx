@@ -80,6 +80,7 @@ function TransactionTable({ transactions, loading, onTransactionDeleted }) {
                                                 <button
                                                     className={styles.deleteButton}
                                                     onClick={() => handleDeleteClick(t)}
+                                                    aria-label={t.description}
                                                 >
                                                     <FiTrash2 size={18} />
                                                 </button>

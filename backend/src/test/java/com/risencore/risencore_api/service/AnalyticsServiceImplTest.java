@@ -72,7 +72,8 @@ class AnalyticsServiceImplTest {
         when(weeklyReviewRepository.findByUserAndWeekStartDate(user, weekStart))
                 .thenReturn(Optional.of(existing));
 
-        try (MockedStatic<LocalDateTime> mocked = org.mockito.Mockito.mockStatic(LocalDateTime.class)) {
+        try (MockedStatic<LocalDateTime> mocked =
+                org.mockito.Mockito.mockStatic(LocalDateTime.class)) {
             mocked.when(() -> LocalDateTime.now(ZoneOffset.UTC)).thenReturn(fixedNow);
 
             String result = analyticsService.generateWeeklyReview();
@@ -94,18 +95,22 @@ class AnalyticsServiceImplTest {
         transaction.setTransactionDate(LocalDate.now());
 
         Habit habit = new Habit();
+        habit.setName("Drink water");
         habit.setUser(user);
 
         when(taskRepository.findByUserAndCreatedAtAfter(any(User.class), any(LocalDateTime.class)))
                 .thenReturn(Collections.singletonList(task));
-        when(transactionRepository.findByUserAndTransactionDateAfter(any(User.class), any(LocalDate.class)))
+        when(transactionRepository.findByUserAndTransactionDateAfter(
+                        any(User.class), any(LocalDate.class)))
                 .thenReturn(Collections.singletonList(transaction));
         when(habitRepository.findByUser(user)).thenReturn(Collections.singletonList(habit));
-        when(weeklyReviewRepository.findByUserAndWeekStartDate(any(User.class), any(LocalDateTime.class)))
+        when(weeklyReviewRepository.findByUserAndWeekStartDate(
+                        any(User.class), any(LocalDateTime.class)))
                 .thenReturn(Optional.empty());
         when(aiService.generateTextFromPrompt(any(String.class))).thenReturn("generated");
 
-        try (MockedStatic<LocalDateTime> mocked = org.mockito.Mockito.mockStatic(LocalDateTime.class)) {
+        try (MockedStatic<LocalDateTime> mocked =
+                org.mockito.Mockito.mockStatic(LocalDateTime.class)) {
             mocked.when(() -> LocalDateTime.now(ZoneOffset.UTC)).thenReturn(fixedNow);
 
             String result = analyticsService.generateWeeklyReview();
