@@ -11,13 +11,25 @@ import Modal from "../components/common/Modal";
 import modalStyles from "../components/common/Modal.module.css";
 import { useModal } from "../hooks/useModal";
 import styles from "./HealthPage.module.css";
-import { toTitleCase } from "../utils/stringUtils";
 import { useTranslation } from "react-i18next";
 
 const METRIC_TYPES = ["WEIGHT", "WATER", "SLEEP", "EXERCISE"];
 
+// Default unit per metric type — units are universal symbols (kg, L, hrs, min),
+// so they don't need translation, but the type itself must be resolved via t()
+// (see METRIC_TYPES / health.types.* below). Keeping unit tied to type prevents
+// nonsensical combinations like "Water — 50kg".
+const DEFAULT_UNIT_BY_TYPE = {
+  WEIGHT: "kg",
+  WATER: "L",
+  SLEEP: "hrs",
+  EXERCISE: "min",
+};
+
+const todayIsoDate = () => new Date().toISOString().split("T")[0];
+
 function HealthPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [metrics, setMetrics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,8 +43,8 @@ function HealthPage() {
   const [form, setForm] = useState({
     type: "WEIGHT",
     value: "",
-    unit: "kg",
-    date: new Date().toISOString().split("T")[0],
+    unit: DEFAULT_UNIT_BY_TYPE.WEIGHT,
+    date: todayIsoDate(),
     notes: "",
   });
 
@@ -56,11 +68,25 @@ function HealthPage() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if (name === "type") {
+      // Switch to the sensible default unit for the newly selected type,
+      // instead of silently keeping whatever unit was left over.
+      setForm((prev) => ({
+        ...prev,
+        type: value,
+        unit: DEFAULT_UNIT_BY_TYPE[value] ?? prev.unit,
+      }));
+      return;
+    }
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (Number(form.value) < 0) {
+      toast.error(t("health.valueMin"));
+      return;
+    }
     setIsSubmitting(true);
     const toastId = toast.loading(t("health.adding"));
     try {
@@ -101,6 +127,18 @@ function HealthPage() {
       setMetricToDelete(null);
     }
   }, [metricToDelete, closeDeleteModal, fetchMetrics, t]);
+
+  const formatMetricDate = (isoDate) => {
+    const parsed = new Date(isoDate);
+    if (Number.isNaN(parsed.getTime())) return isoDate;
+    return parsed.toLocaleDateString(i18n.language, {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const metricTypeLabel = (type) => t(`health.types.${type}`, type);
 
   if (loading) {
     return (
@@ -144,7 +182,7 @@ function HealthPage() {
                 >
                   {METRIC_TYPES.map((type) => (
                     <option key={type} value={type}>
-                      {toTitleCase(type)}
+                      {metricTypeLabel(type)}
                     </option>
                   ))}
                 </select>
@@ -161,6 +199,7 @@ function HealthPage() {
                   value={form.value}
                   onChange={handleInputChange}
                   step="0.01"
+                  min="0"
                   required
                   className={styles.input}
                 />
@@ -191,6 +230,7 @@ function HealthPage() {
                   name="date"
                   value={form.date}
                   onChange={handleInputChange}
+                  max={todayIsoDate()}
                   required
                   className={styles.input}
                 />
@@ -227,9 +267,11 @@ function HealthPage() {
                 <Card key={metric.id} className={styles.metricCard}>
                   <div className={styles.metricHeader}>
                     <span className={styles.metricType}>
-                      {toTitleCase(metric.type)}
+                      {metricTypeLabel(metric.type)}
                     </span>
-                    <span className={styles.metricDate}>{metric.date}</span>
+                    <span className={styles.metricDate}>
+                      {formatMetricDate(metric.date)}
+                    </span>
                     <button
                       className={styles.deleteButton}
                       onClick={() => handleDeleteClick(metric)}

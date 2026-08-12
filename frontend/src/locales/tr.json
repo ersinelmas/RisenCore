@@ -197,7 +197,14 @@
         "deleteMetricConfirm": "Bu kaydı silmek istediğinize emin misiniz?",
         "deleting": "Veri siliniyor...",
         "deleted": "Veri silindi.",
-        "deleteError": "Veri silinemedi."
+        "deleteError": "Veri silinemedi.",
+        "valueMin": "Değer sıfır veya daha büyük olmalı.",
+        "types": {
+            "WEIGHT": "Kilo",
+            "WATER": "Su",
+            "SLEEP": "Uyku",
+            "EXERCISE": "Egzersiz"
+        }
     },
     "admin": {
         "title": "Yönetici Paneli",

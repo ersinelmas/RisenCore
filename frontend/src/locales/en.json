@@ -197,7 +197,14 @@
     "deleteMetricConfirm": "Are you sure you want to delete this entry?",
     "deleting": "Deleting metric...",
     "deleted": "Metric deleted.",
-    "deleteError": "Failed to delete metric."
+    "deleteError": "Failed to delete metric.",
+    "valueMin": "Value must be zero or greater.",
+    "types": {
+      "WEIGHT": "Weight",
+      "WATER": "Water",
+      "SLEEP": "Sleep",
+      "EXERCISE": "Exercise"
+    }
   },
   "admin": {
     "title": "Admin Panel",
