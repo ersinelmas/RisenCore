@@ -46,7 +46,8 @@ class UserManagementControllerIT extends BaseIntegrationTest {
     }
 
     @Test
-    @DisplayName("PATCH /api/v1/users/change-password should change password for authenticated user")
+    @DisplayName(
+            "PATCH /api/v1/users/change-password should change password for authenticated user")
     void changePassword_success() throws Exception {
         ChangePasswordRequestDTO request = new ChangePasswordRequestDTO();
         request.setCurrentPassword("password");

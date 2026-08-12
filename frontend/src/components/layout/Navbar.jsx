@@ -56,6 +56,7 @@ function Navbar() {
         <button
           onClick={() => setIsMenuOpen(true)}
           className={styles.hamburgerButton}
+          aria-label={t("sidebar.openMenu")}
         >
           <FiMenu />
         </button>
@@ -74,6 +75,7 @@ function Navbar() {
           <button
             onClick={() => setIsMenuOpen(false)}
             className={styles.closeButton}
+            aria-label={t("sidebar.closeMenu")}
           >
             <FiX />
           </button>

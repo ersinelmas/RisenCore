@@ -89,7 +89,8 @@ class HabitServiceImplTest {
     }
 
     @Test
-    @DisplayName("toggleHabitCompletion should add completion when not present and remove when present")
+    @DisplayName(
+            "toggleHabitCompletion should add completion when not present and remove when present")
     void toggleHabitCompletion_togglesState() {
         Habit habit = new Habit();
         habit.setId(5L);

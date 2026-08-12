@@ -34,26 +34,26 @@ export function useTasks() {
   const createTask = useCallback(
     async (description, onSuccessCallback) => {
       if (!description.trim()) {
-        toast.error("Task description cannot be empty.");
+        toast.error(t("tasks.descriptionEmpty"));
         return;
       }
-      const toastId = toast.loading("Creating task...");
+      const toastId = toast.loading(t("tasks.creating"));
       setIsCreating(true);
       try {
         await taskService.createTask(description);
         await fetchTasks();
-        toast.success("Task created successfully!", { id: toastId });
+        toast.success(t("tasks.createSuccess"), { id: toastId });
         if (onSuccessCallback) {
           onSuccessCallback();
         }
       } catch (err) {
-        toast.error("Failed to create task.", { id: toastId });
+        toast.error(t("tasks.createError"), { id: toastId });
         console.error("Error creating task:", err);
       } finally {
         setIsCreating(false);
       }
     },
-    [fetchTasks]
+    [fetchTasks, t]
   );
 
   const toggleTaskComplete = useCallback(async (taskToToggle) => {
@@ -68,7 +68,7 @@ export function useTasks() {
         completed: !taskToToggle.completed,
       });
     } catch (err) {
-      toast.error("Failed to update task.");
+      toast.error(t("tasks.updateError"));
       console.error("Error updating task completion:", err);
       setTasks((currentTasks) =>
         currentTasks.map((t) =>
@@ -78,35 +78,35 @@ export function useTasks() {
         )
       );
     }
-  }, []);
+  }, [t]);
 
   const deleteTask = useCallback(
     async (taskToDelete) => {
-      const toastId = toast.loading("Deleting task...");
+      const toastId = toast.loading(t("tasks.deleting"));
       setTasks((currentTasks) =>
         currentTasks.filter((t) => t.id !== taskToDelete.id)
       );
 
       try {
         await taskService.deleteTask(taskToDelete.id);
-        toast.success("Task deleted.", { id: toastId });
+        toast.success(t("tasks.deleted"), { id: toastId });
       } catch (err) {
-        toast.error("Failed to delete task.", { id: toastId });
+        toast.error(t("tasks.deleteError"), { id: toastId });
         console.error("Error deleting task:", err);
         await fetchTasks();
       }
     },
-    [fetchTasks]
+    [fetchTasks, t]
   );
 
   const updateTaskDescription = useCallback(
     async (taskToSave, newDescription) => {
       if (!newDescription.trim()) {
-        toast.error("Description cannot be empty.");
+        toast.error(t("tasks.descriptionEmpty"));
         return;
       }
-      const toastId = toast.loading("Saving task...");
-      
+      const toastId = toast.loading(t("tasks.saving"));
+
       setTasks((currentTasks) =>
         currentTasks.map((t) =>
           t.id === taskToSave.id ? { ...t, description: newDescription } : t
@@ -119,14 +119,14 @@ export function useTasks() {
           description: newDescription,
           completed: taskToSave.completed,
         });
-        toast.success("Task updated!", { id: toastId });
+        toast.success(t("tasks.updated"), { id: toastId });
       } catch (err) {
-        toast.error("Failed to save task.", { id: toastId });
+        toast.error(t("tasks.saveError"), { id: toastId });
         console.error("Error updating task description:", err);
         await fetchTasks();
       }
     },
-    [fetchTasks]
+    [fetchTasks, t]
   );
 
   return {

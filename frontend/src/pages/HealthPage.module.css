@@ -69,6 +69,28 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 0.5rem;
+}
+
+.metricHeader > .metricDate {
+    margin-left: auto;
+}
+
+.deleteButton {
+    padding: 0.4rem;
+    border: none;
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.deleteButton:hover {
+    background-color: #fee2e2;
+    color: var(--color-error);
 }
 
 .metricType {

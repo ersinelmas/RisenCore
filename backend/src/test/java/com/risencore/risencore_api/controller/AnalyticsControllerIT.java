@@ -54,11 +54,15 @@ class AnalyticsControllerIT extends BaseIntegrationTest {
     void weeklyReview_generatesAndReusesCachedValue() throws Exception {
         when(aiService.generateTextFromPrompt(Mockito.anyString())).thenReturn("Weekly summary");
 
-        mockMvc.perform(get("/api/v1/analytics/weekly-review").header("Authorization", "Bearer " + userToken))
+        mockMvc.perform(
+                        get("/api/v1/analytics/weekly-review")
+                                .header("Authorization", "Bearer " + userToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is("Weekly summary")));
 
-        mockMvc.perform(get("/api/v1/analytics/weekly-review").header("Authorization", "Bearer " + userToken))
+        mockMvc.perform(
+                        get("/api/v1/analytics/weekly-review")
+                                .header("Authorization", "Bearer " + userToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is("Weekly summary")));
 

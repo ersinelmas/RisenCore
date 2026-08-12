@@ -14,6 +14,7 @@ import com.risencore.risencore_api.dto.UserDTO;
 import com.risencore.risencore_api.exception.ResourceNotFoundException;
 import com.risencore.risencore_api.mapper.UserMapper;
 import com.risencore.risencore_api.repository.UserRepository;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -54,10 +56,12 @@ class UserServiceImplTest {
         currentUser.setPassword("encoded");
         currentUser.setRoles(Set.of(Role.USER));
 
-        when(authentication.getName()).thenReturn(currentUser.getUsername());
-        when(securityContext.getAuthentication()).thenReturn(authentication);
+        // lenient: not every test in this class resolves the current user (e.g. getAllUsers)
+        Mockito.lenient().when(authentication.getName()).thenReturn(currentUser.getUsername());
+        Mockito.lenient().when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
-        when(userRepository.findByUsername(currentUser.getUsername()))
+        Mockito.lenient()
+                .when(userRepository.findByUsername(currentUser.getUsername()))
                 .thenReturn(Optional.of(currentUser));
     }
 
@@ -126,7 +130,7 @@ class UserServiceImplTest {
     void promoteUserToAdmin_addsRole() {
         User target = new User();
         target.setUsername("target");
-        target.setRoles(Set.of(Role.USER));
+        target.setRoles(new HashSet<>(Set.of(Role.USER)));
 
         when(userRepository.findByUsername("target")).thenReturn(Optional.of(target));
 
@@ -139,7 +143,8 @@ class UserServiceImplTest {
     @Test
     @DisplayName("deleteUser should prevent deleting self and require existence")
     void deleteUser_selfDeleteAndMissingUser() {
-        assertThrows(IllegalArgumentException.class, () -> userService.deleteUser(currentUser.getId()));
+        assertThrows(
+                IllegalArgumentException.class, () -> userService.deleteUser(currentUser.getId()));
 
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
 

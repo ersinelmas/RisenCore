@@ -8,19 +8,19 @@ function FinanceSummary({ summary }) {
     return (
         <div className={styles.summaryContainer}>
             <Card>
-                <h4>{t("finance.totalIncome")}</h4>
+                <h2>{t("finance.totalIncome")}</h2>
                 <p className={`${styles.amount} ${styles.income}`}>
                     ${summary.income.toFixed(2)}
                 </p>
             </Card>
             <Card>
-                <h4>{t("finance.totalExpense")}</h4>
+                <h2>{t("finance.totalExpense")}</h2>
                 <p className={`${styles.amount} ${styles.expense}`}>
                     ${summary.expense.toFixed(2)}
                 </p>
             </Card>
             <Card>
-                <h4>{t("finance.currentBalance")}</h4>
+                <h2>{t("finance.currentBalance")}</h2>
                 <p className={styles.amount}>${summary.balance.toFixed(2)}</p>
             </Card>
         </div>

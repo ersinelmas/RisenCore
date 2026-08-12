@@ -80,7 +80,9 @@ public abstract class BaseIntegrationTest {
         user.setUsername(username);
         user.setEmail(username + "@test.com");
         user.setPassword(passwordEncoder.encode(password));
-        user.setRoles(Set.of(roles));
+        user.setFirstName("Test");
+        user.setLastName("User");
+        user.setRoles(new java.util.HashSet<>(Set.of(roles)));
         return userRepository.save(user);
     }
 }

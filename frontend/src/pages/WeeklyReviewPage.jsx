@@ -53,6 +53,16 @@ function WeeklyReviewPage() {
       );
     }
 
+    if (!review || !review.trim()) {
+      return (
+        <EmptyState
+          icon="🤖"
+          title={t("weeklyReview.empty")}
+          description={t("weeklyReview.emptyDescription")}
+        />
+      );
+    }
+
     return (
       <div className={styles.reviewContent}>
         <ReactMarkdown>{review}</ReactMarkdown>

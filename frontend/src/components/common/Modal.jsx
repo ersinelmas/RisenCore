@@ -9,7 +9,7 @@ function Modal({ isOpen, onClose, title, children, actions }) {
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
           <h2 className={styles.title}>{title}</h2>
-          <button onClick={onClose} className={styles.closeButton}>×</button>
+          <button onClick={onClose} className={styles.closeButton} aria-label="Close">×</button>
         </div>
         <div className={styles.content}>
           {children}
