@@ -1,6 +1,7 @@
 .tableContainer {
     width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .transactionTable {
@@ -12,14 +13,14 @@
 .transactionTable th,
 .transactionTable td {
     border-bottom: 1px solid var(--color-border);
-    padding: 1rem;
+    padding: var(--space-4);
     text-align: left;
-    font-size: 0.875rem;
+    font-size: var(--font-size-sm);
 }
 
 .transactionTable th {
     background-color: var(--color-bg-page);
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -30,7 +31,7 @@
 }
 
 .amount {
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
     font-family: "Consolas", "Menlo", "Courier New", monospace;
     color: var(--color-text-primary);
 }
@@ -44,7 +45,7 @@
 }
 
 .deleteButton {
-    padding: 0.5rem;
+    padding: var(--space-2);
     border: none;
     background-color: transparent;
     color: var(--color-text-secondary);

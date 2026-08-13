@@ -1,27 +1,27 @@
 .gridContainer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+  gap: var(--space-6);
 }
 
 .cardTitle {
   margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-5);
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 
 .summaryItem {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
+  margin-bottom: var(--space-3);
+  font-size: var(--font-size-base);
 }
 
 .amount {
   font-family: "Consolas", "Menlo", "Courier New", monospace;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .income {
@@ -33,29 +33,29 @@
 }
 
 .divider {
-  margin: 1rem 0;
+  margin: var(--space-4) 0;
   border: none;
   border-top: 1px solid var(--color-border);
 }
 
 .quickTaskList {
   list-style: disc;
-  padding-left: 1.5rem;
-  margin-bottom: 1rem;
+  padding-left: var(--space-5);
+  margin-bottom: var(--space-4);
 }
 
 .quickTaskList li {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-2);
   color: var(--color-text-secondary);
 }
 
 .viewAllLink {
   display: inline-block;
-  margin-top: 1rem;
-  font-weight: 600;
+  margin-top: var(--space-4);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-link);
   text-decoration: none;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
 }
 
 .viewAllLink:hover {
@@ -65,24 +65,24 @@
 .noItemsText {
   color: var(--color-text-secondary);
   font-style: italic;
-  padding: 1rem 0;
+  padding: var(--space-4) 0;
   text-align: center;
 }
 
 .balanceDisplay {
   font-size: 2.25rem;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   text-align: center;
-  padding: 1rem 0;
+  padding: var(--space-4) 0;
 }
 
 .balanceSubtitle {
   text-align: center;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   margin: 0;
-  padding-bottom: 1rem;
+  padding-bottom: var(--space-4);
 }
 
 /* ================ HIGHLIGHT CARD STYLES ================ */
@@ -98,8 +98,8 @@
 }
 
 .cardDescription {
-  margin: -1rem 0 1.5rem 0;
-  font-size: 1rem;
+  margin: -1rem 0 var(--space-5) 0;
+  font-size: var(--font-size-base);
   color: #e0e7ff;
   opacity: 0.9;
 }
@@ -108,10 +108,10 @@
   display: inline-block;
   background-color: #ffffff;
   color: var(--color-accent-hover);
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-lg);
   text-decoration: none;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   transition: transform 0.2s ease-in-out, background-color 0.2s;
 }
 

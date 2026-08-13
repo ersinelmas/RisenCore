@@ -2,6 +2,22 @@ import React from "react";
 import ReactECharts from "echarts-for-react";
 import { toTitleCase } from "../../utils/stringUtils";
 
+// ECharts renders to canvas, so `var(--token)` can't be resolved here -
+// these literal values must be kept in sync with the design tokens in index.css.
+const CHART_PALETTE = [
+  "#4f46e5", // Indigo - matches --color-accent
+  "#0ea5e9", // Sky
+  "#10b981", // Emerald
+  "#eab308", // Amber
+  "#f97316", // Orange
+  "#ef4444", // Red - matches --color-error
+  "#8b5cf6", // Violet
+  "#ec4899", // Pink
+];
+
+const CHART_TEXT_PRIMARY = "#1e293b"; // matches --color-text-primary
+const CHART_TEXT_SECONDARY = "#64748b"; // matches --color-text-secondary
+
 function ExpenseChart({ data }) {
   const option = {
     tooltip: {
@@ -32,35 +48,26 @@ function ExpenseChart({ data }) {
             },
             rich: {
               a: {
-                color: "#1e293b",
+                color: CHART_TEXT_PRIMARY,
                 fontSize: 22,
                 fontWeight: "bold",
                 lineHeight: 30,
               },
               b: {
-                color: "#1e293b",
+                color: CHART_TEXT_PRIMARY,
                 fontSize: 28,
                 fontWeight: "bold",
                 lineHeight: 40,
                 fontFamily: "'Consolas', 'Menlo', 'Courier New', monospace",
               },
-              c: { color: "#64748b", fontSize: 16, lineHeight: 24 },
+              c: { color: CHART_TEXT_SECONDARY, fontSize: 16, lineHeight: 24 },
             },
           },
         },
         labelLine: {
           show: false,
         },
-        color: [
-          "#4f46e5", // Indigo
-          "#0ea5e9", // Sky
-          "#10b981", // Emerald
-          "#eab308", // Amber
-          "#f97316", // Orange
-          "#ef4444", // Red
-          "#8b5cf6", // Violet
-          "#ec4899", // Pink
-        ],
+        color: CHART_PALETTE,
         data: data.map((item) => ({
           name: toTitleCase(item.category),
           value: item.totalAmount,

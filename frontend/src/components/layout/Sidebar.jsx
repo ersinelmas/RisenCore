@@ -2,17 +2,8 @@ import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import styles from "./MainLayout.module.css";
-import {
-  FiGrid,
-  FiCheckSquare,
-  FiCreditCard,
-  FiUser,
-  FiShield,
-  FiLogOut,
-  FiTrendingUp,
-  FiActivity,
-  FiCpu,
-} from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
+import { NAV_LINKS, ADMIN_LINK } from "./navLinks";
 import logo from "../../assets/logo.png";
 import Modal from "../common/Modal";
 import { useModal } from "../../hooks/useModal";
@@ -43,71 +34,32 @@ function Sidebar() {
         </Link>
 
         <nav className={styles.nav}>
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
-            }
-            end
-          >
-            <FiGrid className={styles.icon} /> <span>{t("sidebar.dashboard")}</span>
-          </NavLink>
-          <NavLink
-            to="/tasks"
-            className={({ isActive }) =>
-              isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
-            }
-          >
-            <FiCheckSquare className={styles.icon} /> <span>{t("sidebar.tasks")}</span>
-          </NavLink>
-          <NavLink
-            to="/habits"
-            className={({ isActive }) =>
-              isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
-            }
-          >
-            <FiTrendingUp className={styles.icon} /> <span>{t("sidebar.habits")}</span>
-          </NavLink>
-          <NavLink
-            to="/finance"
-            className={({ isActive }) =>
-              isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
-            }
-          >
-            <FiCreditCard className={styles.icon} /> <span>{t("sidebar.finance")}</span>
-          </NavLink>
-          <NavLink
-            to="/health"
-            className={({ isActive }) =>
-              isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
-            }
-          >
-            <FiActivity className={styles.icon} /> <span>{t("sidebar.health")}</span>
-          </NavLink>
-          <NavLink
-            to="/weekly-review"
-            className={({ isActive }) =>
-              isActive ? `${styles.navLink} ${styles.active} ${styles.aiLink}` : `${styles.navLink} ${styles.aiLink}`
-            }
-          >
-            <FiCpu className={styles.icon} /> <span>{t("sidebar.weeklyReview")}</span>
-          </NavLink>
-          <NavLink
-            to="/profile"
-            className={({ isActive }) =>
-              isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
-            }
-          >
-            <FiUser className={styles.icon} /> <span>{t("sidebar.profile")}</span>
-          </NavLink>
+          {NAV_LINKS.map((link) => {
+            const Icon = link.icon;
+            return (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                end={link.end}
+                className={({ isActive }) => {
+                  const classes = [styles.navLink];
+                  if (isActive) classes.push(styles.active);
+                  if (link.variant === "ai") classes.push(styles.aiLink);
+                  return classes.join(" ");
+                }}
+              >
+                <Icon className={styles.icon} /> <span>{t(link.labelKey)}</span>
+              </NavLink>
+            );
+          })}
           {isAdmin && (
             <NavLink
-              to="/admin"
+              to={ADMIN_LINK.to}
               className={({ isActive }) =>
                 isActive ? `${styles.navLink} ${styles.active}` : styles.navLink
               }
             >
-              <FiShield className={styles.icon} /> <span>{t("sidebar.adminPanel")}</span>
+              <ADMIN_LINK.icon className={styles.icon} /> <span>{t(ADMIN_LINK.labelKey)}</span>
             </NavLink>
           )}
         </nav>

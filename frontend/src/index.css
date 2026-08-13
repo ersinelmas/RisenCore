@@ -14,6 +14,41 @@
   --color-success: #22c55e; /* Green 500 */
   --color-error: #ef4444; /* Red 500 */
   --color-link: #4f46e5;
+
+  /* Sidebar/chrome - distinct dark palette (different from light content tokens) */
+  --color-sidebar-bg: #111827; /* Slate 900 */
+  --color-sidebar-text: #d1d5db; /* Slate 300 */
+  --color-sidebar-hover: #374151; /* Slate 700 */
+  --color-sidebar-hover-strong: #4b5563; /* Slate 600 */
+
+  /* Spacing scale (8px base unit) */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.5rem; /* 24px */
+  --space-6: 2rem; /* 32px */
+
+  /* Radius scale */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+
+  /* Shadow scale */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Typography scale */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.5rem; /* 24px */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --line-height-base: 1.5;
 }
 
 html {
@@ -59,4 +94,10 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }

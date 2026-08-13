@@ -5,19 +5,8 @@ import toast from "react-hot-toast";
 import styles from "./Navbar.module.css";
 import mainStyles from "./MainLayout.module.css";
 import logo from "../../assets/logo.png";
-import {
-  FiMenu,
-  FiX,
-  FiGrid,
-  FiCheckSquare,
-  FiCreditCard,
-  FiTrendingUp,
-  FiUser,
-  FiShield,
-  FiLogOut,
-  FiActivity,
-  FiCpu,
-} from "react-icons/fi";
+import { FiMenu, FiX, FiLogOut } from "react-icons/fi";
+import { NAV_LINKS, ADMIN_LINK } from "./navLinks";
 import Modal from "../common/Modal";
 import { useModal } from "../../hooks/useModal";
 import modalStyles from "../common/Modal.module.css";
@@ -83,88 +72,35 @@ function Navbar() {
 
         <div className={styles.scrollableNav}>
           <nav className={mainStyles.nav} onClick={() => setIsMenuOpen(false)}>
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                isActive
-                  ? `${mainStyles.navLink} ${mainStyles.active}`
-                  : mainStyles.navLink
-              }
-              end
-            >
-              <FiGrid className={mainStyles.icon} /> <span>{t("sidebar.dashboard")}</span>
-            </NavLink>
-            <NavLink
-              to="/tasks"
-              className={({ isActive }) =>
-                isActive
-                  ? `${mainStyles.navLink} ${mainStyles.active}`
-                  : mainStyles.navLink
-              }
-            >
-              <FiCheckSquare className={mainStyles.icon} /> <span>{t("sidebar.tasks")}</span>
-            </NavLink>
-            <NavLink
-              to="/habits"
-              className={({ isActive }) =>
-                isActive
-                  ? `${mainStyles.navLink} ${mainStyles.active}`
-                  : mainStyles.navLink
-              }
-            >
-              <FiTrendingUp className={mainStyles.icon} /> <span>{t("sidebar.habits")}</span>
-            </NavLink>
-            <NavLink
-              to="/finance"
-              className={({ isActive }) =>
-                isActive
-                  ? `${mainStyles.navLink} ${mainStyles.active}`
-                  : mainStyles.navLink
-              }
-            >
-              <FiCreditCard className={mainStyles.icon} /> <span>{t("sidebar.finance")}</span>
-            </NavLink>
-            <NavLink
-              to="/health"
-              className={({ isActive }) =>
-                isActive
-                  ? `${mainStyles.navLink} ${mainStyles.active}`
-                  : mainStyles.navLink
-              }
-            >
-              <FiActivity className={mainStyles.icon} /> <span>{t("sidebar.health")}</span>
-            </NavLink>
-            <NavLink
-              to="/weekly-review"
-              className={({ isActive }) =>
-                isActive
-                  ? `${mainStyles.navLink} ${mainStyles.active} ${mainStyles.aiLink}`
-                  : `${mainStyles.navLink} ${mainStyles.aiLink}`
-              }
-            >
-              <FiCpu className={mainStyles.icon} /> <span>{t("sidebar.weeklyReview")}</span>
-            </NavLink>
-            <NavLink
-              to="/profile"
-              className={({ isActive }) =>
-                isActive
-                  ? `${mainStyles.navLink} ${mainStyles.active}`
-                  : mainStyles.navLink
-              }
-            >
-              <FiUser className={mainStyles.icon} /> <span>{t("sidebar.profile")}</span>
-            </NavLink>
+            {NAV_LINKS.map((link) => {
+              const Icon = link.icon;
+              return (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  end={link.end}
+                  className={({ isActive }) => {
+                    const classes = [mainStyles.navLink];
+                    if (isActive) classes.push(mainStyles.active);
+                    if (link.variant === "ai") classes.push(mainStyles.aiLink);
+                    return classes.join(" ");
+                  }}
+                >
+                  <Icon className={mainStyles.icon} /> <span>{t(link.labelKey)}</span>
+                </NavLink>
+              );
+            })}
             {isAdmin && (
               <NavLink
-                to="/admin"
+                to={ADMIN_LINK.to}
                 className={({ isActive }) =>
                   isActive
                     ? `${mainStyles.navLink} ${mainStyles.active}`
                     : mainStyles.navLink
                 }
               >
-                <FiShield className={mainStyles.icon} />{" "}
-                <span>{t("sidebar.adminPanel")}</span>
+                <ADMIN_LINK.icon className={mainStyles.icon} />{" "}
+                <span>{t(ADMIN_LINK.labelKey)}</span>
               </NavLink>
             )}
           </nav>

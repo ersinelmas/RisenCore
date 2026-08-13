@@ -1,17 +1,14 @@
 .mainLayout {
   display: flex;
   min-height: 100vh;
-  background-color: #f9fafb;
-  /* Very light gray background */
+  background-color: var(--color-bg-page);
 }
 
 .sidebar {
   width: 250px;
-  background-color: #111827;
-  /* Dark gray/black */
-  color: #d1d5db;
-  /* Light gray text */
-  padding: 1.5rem;
+  background-color: var(--color-sidebar-bg);
+  color: var(--color-sidebar-text);
+  padding: var(--space-5);
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -20,8 +17,8 @@
 .logoContainer {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 2.5rem;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
   text-decoration: none;
 }
 
@@ -32,7 +29,7 @@
 .logoImage {
   height: 40px;
   width: 40px;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
 }
 
 .logoText {
@@ -49,58 +46,56 @@
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2);
   flex-grow: 1;
 }
 
 .navLink {
-  color: #d1d5db;
+  color: var(--color-sidebar-text);
   text-decoration: none;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
   transition: background-color 0.2s, color 0.2s;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
 }
 
 .navLink:hover {
-  background-color: #374151;
-  /* Medium gray */
+  background-color: var(--color-sidebar-hover);
   color: white;
 }
 
 .navLink.active {
   background-color: var(--color-accent);
-  /* Indigo */
   color: white;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .logoutButton {
-  padding: 0.75rem 1rem;
+  padding: var(--space-3) var(--space-4);
   border: none;
-  border-radius: 6px;
-  background-color: #374151;
-  color: #d1d5db;
+  border-radius: var(--radius-md);
+  background-color: var(--color-sidebar-hover);
+  color: var(--color-sidebar-text);
   cursor: pointer;
   text-align: left;
   width: 100%;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
   margin-top: auto;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-3);
 }
 
 .logoutButton:hover {
-  background-color: #4b5563;
+  background-color: var(--color-sidebar-hover-strong);
   color: white;
 }
 
 .content {
   flex-grow: 1;
-  padding: 2rem;
+  padding: var(--space-6);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
