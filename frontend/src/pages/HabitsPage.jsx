@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
 import PageLayout from "../components/layout/PageLayout";
 import Card from "../components/Card";
+import AddButton from "../components/common/AddButton";
+import Modal from "../components/common/Modal";
+import { useModal } from "../hooks/useModal";
 import LoadingIndicator from "../components/common/LoadingIndicator";
 import EmptyState from "../components/common/EmptyState";
 import ErrorBoundary from "../components/common/ErrorBoundary";
@@ -9,6 +12,8 @@ import habitService from "../services/habitService";
 import styles from "./HabitsPage.module.css";
 import HabitItem from "../features/habits/HabitItem";
 import CreateHabitForm from "../features/habits/CreateHabitForm";
+import HabitStats from "../features/habits/HabitStats";
+import { FiAlertTriangle, FiCompass } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 
 function HabitsPage() {
@@ -16,6 +21,11 @@ function HabitsPage() {
   const [habits, setHabits] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const {
+    isOpen: isAddModalOpen,
+    openModal: openAddModal,
+    closeModal: closeAddModal,
+  } = useModal();
 
   const fetchHabits = useCallback(async () => {
     setLoading(true);
@@ -52,6 +62,7 @@ function HabitsPage() {
 
   const handleHabitCreated = () => {
     fetchHabits();
+    closeAddModal();
   };
 
   if (loading) {
@@ -66,7 +77,7 @@ function HabitsPage() {
     return (
       <PageLayout title={t("habits.title")}>
         <EmptyState
-          icon="⚠️"
+          icon={<FiAlertTriangle />}
           title={t("habits.loadError")}
           description={t("habits.loadErrorDescription")}
           actionLabel={t("common.retry")}
@@ -78,14 +89,12 @@ function HabitsPage() {
 
   return (
     <ErrorBoundary>
-      <PageLayout title={t("habits.title")}>
-        <div className={styles.pageContent}>
+      <PageLayout
+        title={t("habits.title")}
+        headerAction={<AddButton label={t("habits.addHabit")} onClick={openAddModal} />}
+      >
+        <div className={styles.layoutGrid}>
           <Card>
-            <h2 className={styles.sectionTitle}>{t("habits.addNew")}</h2>
-            <CreateHabitForm onHabitCreated={handleHabitCreated} />
-          </Card>
-
-          <div>
             <h2 className={styles.sectionTitle}>{t("habits.myHabits")}</h2>
             {habits.length > 0 ? (
               <div className={styles.habitListContainer}>
@@ -99,20 +108,28 @@ function HabitsPage() {
                 ))}
               </div>
             ) : (
-              <Card>
-                <EmptyState
-                  compact
-                  icon="🧭"
-                  title={t("habits.noHabits")}
-                  description={t("habits.noHabitsDescription")}
-                  actionLabel={t("common.retry")}
-                  onAction={fetchHabits}
-                />
-              </Card>
+              <EmptyState
+                compact
+                icon={<FiCompass />}
+                title={t("habits.noHabits")}
+                description={t("habits.noHabitsDescription")}
+                actionLabel={t("common.retry")}
+                onAction={fetchHabits}
+              />
             )}
-          </div>
+          </Card>
+
+          <HabitStats habits={habits} />
         </div>
       </PageLayout>
+
+      <Modal
+        isOpen={isAddModalOpen}
+        onClose={closeAddModal}
+        title={t("habits.addNew")}
+      >
+        <CreateHabitForm onHabitCreated={handleHabitCreated} />
+      </Modal>
     </ErrorBoundary>
   );
 }

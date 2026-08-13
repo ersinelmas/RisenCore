@@ -4,6 +4,9 @@ import transactionService from "../services/transactionService";
 import styles from "./FinancePage.module.css";
 import Card from "../components/Card";
 import PageLayout from "../components/layout/PageLayout";
+import AddButton from "../components/common/AddButton";
+import Modal from "../components/common/Modal";
+import { useModal } from "../hooks/useModal";
 import LoadingIndicator from "../components/common/LoadingIndicator";
 import EmptyState from "../components/common/EmptyState";
 import ErrorBoundary from "../components/common/ErrorBoundary";
@@ -11,6 +14,7 @@ import ExpenseChart from "../components/charts/ExpenseChart";
 import TransactionForm from "../features/finance/TransactionForm";
 import TransactionTable from "../features/finance/TransactionTable";
 import FinanceSummary from "../features/finance/FinanceSummary";
+import { FiAlertTriangle, FiBarChart2 } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 
 function FinancePage() {
@@ -19,6 +23,11 @@ function FinancePage() {
   const [expenseSummary, setExpenseSummary] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const {
+    isOpen: isAddModalOpen,
+    openModal: openAddModal,
+    closeModal: closeAddModal,
+  } = useModal();
 
   const fetchFinancialData = useCallback(() => {
     setLoading(true);
@@ -68,7 +77,7 @@ function FinancePage() {
     return (
       <PageLayout title={t("finance.title")}>
         <EmptyState
-          icon="⚠️"
+          icon={<FiAlertTriangle />}
           title={t("finance.loadError")}
           description={t("finance.loadErrorDescription")}
           actionLabel={t("common.retry")}
@@ -80,20 +89,24 @@ function FinancePage() {
 
   return (
     <ErrorBoundary>
-      <PageLayout title={t("finance.title")}>
+      <PageLayout
+        title={t("finance.title")}
+        headerAction={<AddButton label={t("finance.addTransaction")} onClick={openAddModal} />}
+      >
         <div className={styles.overviewGrid}>
           <FinanceSummary summary={summary} />
 
           <div className={styles.chartColumn}>
             {expenseSummary.length > 0 ? (
               <Card className={styles.fullHeightCard}>
+                <h2 className={styles.chartTitle}>{t("finance.expenseByCategory")}</h2>
                 <ExpenseChart data={expenseSummary} />
               </Card>
             ) : (
               <Card className={styles.fullHeightCard}>
                 <EmptyState
                   compact
-                  icon="📊"
+                  icon={<FiBarChart2 />}
                   title={t("finance.noExpenseData")}
                   description={t("finance.noExpenseDataDescription")}
                   actionLabel={t("common.retry")}
@@ -104,9 +117,7 @@ function FinancePage() {
           </div>
         </div>
 
-        <TransactionForm onTransactionAdded={fetchFinancialData} />
-
-        <div style={{ marginTop: "2rem" }}>
+        <div className={styles.tableSection}>
           <TransactionTable
             transactions={transactions}
             loading={loading}
@@ -114,6 +125,19 @@ function FinancePage() {
           />
         </div>
       </PageLayout>
+
+      <Modal
+        isOpen={isAddModalOpen}
+        onClose={closeAddModal}
+        title={t("finance.addNewTransaction")}
+      >
+        <TransactionForm
+          onTransactionAdded={() => {
+            fetchFinancialData();
+            closeAddModal();
+          }}
+        />
+      </Modal>
     </ErrorBoundary>
   );
 }

@@ -7,6 +7,7 @@ import ReactMarkdown from "react-markdown";
 import LoadingIndicator from "../components/common/LoadingIndicator";
 import EmptyState from "../components/common/EmptyState";
 import ErrorBoundary from "../components/common/ErrorBoundary";
+import { FiAlertTriangle, FiCpu } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 
 function WeeklyReviewPage() {
@@ -44,7 +45,7 @@ function WeeklyReviewPage() {
     if (error) {
       return (
         <EmptyState
-          icon="⚠️"
+          icon={<FiAlertTriangle />}
           title={t("weeklyReview.error")}
           description={error}
           actionLabel={t("common.retry")}
@@ -56,7 +57,7 @@ function WeeklyReviewPage() {
     if (!review || !review.trim()) {
       return (
         <EmptyState
-          icon="🤖"
+          icon={<FiCpu />}
           title={t("weeklyReview.empty")}
           description={t("weeklyReview.emptyDescription")}
         />

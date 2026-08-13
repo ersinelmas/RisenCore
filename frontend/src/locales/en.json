@@ -11,6 +11,7 @@
     "logout": "Logout",
     "confirmLogout": "Confirm Logout",
     "logoutMessage": "Are you sure you want to log out?",
+    "logoutSuccess": "Logged out successfully!",
     "cancel": "Cancel",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
@@ -117,7 +118,12 @@
     "deleteError": "Failed to delete task.",
     "saving": "Saving task...",
     "updated": "Task updated!",
-    "saveError": "Failed to save task."
+    "saveError": "Failed to save task.",
+    "stats": {
+      "total": "Total",
+      "completed": "Completed",
+      "pending": "Pending"
+    }
   },
   "finance": {
     "title": "Finance Tracker",
@@ -126,6 +132,8 @@
     "loading": "Loading financial data...",
     "noExpenseData": "No expense data available to display a chart.",
     "noExpenseDataDescription": "Add expense transactions to see category insights.",
+    "expenseByCategory": "Expenses by Category",
+    "percentOfTotal": "{{percent}}% of total",
     "totalIncome": "Total Income",
     "totalExpense": "Total Expense",
     "currentBalance": "Current Balance",
@@ -144,7 +152,25 @@
     "deleteTransaction": "Delete Transaction",
     "deleteTransactionConfirm": "Are you sure you want to delete this transaction:",
     "transactionDeleted": "Transaction deleted!",
-    "deleteTransactionError": "Failed to delete transaction."
+    "deleteTransactionError": "Failed to delete transaction.",
+    "types": {
+      "INCOME": "Income",
+      "EXPENSE": "Expense"
+    },
+    "categories": {
+      "SALARY": "Salary",
+      "FREELANCE": "Freelance",
+      "RENT": "Rent",
+      "GROCERIES": "Groceries",
+      "UTILITIES": "Utilities",
+      "TRANSPORTATION": "Transportation",
+      "DINING_OUT": "Dining Out",
+      "ENTERTAINMENT": "Entertainment",
+      "HEALTHCARE": "Healthcare",
+      "SHOPPING": "Shopping",
+      "SAVINGS": "Savings",
+      "OTHER": "Other"
+    }
   },
   "habits": {
     "title": "Habits Tracker",
@@ -171,9 +197,17 @@
     "deleteHabitConfirm": "Are you sure you want to delete the habit",
     "habitDeleted": "Habit deleted!",
     "deleteHabitError": "Failed to delete habit.",
-    "greatJob": "🎉 Great job on \"{{name}}\" today!",
-    "weeklyGoalHit": "🎉 Awesome! You've hit your weekly goal for \"{{name}}\"!",
-    "toggleError": "Failed to update habit."
+    "greatJob": "Great job on \"{{name}}\" today!",
+    "weeklyGoalHit": "Awesome! You've hit your weekly goal for \"{{name}}\"!",
+    "toggleError": "Failed to update habit.",
+    "frequencyTypes": {
+      "DAILY": "Daily",
+      "WEEKLY": "Weekly"
+    },
+    "stats": {
+      "title": "Today's Progress",
+      "onTrack": "{{done}} / {{total}} habits on track"
+    }
   },
   "health": {
     "title": "Health Tracker",
@@ -197,7 +231,18 @@
     "deleteMetricConfirm": "Are you sure you want to delete this entry?",
     "deleting": "Deleting metric...",
     "deleted": "Metric deleted.",
-    "deleteError": "Failed to delete metric."
+    "deleteError": "Failed to delete metric.",
+    "valueMin": "Value must be zero or greater.",
+    "types": {
+      "WEIGHT": "Weight",
+      "WATER": "Water",
+      "SLEEP": "Sleep",
+      "EXERCISE": "Exercise"
+    },
+    "stats": {
+      "title": "Latest Readings",
+      "noEntry": "No entry yet"
+    }
   },
   "admin": {
     "title": "Admin Panel",

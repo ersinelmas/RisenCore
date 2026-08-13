@@ -2,8 +2,6 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import transactionService from "../../services/transactionService";
 import styles from "./TransactionForm.module.css";
-import { toTitleCase } from "../../utils/stringUtils";
-import Card from "../../components/Card";
 import { useTranslation } from "react-i18next";
 
 const TRANSACTION_TYPES = ["INCOME", "EXPENSE"];
@@ -64,8 +62,7 @@ function TransactionForm({ onTransactionAdded }) {
   };
 
   return (
-    <Card>
-      <h2>{t("finance.addNewTransaction")}</h2>
+    <>
       <form onSubmit={handleSubmit} className={styles.transactionForm}>
         <div className={`${styles.formGroup} ${styles.descriptionGroup}`}>
           <label htmlFor="description" className={styles.label}>
@@ -125,7 +122,7 @@ function TransactionForm({ onTransactionAdded }) {
           >
             {TRANSACTION_TYPES.map((type) => (
               <option key={type} value={type}>
-                {toTitleCase(type)}
+                {t(`finance.types.${type}`, type)}
               </option>
             ))}
           </select>
@@ -144,7 +141,7 @@ function TransactionForm({ onTransactionAdded }) {
           >
             {CATEGORIES.map((cat) => (
               <option key={cat} value={cat}>
-                {toTitleCase(cat)}
+                {t(`finance.categories.${cat}`, cat)}
               </option>
             ))}
           </select>
@@ -159,7 +156,7 @@ function TransactionForm({ onTransactionAdded }) {
           </button>
         </div>
       </form>
-    </Card>
+    </>
   );
 }
 

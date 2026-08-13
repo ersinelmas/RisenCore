@@ -11,6 +11,7 @@
         "logout": "Çıkış Yap",
         "confirmLogout": "Çıkışı Onayla",
         "logoutMessage": "Çıkış yapmak istediğinize emin misiniz?",
+        "logoutSuccess": "Başarıyla çıkış yapıldı!",
         "cancel": "İptal",
         "openMenu": "Menüyü aç",
         "closeMenu": "Menüyü kapat"
@@ -117,7 +118,12 @@
         "deleteError": "Görev silinemedi.",
         "saving": "Görev kaydediliyor...",
         "updated": "Görev güncellendi!",
-        "saveError": "Görev kaydedilemedi."
+        "saveError": "Görev kaydedilemedi.",
+        "stats": {
+            "total": "Toplam",
+            "completed": "Tamamlanan",
+            "pending": "Bekleyen"
+        }
     },
     "finance": {
         "title": "Finans Takibi",
@@ -126,6 +132,8 @@
         "loading": "Finansal veriler yükleniyor...",
         "noExpenseData": "Grafik gösterimi için harcama verisi yok.",
         "noExpenseDataDescription": "Kategori bazında içgörüler için harcama ekleyin.",
+        "expenseByCategory": "Kategoriye Göre Harcamalar",
+        "percentOfTotal": "Toplamın %{{percent}}'i",
         "totalIncome": "Toplam Gelir",
         "totalExpense": "Toplam Gider",
         "currentBalance": "Güncel Bakiye",
@@ -144,7 +152,25 @@
         "deleteTransaction": "İşlemi Sil",
         "deleteTransactionConfirm": "Bu işlemi silmek istediğinize emin misiniz:",
         "transactionDeleted": "İşlem silindi!",
-        "deleteTransactionError": "İşlem silinemedi."
+        "deleteTransactionError": "İşlem silinemedi.",
+        "types": {
+            "INCOME": "Gelir",
+            "EXPENSE": "Gider"
+        },
+        "categories": {
+            "SALARY": "Maaş",
+            "FREELANCE": "Serbest Çalışma",
+            "RENT": "Kira",
+            "GROCERIES": "Market",
+            "UTILITIES": "Faturalar",
+            "TRANSPORTATION": "Ulaşım",
+            "DINING_OUT": "Dışarıda Yemek",
+            "ENTERTAINMENT": "Eğlence",
+            "HEALTHCARE": "Sağlık",
+            "SHOPPING": "Alışveriş",
+            "SAVINGS": "Tasarruf",
+            "OTHER": "Diğer"
+        }
     },
     "habits": {
         "title": "Alışkanlık Takibi",
@@ -171,9 +197,17 @@
         "deleteHabitConfirm": "Şu alışkanlığı silmek istediğinize emin misiniz:",
         "habitDeleted": "Alışkanlık silindi!",
         "deleteHabitError": "Alışkanlık silinemedi.",
-        "greatJob": "🎉 Tebrikler! Bugün \"{{name}}\" alışkanlığını tamamladın!",
-        "weeklyGoalHit": "🎉 Harika! \"{{name}}\" için haftalık hedefine ulaştın!",
-        "toggleError": "Alışkanlık güncellenemedi."
+        "greatJob": "Tebrikler! Bugün \"{{name}}\" alışkanlığını tamamladın!",
+        "weeklyGoalHit": "Harika! \"{{name}}\" için haftalık hedefine ulaştın!",
+        "toggleError": "Alışkanlık güncellenemedi.",
+        "frequencyTypes": {
+            "DAILY": "Günlük",
+            "WEEKLY": "Haftalık"
+        },
+        "stats": {
+            "title": "Bugünkü İlerleme",
+            "onTrack": "{{done}} / {{total}} alışkanlık takipte"
+        }
     },
     "health": {
         "title": "Sağlık Takibi",
@@ -197,7 +231,18 @@
         "deleteMetricConfirm": "Bu kaydı silmek istediğinize emin misiniz?",
         "deleting": "Veri siliniyor...",
         "deleted": "Veri silindi.",
-        "deleteError": "Veri silinemedi."
+        "deleteError": "Veri silinemedi.",
+        "valueMin": "Değer sıfır veya daha büyük olmalı.",
+        "types": {
+            "WEIGHT": "Kilo",
+            "WATER": "Su",
+            "SLEEP": "Uyku",
+            "EXERCISE": "Egzersiz"
+        },
+        "stats": {
+            "title": "Son Ölçümler",
+            "noEntry": "Henüz kayıt yok"
+        }
     },
     "admin": {
         "title": "Yönetici Paneli",

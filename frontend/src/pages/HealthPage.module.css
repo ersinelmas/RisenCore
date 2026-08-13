@@ -1,19 +1,27 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+.layoutGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-6);
+    align-items: start;
+}
+
+@media (max-width: 992px) {
+    .layoutGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.sectionTitle {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
 }
 
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
-}
-
-.formCard {
-    max-width: 600px;
-    margin: 0 auto;
-    width: 100%;
 }
 
 .form {

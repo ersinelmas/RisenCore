@@ -2,10 +2,14 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   /* Left column 1 part, right column 2 parts */
-  gap: 2rem;
+  gap: var(--space-6);
   align-items: stretch;
   /* Make columns equal height */
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-6);
+}
+
+.tableSection {
+  margin-top: var(--space-6);
 }
 
 .chartColumn {
@@ -19,6 +23,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.chartTitle {
+  width: 100%;
+  text-align: left;
+  margin: 0 0 var(--space-4) 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
 }
 
 /* --- RESPONSIVE STYLES --- */

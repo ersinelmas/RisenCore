@@ -3,10 +3,9 @@ import toast from "react-hot-toast";
 import habitService from "../../services/habitService";
 import styles from "./HabitItem.module.css";
 import modalStyles from "../../components/common/Modal.module.css";
-import { FiTrash2 } from "react-icons/fi";
+import { FiTrash2, FiAward } from "react-icons/fi";
 import Modal from "../../components/common/Modal";
 import { useModal } from "../../hooks/useModal";
-import { toTitleCase } from "../../utils/stringUtils";
 import { useTranslation } from "react-i18next";
 
 const getWeekDays = () => {
@@ -71,7 +70,10 @@ function HabitItem({ habit, onUpdate, onDelete }) {
       if (isTogglingOn) {
         if (isDaily) {
           setTimeout(
-            () => toast.success(t("habits.greatJob", { name: habit.name })),
+            () =>
+              toast.success(t("habits.greatJob", { name: habit.name }), {
+                icon: <FiAward />,
+              }),
             300
           );
         } else {
@@ -82,7 +84,8 @@ function HabitItem({ habit, onUpdate, onDelete }) {
             setTimeout(
               () =>
                 toast.success(
-                  t("habits.weeklyGoalHit", { name: habit.name })
+                  t("habits.weeklyGoalHit", { name: habit.name }),
+                  { icon: <FiAward /> }
                 ),
               300
             );
@@ -128,7 +131,7 @@ function HabitItem({ habit, onUpdate, onDelete }) {
                   ? t("habits.completedToday")
                   : t("habits.pendingToday")
                 : `${t("habits.target")}: ${completedCount} / ${habit.targetCount
-                } ${toTitleCase(habit.frequency)}`}
+                } ${t(`habits.frequencyTypes.${habit.frequency}`, habit.frequency)}`}
             </p>
           </div>
           <button

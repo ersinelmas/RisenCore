@@ -8,6 +8,7 @@ import logo from "../../assets/logo.png";
 import Modal from "../common/Modal";
 import { useModal } from "../../hooks/useModal";
 import modalStyles from "../common/Modal.module.css";
+import LanguageSwitcher from "../common/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 
 function Sidebar() {
@@ -22,7 +23,7 @@ function Sidebar() {
   const handleLogoutConfirm = () => {
     closeLogoutModal();
     logout();
-    toast.success(t("sidebar.logoutMessage"));
+    toast.success(t("sidebar.logoutSuccess"));
   };
 
   return (
@@ -64,9 +65,12 @@ function Sidebar() {
           )}
         </nav>
 
-        <button onClick={openLogoutModal} className={styles.logoutButton}>
-          <FiLogOut className={styles.icon} /> <span>{t("sidebar.logout")}</span>
-        </button>
+        <div className={styles.sidebarFooter}>
+          <LanguageSwitcher />
+          <button onClick={openLogoutModal} className={styles.logoutButton}>
+            <FiLogOut className={styles.icon} /> <span>{t("sidebar.logout")}</span>
+          </button>
+        </div>
       </aside>
 
       <Modal

@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { withTranslation } from "react-i18next";
+import { FiAlertTriangle } from "react-icons/fi";
 import styles from "./ErrorBoundary.module.css";
 
 class ErrorBoundary extends Component {
@@ -39,7 +40,7 @@ class ErrorBoundary extends Component {
       return (
         <div className={styles.container} role="alert">
           <div className={styles.icon} aria-hidden>
-            ⚠️
+            <FiAlertTriangle />
           </div>
           <div className={styles.texts}>
             <h2 className={styles.title}>{t(titleKey)}</h2>

@@ -49,6 +49,20 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
   --line-height-base: 1.5;
+
+  /* Layout metrics used to align fixed overlays (e.g. toast notifications)
+     with the page content column instead of the raw viewport edge. */
+  --sidebar-width: 250px;
+  --toast-top: 20px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    /* Sidebar is hidden below 768px (Navbar replaces it). */
+    --sidebar-width: 0px;
+    /* Clear the fixed mobile Navbar bar. */
+    --toast-top: 84px;
+  }
 }
 
 html {

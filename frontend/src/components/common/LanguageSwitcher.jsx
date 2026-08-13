@@ -1,17 +1,18 @@
 import { useTranslation } from 'react-i18next';
+import { FiGlobe } from 'react-icons/fi';
 import styles from './LanguageSwitcher.module.css';
 
 function LanguageSwitcher() {
     const { i18n } = useTranslation();
 
-    const toggleLanguage = () => {
-        // i18n.language might be 'en-US' or 'tr-TR', so check startsWith
-        const currentLang = i18n.language || 'en';
-        const newLang = currentLang.startsWith('en') ? 'tr' : 'en';
-        i18n.changeLanguage(newLang);
-    };
-
+    // i18n.language might be 'en-US' or 'tr-TR', so check startsWith
     const isEnglish = (i18n.language || 'en').startsWith('en');
+    const currentLang = isEnglish ? 'en' : 'tr';
+    const targetLang = isEnglish ? 'tr' : 'en';
+
+    const toggleLanguage = () => {
+        i18n.changeLanguage(targetLang);
+    };
 
     return (
         <button
@@ -19,7 +20,7 @@ function LanguageSwitcher() {
             className={styles.switcher}
             title={isEnglish ? "Switch to Turkish" : "İngilizceye Geç"}
         >
-            {isEnglish ? '🇹🇷 Türkçe' : '🇬🇧 English'}
+            <FiGlobe /> <span>{currentLang.toUpperCase()}</span>
         </button>
     );
 }

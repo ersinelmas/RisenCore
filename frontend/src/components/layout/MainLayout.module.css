@@ -4,6 +4,15 @@
   background-color: var(--color-bg-page);
 }
 
+@media (min-width: 769px) {
+  .mainLayout {
+    /* Constrain to viewport height so .content scrolls internally instead
+       of stretching the whole layout (which would push the sidebar's
+       footer - language switcher/logout - down with long pages). */
+    height: 100vh;
+  }
+}
+
 .sidebar {
   width: 250px;
   background-color: var(--color-sidebar-bg);
@@ -72,6 +81,13 @@
   font-weight: var(--font-weight-medium);
 }
 
+.sidebarFooter {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
 .logoutButton {
   padding: var(--space-3) var(--space-4);
   border: none;
@@ -79,12 +95,11 @@
   background-color: var(--color-sidebar-hover);
   color: var(--color-sidebar-text);
   cursor: pointer;
-  text-align: left;
   width: 100%;
   font-size: var(--font-size-base);
-  margin-top: auto;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--space-3);
 }
 
@@ -114,7 +129,9 @@
 
   .content {
     margin-left: 0;
-    padding-top: 60px;
+    /* Navbar is ~56-60px tall; add extra breathing room below it so
+       page headers don't sit flush against the fixed bar. */
+    padding-top: calc(60px + var(--space-5));
   }
 }
 

@@ -11,6 +11,7 @@ import { useAuth } from "../hooks/useAuth";
 import LoadingIndicator from "../components/common/LoadingIndicator";
 import EmptyState from "../components/common/EmptyState";
 import ErrorBoundary from "../components/common/ErrorBoundary";
+import { FiAlertTriangle, FiClipboard } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 
 function AdminPage() {
@@ -139,7 +140,7 @@ function AdminPage() {
               <LoadingIndicator messageKey="admin.loading" />
             ) : error ? (
               <EmptyState
-                icon="⚠️"
+                icon={<FiAlertTriangle />}
                 title={t("admin.fetchError")}
                 description={t("admin.fetchErrorDescription")}
                 actionLabel={t("common.retry")}
@@ -222,7 +223,7 @@ function AdminPage() {
             ) : (
               <EmptyState
                 compact
-                icon="📋"
+                icon={<FiClipboard />}
                 title={t("admin.noUsers")}
                 description={t("admin.noUsersDescription")}
                 actionLabel={t("common.retry")}

@@ -32,7 +32,7 @@ function Navbar() {
   const handleLogoutConfirm = () => {
     closeLogoutModal();
     logout();
-    toast.success(t("sidebar.logoutMessage"));
+    toast.success(t("sidebar.logoutSuccess"));
   };
 
   return (

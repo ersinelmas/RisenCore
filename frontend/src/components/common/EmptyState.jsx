@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
+import { FiInbox } from "react-icons/fi";
 import styles from "./EmptyState.module.css";
 
 const EmptyState = ({
-  icon = "📭",
+  icon = <FiInbox />,
   title,
   description,
   titleKey = "common.emptyTitle",

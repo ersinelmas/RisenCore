@@ -7,12 +7,14 @@ import { useModal } from "../../hooks/useModal";
 import modalStyles from "../../components/common/Modal.module.css";
 import TaskItem from "./TaskItem";
 import CreateTaskForm from "./CreateTaskForm";
+import TaskStats from "./TaskStats";
 import LoadingIndicator from "../../components/common/LoadingIndicator";
 import EmptyState from "../../components/common/EmptyState";
+import { FiAlertTriangle, FiCheckCircle } from "react-icons/fi";
 
 import { useTranslation } from "react-i18next";
 
-function TaskWidget() {
+function TaskWidget({ isAddModalOpen, closeAddModal }) {
   const { t } = useTranslation();
   const {
     tasks,
@@ -37,7 +39,10 @@ function TaskWidget() {
   } = useModal();
 
   const handleCreateTask = (description, callback) => {
-    createTask(description, callback);
+    createTask(description, () => {
+      callback();
+      closeAddModal();
+    });
   };
 
   const handleDeleteRequest = (task) => {
@@ -68,12 +73,7 @@ function TaskWidget() {
 
   return (
     <>
-      <div>
-        <CreateTaskForm
-          onCreateTask={handleCreateTask}
-          isCreating={isCreating}
-        />
-
+      <div className={styles.layoutGrid}>
         <Card>
           <main>
             <h2 className={styles.sectionTitle}>{t("tasks.yourTasks")}</h2>
@@ -84,7 +84,7 @@ function TaskWidget() {
 
             {error ? (
               <EmptyState
-                icon="⚠️"
+                icon={<FiAlertTriangle />}
                 title={t("tasks.loadError")}
                 description={t("tasks.loadErrorDescription")}
               />
@@ -93,7 +93,7 @@ function TaskWidget() {
                 {!loadingTasks && tasks.length === 0 && (
                   <EmptyState
                     compact
-                    icon="✅"
+                    icon={<FiCheckCircle />}
                     title={t("tasks.noTasks")}
                     description={t("tasks.noTasksDescription")}
                   />
@@ -119,7 +119,20 @@ function TaskWidget() {
             )}
           </main>
         </Card>
+
+        <TaskStats tasks={tasks} />
       </div>
+
+      <Modal
+        isOpen={isAddModalOpen}
+        onClose={closeAddModal}
+        title={t("tasks.createNewTask")}
+      >
+        <CreateTaskForm
+          onCreateTask={handleCreateTask}
+          isCreating={isCreating}
+        />
+      </Modal>
 
       <Modal
         isOpen={isDeleteModalOpen}

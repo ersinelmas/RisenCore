@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { FiGlobe } from 'react-icons/fi';
 import styles from './FixedLanguageSwitcher.module.css';
 
 function FixedLanguageSwitcher({ className = '' }) {
@@ -15,10 +16,8 @@ function FixedLanguageSwitcher({ className = '' }) {
             className={`${styles.languageSwitcher} ${className}`}
             aria-label="Change Language"
         >
-            <span role="img" aria-label="globe">
-                🌐
-            </span>
-            {i18n.language === 'en' ? 'TR' : 'EN'}
+            <FiGlobe aria-hidden />
+            {i18n.language === 'en' ? 'EN' : 'TR'}
         </button>
     );
 }

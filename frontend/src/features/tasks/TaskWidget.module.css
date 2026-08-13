@@ -1,3 +1,18 @@
+/* List column is primary content, so it's wider than the stats column
+   (opposite of Finance's summary-first 1fr 2fr ordering). */
+.layoutGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+@media (max-width: 992px) {
+  .layoutGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .sectionTitle {
   margin-top: 0;
   margin-bottom: 1.5rem;
@@ -147,10 +162,6 @@
   text-align: center;
   padding: 2rem;
   color: var(--color-text-secondary);
-}
-
-.mb8 {
-  margin-bottom: 2rem;
 }
 
 @media (max-width: 768px) {

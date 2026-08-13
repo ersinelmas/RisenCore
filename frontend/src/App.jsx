@@ -19,7 +19,18 @@ import HealthPage from "./pages/HealthPage";
 function App() {
   return (
     <>
-      <Toaster position="top-right" toastOptions={{}} />
+      <Toaster
+        position="top-right"
+        toastOptions={{}}
+        containerStyle={{
+          top: "var(--toast-top)",
+          // Align with the right edge of the page content column
+          // (max-width 1200px, centered in the space after the sidebar)
+          // instead of the raw viewport edge.
+          right:
+            "calc(var(--space-6) + max(0px, 100vw - var(--sidebar-width) - 64px - 1200px) / 2)",
+        }}
+      />
       <Routes>
         {/* Public Routes */}
         <Route path="/login" element={<LoginPage />} />

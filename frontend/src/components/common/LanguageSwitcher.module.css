@@ -1,28 +1,22 @@
 .switcher {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-secondary);
-    padding: 0.75rem 1rem;
-    border-radius: 12px;
+    color: var(--color-sidebar-text);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
     cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: var(--space-2);
     width: 100%;
-    margin-top: 1rem;
 }
 
 .switcher:hover {
     background: rgba(255, 255, 255, 0.1);
-    color: var(--text-primary);
+    color: white;
     border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-1px);
-}
-
-.switcher:active {
-    transform: translateY(0);
 }

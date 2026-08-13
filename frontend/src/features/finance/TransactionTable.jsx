@@ -3,7 +3,6 @@ import { FiTrash2 } from "react-icons/fi";
 import toast from "react-hot-toast";
 import transactionService from "../../services/transactionService";
 import styles from "./TransactionTable.module.css";
-import { toTitleCase } from "../../utils/stringUtils";
 import Card from "../../components/Card";
 import Modal from "../../components/common/Modal";
 import { useModal } from "../../hooks/useModal";
@@ -64,23 +63,23 @@ function TransactionTable({ transactions, loading, onTransactionDeleted }) {
                             </thead>
                             <tbody>
                                 {transactions.length > 0 ? (
-                                    transactions.map((t) => (
-                                        <tr key={t.id}>
-                                            <td>{t.transactionDate}</td>
-                                            <td>{t.description}</td>
-                                            <td>{toTitleCase(t.category)}</td>
-                                            <td>{toTitleCase(t.type)}</td>
+                                    transactions.map((tx) => (
+                                        <tr key={tx.id}>
+                                            <td>{tx.transactionDate}</td>
+                                            <td>{tx.description}</td>
+                                            <td>{t(`finance.categories.${tx.category}`, tx.category)}</td>
+                                            <td>{t(`finance.types.${tx.type}`, tx.type)}</td>
                                             <td
-                                                className={`${styles.amount} ${t.type === "INCOME" ? styles.income : styles.expense
+                                                className={`${styles.amount} ${tx.type === "INCOME" ? styles.income : styles.expense
                                                     }`}
                                             >
-                                                {t.type === "EXPENSE" ? "-" : ""}${t.amount.toFixed(2)}
+                                                {tx.type === "EXPENSE" ? "-" : ""}${tx.amount.toFixed(2)}
                                             </td>
                                             <td>
                                                 <button
                                                     className={styles.deleteButton}
-                                                    onClick={() => handleDeleteClick(t)}
-                                                    aria-label={t.description}
+                                                    onClick={() => handleDeleteClick(tx)}
+                                                    aria-label={tx.description}
                                                 >
                                                     <FiTrash2 size={18} />
                                                 </button>

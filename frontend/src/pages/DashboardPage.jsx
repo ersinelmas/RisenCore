@@ -10,6 +10,7 @@ import ErrorBoundary from "../components/common/ErrorBoundary";
 import taskService from "../services/taskService";
 import transactionService from "../services/transactionService";
 import habitService from "../services/habitService";
+import { FiAlertTriangle, FiCheckCircle, FiStar } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 
 function DashboardPage() {
@@ -89,7 +90,7 @@ function DashboardPage() {
     return (
       <PageLayout title={t("dashboard.loadingDashboard")}>
         <EmptyState
-          icon="⚠️"
+          icon={<FiAlertTriangle />}
           title={t("dashboard.loadErrorTitle")}
           description={error}
           actionLabel={t("common.retry")}
@@ -125,7 +126,7 @@ function DashboardPage() {
             ) : (
               <EmptyState
                 compact
-                icon="✅"
+                icon={<FiCheckCircle />}
                 title={t("dashboard.noPendingTasks")}
                 description={t("dashboard.noPendingTasksDescription")}
               />
@@ -150,7 +151,7 @@ function DashboardPage() {
             ) : (
               <EmptyState
                 compact
-                icon="🌟"
+                icon={<FiStar />}
                 title={t("dashboard.allHabitsCompleted")}
                 description={t("dashboard.allHabitsCompletedDescription")}
               />

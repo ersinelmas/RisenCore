@@ -1,8 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import habitService from "../../services/habitService";
-import styles from "../../pages/HabitsPage.module.css";
-import { toTitleCase } from "../../utils/stringUtils";
+import styles from "./CreateHabitForm.module.css";
 import { useTranslation } from "react-i18next";
 
 const FREQUENCY_TYPES = ["DAILY", "WEEKLY"];
@@ -67,10 +66,9 @@ function CreateHabitForm({ onHabitCreated }) {
           onChange={(e) => setFrequency(e.target.value)}
           className={styles.select}
         >
-          {/* Seçenekleri formatlayarak göster */}
           {FREQUENCY_TYPES.map((type) => (
             <option key={type} value={type}>
-              {toTitleCase(type)}
+              {t(`habits.frequencyTypes.${type}`, type)}
             </option>
           ))}
         </select>

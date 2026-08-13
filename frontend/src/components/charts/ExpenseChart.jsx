@@ -1,6 +1,6 @@
 import React from "react";
 import ReactECharts from "echarts-for-react";
-import { toTitleCase } from "../../utils/stringUtils";
+import { useTranslation } from "react-i18next";
 
 // ECharts renders to canvas, so `var(--token)` can't be resolved here -
 // these literal values must be kept in sync with the design tokens in index.css.
@@ -19,6 +19,7 @@ const CHART_TEXT_PRIMARY = "#1e293b"; // matches --color-text-primary
 const CHART_TEXT_SECONDARY = "#64748b"; // matches --color-text-secondary
 
 function ExpenseChart({ data }) {
+  const { t } = useTranslation();
   const option = {
     tooltip: {
       show: false,
@@ -43,8 +44,8 @@ function ExpenseChart({ data }) {
             formatter: (params) => {
               const name = params.name;
               const value = params.value.toFixed(2);
-              const percent = params.percent;
-              return `{a|${name}}\n{b|$${value}}\n{c|${percent}% of total}`;
+              const percentLabel = t("finance.percentOfTotal", { percent: params.percent });
+              return `{a|${name}}\n{b|$${value}}\n{c|${percentLabel}}`;
             },
             rich: {
               a: {
@@ -69,7 +70,7 @@ function ExpenseChart({ data }) {
         },
         color: CHART_PALETTE,
         data: data.map((item) => ({
-          name: toTitleCase(item.category),
+          name: t(`finance.categories.${item.category}`, item.category),
           value: item.totalAmount,
         })),
       },
