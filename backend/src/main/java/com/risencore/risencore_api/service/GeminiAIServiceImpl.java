@@ -2,6 +2,7 @@ package com.risencore.risencore_api.service;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
+import com.risencore.risencore_api.exception.AIServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class GeminiAIServiceImpl implements AIService {
             return textResponse != null ? textResponse : "No response from Gemini.";
         } catch (Exception e) {
             log.error("Error communicating with Gemini API", e);
-            throw new RuntimeException("Failed to generate response from Gemini API.", e);
+            throw new AIServiceException("Failed to generate response from Gemini API.", e);
         }
     }
 }

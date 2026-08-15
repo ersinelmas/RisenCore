@@ -28,5 +28,11 @@
         <root level="INFO">
             <appender-ref ref="FILE" />
         </root>
+
+        <!-- Defense-in-depth: even if spring.jpa.show-sql is ever flipped on (or a stray
+             logging.level.org.hibernate.SQL=DEBUG env var is set) in prod, keep query text
+             and bound parameter values out of the log files. -->
+        <logger name="org.hibernate.SQL" level="WARN"/>
+        <logger name="org.hibernate.orm.jdbc.bind" level="WARN"/>
     </springProfile>
 </configuration>

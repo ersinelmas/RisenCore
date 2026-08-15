@@ -3,8 +3,9 @@ services:
     image: postgres:15
     container_name: risencore-postgres-prod
     restart: always
-    ports:
-      - "5432:5432"
+    # No host port mapping: risencore-backend reaches Postgres over the internal
+    # Docker network (postgres-db:5432). Exposing 5432 on the host would put the
+    # DB one password guess away from the internet on a public prod host.
     volumes:
       - postgres-data-prod:/var/lib/postgresql/data
     environment:

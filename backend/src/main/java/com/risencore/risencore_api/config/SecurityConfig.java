@@ -46,6 +46,8 @@ public class SecurityConfig {
                                         .authenticated()
                                         .requestMatchers("/api/v1/health/**")
                                         .authenticated()
+                                        .requestMatchers("/api/v1/analytics/**")
+                                        .authenticated()
                                         .anyRequest()
                                         .authenticated())
                 .sessionManagement(
@@ -59,6 +61,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+        // setAllowedOrigins MUST stay a strict allow-list, never List.of("*"): Spring
+        // rejects a literal wildcard origin when allowCredentials(true) is set, and
+        // resolves "*" on methods/headers below to the actual request's values instead.
+        // If a future contributor adds a third frontend origin, add it here explicitly.
         configuration.setAllowedOrigins(
                 List.of("http://localhost:5173", "https://risencore.vercel.app"));
         configuration.setAllowedMethods(List.of("*"));

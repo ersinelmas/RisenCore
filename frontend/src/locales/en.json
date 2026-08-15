@@ -35,7 +35,8 @@
     "loginSuccess": "Login successful!",
     "loginFailed": "Login failed. Please check your credentials.",
     "registerSuccess": "Registration successful! Please log in.",
-    "registerFailed": "Registration failed. Please try again."
+    "registerFailed": "Registration failed. Please try again.",
+    "sessionExpired": "Your session has expired. Please sign in again."
   },
   "dashboard": {
     "goodMorning": "Good morning",
@@ -297,6 +298,8 @@
     "errorTitle": "Something went wrong",
     "errorMessage": "Please try again in a moment.",
     "success": "Success",
-    "authenticating": "Authenticating session..."
+    "authenticating": "Authenticating session...",
+    "forbidden": "You don't have permission to perform this action.",
+    "networkError": "Network error. Please check your connection and try again."
   }
 }

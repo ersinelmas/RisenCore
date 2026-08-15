@@ -35,7 +35,8 @@
         "loginSuccess": "Giriş başarılı!",
         "loginFailed": "Giriş başarısız. Lütfen bilgilerinizi kontrol edin.",
         "registerSuccess": "Kayıt başarılı! Lütfen giriş yapın.",
-        "registerFailed": "Kayıt başarısız. Lütfen tekrar deneyin."
+        "registerFailed": "Kayıt başarısız. Lütfen tekrar deneyin.",
+        "sessionExpired": "Oturumunuzun süresi doldu. Lütfen tekrar giriş yapın."
     },
     "dashboard": {
         "goodMorning": "Günaydın",
@@ -297,6 +298,8 @@
         "errorTitle": "Bir sorun oluştu",
         "errorMessage": "Lütfen kısa süre sonra tekrar deneyin.",
         "success": "Başarılı",
-        "authenticating": "Oturum doğrulanıyor..."
+        "authenticating": "Oturum doğrulanıyor...",
+        "forbidden": "Bu işlemi yapmak için yetkiniz yok.",
+        "networkError": "Ağ hatası. Lütfen bağlantınızı kontrol edip tekrar deneyin."
     }
 }
